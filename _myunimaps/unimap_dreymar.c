@@ -43,15 +43,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Define the ACTIVELAYOUT (and CURLMOD) constant(s) to choose the layer0 layout:
  * 0  : QWERTY
- * 1  : Tarmak1 - transitional Colemak (supports CURLMOD 1; not relevant for 2)
- * 2  : Tarmak2 - transitional Colemak (supports CURLMOD 1 & 2)
+ * 1  : Tarmak1 - transitional Colemak (supports CURLMOD 1; 2 is not relevant)
+ * 2  : Tarmak2 - transitional Colemak (supports CURLMOD 1 & 2; see below)
  * 3  : Tarmak3 - transitional Colemak (--"--)
  * 4  : Tarmak4 - transitional Colemak (--"--)
  * 5-0: Colemak
  * 5-1: Colemak-Curl(DbgHk)Angle (requires an Angle-modded keymap; see above)
  * 5-2: Colemak-Curl(DvbgHm)Angle (--"--)
- * 6  : Dvorak
- * 7  : Workman (if you must - I believe Colemak-Curl/DH is a lot better!)
+ * 8  : Dvorak
+ * 9  : Workman (if you must - I believe Colemak-Curl/DH is a lot better!)
  * 
  * The CURLMOD options for Colemak/Tarmak layouts are:
  * 0: No Curl - vanilla Colemak
@@ -63,8 +63,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Define the SECONDLAYOUT (and CURLMOD) constant(s) to choose the layer1/switch layout:
  * -  : QWERTY will be the default if ACTIVELAYOUT isn't QWERTY (you may replace it below)
- * 1  : Tarmak1 - transitional Colemak (as above)
- * 5  : Colemak (as above)
+ * 1-#: Tarmak1 - transitional Colemak (as above; supports CURLMOD). Copy/Paste in Tarmak2-3-4 as desired.
+ * 5-#: Colemak (as above; supports CURLMOD)
+ * 6-#: Colemak mirrored (as second layout for one-handed typing; needs an accessible switch key!)
+ *      NOTE: The "FPau" key is a layer1 toggle or switch (edit it below), normally used on the Pause key.
+ *            You may replace, e.g., the LAlt/"FnLA" or RWin/"RGUI" key with "FPau" in your active layout.
  */
 #define SECONDLAYOUT 5
 
@@ -91,7 +94,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *     MINS <> SLSH    RBRC -> SCLN -> NUBS -> NUHS -> QUOT
  *     FMin    FSls    FRBr    FSCl    FLGt    FHsh    FQuo
  */
-#define DREYMARHACK 1
+#define DREYMARHACK 0
 
 /* Define the keymap type used in the header file (affects includes, map array format and Fn key definitions):
  * UNIMAP (new universal 128-key format w/o the Korean and rare rightmost keys)
@@ -104,11 +107,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #else
 # include "keymap_common.h"
 # include "keymap_dreymar_old.h"
-#endif
+#endif /* ifdef USEUNIMAP */
 
 /* TODO for DreymaR:
  * - Make all Extend definitions and modifiers work (extra layers for Alt+Caps etc)
- * - Mirrored Colemak as per DreymaR's Big Bag?
  */
 
 /* ***** MAIN ******************************************************************************************************* */
@@ -159,12 +161,13 @@ enum macro_id {
 #   define AC_FCap ACTION_KEY(KC_ESC)                  // FCap (Caps key) as Esc
 #  else
 #   define AC_FCap ACTION_KEY(KC_CAPS)                 // FCap (Caps key) as its usual self
-#  endif
-# endif
+#  endif /* if CAPSBEHAVIOR */
+# endif /* if EXTENDMODE */
 //# define AC_FSLk ACTION_KEY(KC_SLCK)                   // FSLk (ScrollLock key) as its usual self
 # define AC_FSLk ACTION_KEY(KC_LGUI)                   // FSLk as GUI/Win (for 101/104-key boards)
 //# define AC_FPau ACTION_KEY(KC_PAUS)                   // FPau (Pause/Break key) as its usual self
-# define AC_FPau ACTION_LAYER_TOGGLE(1)                // FPau as layer toggle
+# define AC_FPau ACTION_LAYER_TOGGLE(1)                // FPau as layer1 toggle
+//#  define AC_FPau ACTION_LAYER_MOMENTARY(1)          // FPau as layer1 switch (for mirrored typing)
 #if DREYMARHACK == 1
 /*    Adaptations for Nor/etc locale (DreymaR's ISO/Nor hack):
  *    MINS <> SLSH    RBRC -> SCLN -> NUBS -> NUHS -> QUOT
@@ -190,7 +193,7 @@ enum macro_id {
 #  define AC_FSh9 ACTION_MODS_KEY(MOD_LSFT, KC_9)    // FSh9 is Shift+9 (left parenthesis)
 #  define AC_FSh0 ACTION_MODS_KEY(MOD_LSFT, KC_0)    // FSh0 is Shift+0 (right parenthesis)
 #  define AC_FSSC ACTION_MODS_KEY(MOD_LSFT, KC_SCLN) // FSSC is Shift+Semicolon (colon, US)
-#endif
+#endif /* if DREYMARHACK */
     /* <-- Fn action key definitions (Unimap style) */
 
 /* Keymap layer definitions (mini Unimap style in this file) --> */
@@ -202,12 +205,15 @@ enum macro_id {
 # endif
 #else
   const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
-#endif
+#endif /* if USEUNIMAP */
 
     /* Layer 0: Default Layout --> */
-    /* Layout independent top row(s) */
     [0] = UNIMAP_AWIDEISO(
+    /* Layout independent top row(s) - except for mirrored Colemak (layout #6) which moves the F# key row */
+#if ACTIVELAYOUT == 6
+#else
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
+#endif /* if ACTIVELAYOUT == 6 */
 
 #if ACTIVELAYOUT == 0
     /* Plain QWERTY (shown on a full _UNIMAP_D layout without the top F13-24 row)
@@ -264,7 +270,7 @@ enum macro_id {
     FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-# endif
+# endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 2
     /* Tarmak2 - Transitional Colemak (ET)
@@ -291,7 +297,7 @@ enum macro_id {
     FTab  ,  Q ,  W ,  F ,  R ,  G ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  T ,  J ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-# endif
+# endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 3
     /* Tarmak3 - Transitional Colemak (ETR)
@@ -318,7 +324,7 @@ enum macro_id {
     FTab  ,  Q ,  W ,  F ,  J ,  G ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-# endif
+# endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 4
     /* Tarmak4 - Transitional Colemak (ETRO)
@@ -345,9 +351,10 @@ enum macro_id {
     FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  U ,  I ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-# endif
+# endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 5
+    /* Colemak */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
     /* Colemak-Curl(DbgHk). Use with an Angle or Angle(Wide) ergo mod; see the INIT section!
@@ -395,9 +402,9 @@ enum macro_id {
     FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-# endif
+# endif /* if CURLMOD */
 
-#elif ACTIVELAYOUT == 6
+#elif ACTIVELAYOUT == 8
     /* Dvorak
      * http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard
      * ,-----------------------------------------------------------.
@@ -414,7 +421,7 @@ enum macro_id {
     FCap   ,  A ,  O ,  E ,  U ,  I ,  D ,  H ,  T ,  N ,  S ,FMin,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,FSCl,  Q ,  J ,  K ,  X ,  B ,  M ,  W ,  V ,  Z , RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
 
-#elif ACTIVELAYOUT == 7
+#elif ACTIVELAYOUT == 9
     /* Workman (but consider Colemak-Curl instead, as it performs better!)
      * http://viralintrospection.wordpress.com/2010/09/06/a-different-philosophy-in-designing-keyboard-layouts/
      * ,-----------------------------------------------------------.
@@ -462,17 +469,56 @@ enum macro_id {
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,NUHS,NUBS,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,SCLN,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,MINS, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
 
-#endif
-    /* The bottom row is layout independent (but you may want to edit for instance the Fn keys for your setup) */
+#endif /* if ACTIVELAYOUT */
+    /* The bottom row is layout independent (but you may edit for instance the Fn keys as desired) */
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 0: Default Layout */
 
-/* Layer 1: Second/Switch Layout [replace with one of the Layer0 ones as desired] --> */
+/* Layer 1: Second/Switch Layout [NOTE: Replace all the #if stuff with one of the Layer0 layouts if desired!] --> */
     [1] = UNIMAP_AWIDEISO(
-    ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
+/* REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED (taking care to include all necessary lines once!) --> */
+/*    ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
+ *    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,LBRC,FRBr,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+ */
+#if ACTIVELAYOUT == 5 && SECONDLAYOUT == 6
+    /* Mirrored Colemak (used switch layout for one-handed typing)
+     * http://forum.colemak.com/viewtopic.php?id=1438
+     * ,---.   ,---------------. ,---------------. ,---------------.
+     * |  \|   |F12|F11|F10|F9 | |F8 |F7 |F6 |F5 | |F4 |F3 |F2 |F1 |
+     * `---'   `---------------' `---------------' `---------------'
+     * ,-----------------------------------------------------------.
+     * |BSp|  -|  0|  9|  8|  7|  6|  5|  4|  3|  2|  1|  =|     ` |
+     * |-----------------------------------------------------------|
+     * | Ent |  ;|  Y|  U|  L|  J|  G|  P|  F|  W|  Q|Esc|Cps|   \ |
+     * |-----------------------------------------------------------|
+     * |    ' |  O|  I|  E|  N|  H|  D|  T|  S|  R|  A|  '|  Enter |
+     * |-----------------------------------------------------------|
+     * | Shift  |  /|  .|  ,|  M|  K|  B|  V|  C|  X|  Z|    Shift |
+     * `-----------------------------------------------------------'     */
+    /* NOTE: Set an accessible key in your active layout (e.g., FnLA or RGUI) as a layer1 switch (FPau does this) */
+    BSLS,    F12 ,F11 ,F10 , F9 ,    F8 , F7 , F6 , F5 ,    F4 , F3 , F2 , F1 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
+    BSPC,FMin,  0 ,  9 ,  8 ,  7 ,  6 ,  5 ,  4 ,  3 ,  2 ,  1 ,EQL ,JYEN,GRV ,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+# if CURLMOD == 1
+    /* Colemak-Curl(DbgHk). See above. */
+    ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  W ,  F ,  W ,  Q ,ESC ,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FQuo   ,  O ,  I ,  E ,  N ,  K ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    RSFT ,FLGt,FSls,DOT ,COMM,  M ,  H ,  D ,  V ,  C ,  X ,  Z , RO ,    LSFT,         UP ,         P1 , P2 , P3 ,PENT,
+# elif CURLMOD == 2
+    /* Colemak-Curl(DvbgHm - SteveP99's "Mod-DH" variant). See above. */
+    ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  W ,  F ,  W ,  Q ,ESC ,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FQuo   ,  O ,  I ,  E ,  N ,  M ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    RSFT ,FLGt,FSls,DOT ,COMM,  H ,  K ,  V ,  D ,  C ,  X ,  Z , RO ,    LSFT,         UP ,         P1 , P2 , P3 ,PENT,
+# else
+    ENT   ,FScl,  Y ,  U ,  L ,  J ,  G ,  P ,  W ,  F ,  W ,  Q ,ESC ,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FQuo   ,  O ,  I ,  E ,  N ,  H ,  D ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    RSFT ,FLGt,FSls,DOT ,COMM,  M ,  K ,  B ,  V ,  C ,  X ,  Z , RO ,    LSFT,         UP ,         P1 , P2 , P3 ,PENT,
+# endif /* if CURLMOD */
+#else
+    ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+
 #if ACTIVELAYOUT == 0
-/* NOTE: Set SECONDLAYOUT to 1 for Tarmak1 as switch layout (if QWERTY is active layout); otherwise it'll be Colemak */
+/* If QWERTY is the active layout, set SECONDLAYOUT to 1 for Tarmak1 as switch layout; otherwise it'll be Colemak */
 # if SECONDLAYOUT == 1
     /* Tarmak1 - Transitional Colemak (E) – as above                           */
 #  if CURLMOD == 1
@@ -484,7 +530,7 @@ enum macro_id {
     FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-#  endif
+#  endif /* if CURLMOD */
 # else
     /* Colemak - as above                                                      */
 #  if CURLMOD == 1
@@ -502,14 +548,16 @@ enum macro_id {
     FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-#  endif
-# endif
+#  endif /* if CURLMOD */
+# endif /* if SECONDLAYOUT */
 #else
     /* Plain QWERTY - as above                                                 */
     FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-#endif
+#endif /* if ACTIVELAYOUT == 0 (QWERTY) */
+#endif /* if Colemak+Colemak-Mirrored */
+/* <-- REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED */
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 1: Second/Switch Layout */
 
@@ -592,9 +640,9 @@ enum macro_id {
     TRNS ,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,    TRNS,        TRNS,        TRNS,TRNS,TRNS,TRNS,
     TRNS ,TRNS,LALT,TRNS,         TRNS         ,TRNS,TRNS,RALT,TRNS,TRNS, TRNS,   TRNS,TRNS,TRNS,   TRNS     ,TRNS,TRNS 
     ),    /* <-- Layer 5: Selects Extend2 */
-# endif
+# endif /* TODO */
 
-#endif
+#endif /* if EXTENDMODE */
 };    /* <-- Keymap layer definitions */
 
 
