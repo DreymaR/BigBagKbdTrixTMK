@@ -304,14 +304,17 @@ fi
 ## Flash .hex file to device (must be set in bootloader mode!) using DFU-programmer
 if [ ${RunDFU} == 'yes' ]; then
     MyPoint "Flashing device with DFU-programmer:"
-    ## The simplest way to flash is 'sudo make dfu'. I use the long way to avoid sudo make.
+    ## The simplest way to flash is 'sudo make dfu'. I use the long way to avoid sudo make:
     # sudo make -f ${MkeFil} KEYMAP=$KeyMap dfu
-    ## The dfu-programmer command has slightly different syntax depending on version
+    ## Check whether dfu-programmer can access the USB device - if it can't, try it w/ sudo:
+    [ "`dfu-programmer $MyChip get bootloader-version 2>/dev/null`" ] \
+        && DoSudo='' || DoSudo='sudo'
+    ## The dfu-programmer command has slightly different syntax depending on version:
     [[ `dfu-programmer --version 2>&1 | awk '{print $2}'` > '0.7' ]] \
         && UseForce='--force' || UseForce=''
-        dfu-programmer $MyChip erase $UseForce    || MyError "$MyChip init/erase failed"
-    dfu-programmer $MyChip flash "${Target}.hex"    || MyError "$MyChip flashing failed"
-    dfu-programmer $MyChip reset \
+    $DoSudo dfu-programmer $MyChip erase $UseForce    || MyError "$MyChip init/erase failed"
+    $DoSudo dfu-programmer $MyChip flash "${Target}.hex"    || MyError "$MyChip flashing failed"
+    $DoSudo dfu-programmer $MyChip reset \
         && MyPoint "DFU flashing ${MyChip} done" || MyError "${MyChip} reset failed"
 fi
 
