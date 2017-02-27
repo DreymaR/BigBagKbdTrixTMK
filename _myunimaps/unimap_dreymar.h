@@ -73,6 +73,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * `-----------------------------------------------------------' `-----------' `---------------'
  */
 
+ 
+/* ***** CONFIG ******************************************************************************************************************** */
+/* NOTE: This section (re)defines parts of the controller/converter's local config.h file. The compiler may complain if redefining.  */
+/* Period of tapping (ms) - the max duration a key may be held down to register as tapped */
+//#undef TAPPING_TERM
+#define TAPPING_TERM    300
+/* Tap count needed for toggling a feature - used for special multi-tap actions only */
+//#undef TAPPING_TOGGLE
+//#define TAPPING_TOGGLE  5
+/* Oneshot timeout (ms) - the max delay before a one-shot modifier is reset and ignored */
+//#undef ONESHOT_TIMEOUT
+//#define ONESHOT_TIMEOUT 300
+#define ONESHOT_TIMEOUT 600
+
+/* NOTE: Disabling unused debug, print and action features may help reduce firmware size. Don't disable anything that may be needed! */
+#define NO_DEBUG
+//#define NO_PRINT
+//#define NO_ACTION_LAYER
+//#define NO_ACTION_TAPPING
+//#define NO_ACTION_ONESHOT
+//#define NO_ACTION_MACRO
+//#define NO_ACTION_FUNCTION
+
+
 /* ***** MAIN ********************************************************************************************************************** */
 #ifndef UNIMAP_DREYMAR_H
 #define UNIMAP_DREYMAR_H

@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * - CAPSBEHAVIOR # selects CapsLock key behavior when Extend is off (Caps, BSpc, LCtrl)
  */
 
-/* ***** INIT ******************************************************************************************************* */
+/* ***** SETTINGS *************************************************************************************************** */
 
 /* Search-replace 'UNIMAP_AWIDEISO' in this file to use ergonomic keyboard mods:
  * _MINIMALL - Default unimap format for all keyboard and converter types (this one is w/o F13-24)
@@ -63,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Define the SECONDLAYOUT (and CURLMOD) constant(s) to choose the layer1/switch layout:
  * -  : QWERTY will be the default if ACTIVELAYOUT isn't QWERTY (you may replace it below)
+ * -  : The exception to this is choosing Colemak as active and mirrored Colemak as second layout.
  * 1-#: Tarmak1 - transitional Colemak (as above; supports CURLMOD). Copy/Paste in Tarmak2-3-4 as desired.
  * 5-#: Colemak (as above; supports CURLMOD)
  * 6-#: Colemak mirrored (as second layout for one-handed typing; needs an accessible switch key!)
@@ -77,13 +78,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define EXTENDMODE 1
 
-/* The CAPSBEHAVIOR constant chooses non-Extend Caps key behavior:
- * 0: CapsLock (standard behavior)
+/* The CAPSBEHAVIOR constant chooses non-Extend Caps key action:
+ * 0: CapsLock (default)
  * 1: BackSpace (for Colemak or otherwise)
  * 2: LCtrl
  * 3: Esc
  */
 #define CAPSBEHAVIOR 1
+
+/* The STICKYMODS constant chooses LShift, RShift and RCtrl key behavior (I chose to leave LCtrl alone):
+ * 0: Normal Shift/Ctrl (default)
+ * 1: Sticky Shift only
+ * 2: Sticky Ctrl only
+ * 3: Sticky Shift & Ctrl
+ * NOTE: In the .h file, some constants normally set in config.h are (re)set:
+ *       - TAPPING_TERM is the max time a key may be held down for it to register as tapped
+ *       - ONESHOT_TIMEOUT is the max delay before a oneshot modifier is ignored
+ */
+#define STICKYMODS 1
+
+/* The SCLKBEHAVIOR constant chooses ScrollLock key action:
+ * 0: Normal ScrollLock (default)
+ * 1: Win/GUI key (useful for 101/104-key boards that have no GUI key)
+ */
+#define SLCKBEHAVIOR 0
+
+/* The PAUSBEHAVIOR constant chooses Pause/Break key action:
+ * 0: Normal Pause/Break (default)
+ * 1: Layer 1 toggle key (toggles the second layout)
+ * 2: Layer 1 switch key (layer shift; e.g., for mirrored typing if you can use it as ghetto foot switch)
+ */
+#define PAUSBEHAVIOR 0
 
 /* The DREYMARHACK constant chooses DreymaR's adaptations for Norwegian locale (ISO/Nor hack):
  * 0  : Normal behavior is the default
@@ -92,7 +117,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Keys swapped by the hack, with their Fn aliases in this file shown below:
  *      -   <>  /       ]   ->  ;   ->  <   ->  #   ->  '   ->  ]  
  *     MINS <> SLSH    RBRC -> SCLN -> NUBS -> NUHS -> QUOT
- *     FMin    FSls    FRBr    FSCl    FLGt    FHsh    FQuo
+ *     FMin    FSls    FRbr    FScl    FLgt    FHsh    FQuo
  */
 #define DREYMARHACK 0
 
@@ -109,11 +134,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # include "keymap_dreymar_old.h"
 #endif /* ifdef USEUNIMAP */
 
+/* DreymaR's master key! Define it for quick access. It produces compiler warnings; these may be ignored.             */
+//#define DREYMASTERKEY
+#ifdef DREYMASTERKEY
+# define ACTIVELAYOUT 5
+# define SECONDLAYOUT 6
+# define CURLMOD 1
+# define PAUSBEHAVIOR 2
+# define DREYMARHACK 1
+#endif /* ifdef DREYMASTERKEY */
+
 /* TODO for DreymaR:
  * - Make all Extend definitions and modifiers work (extra layers for Alt+Caps etc)
  */
 
-/* ***** MAIN ******************************************************************************************************* */
+/* ***** DECLARATIONS *********************************************************************************************** */
 
 /* User function and macro declarations --> */
 enum macro_id {
@@ -163,20 +198,48 @@ enum macro_id {
 #   define AC_FCap ACTION_KEY(KC_CAPS)                 // FCap (Caps key) as its usual self
 #  endif /* if CAPSBEHAVIOR */
 # endif /* if EXTENDMODE */
-//# define AC_FSLk ACTION_KEY(KC_SLCK)                   // FSLk (ScrollLock key) as its usual self
+
+#if STICKYMODS == 1
+# define AC_FLSh ACTION_MODS_ONESHOT(MOD_LSFT)       // FLSh (Left Shift key) as sticky shift
+# define AC_FRSh ACTION_MODS_ONESHOT(MOD_RSFT)       // FRSh (Right Shift key) as sticky shift
+# define AC_FRCt ACTION_KEY(KC_RCTL)                 // FRCt (Right Ctrl key) as its usual self
+#elif STICKYMODS == 2
+# define AC_FLSh ACTION_KEY(KC_LSFT)                 // FLSh (Left Shift key) as its usual self
+# define AC_FRSh ACTION_KEY(KC_RSFT)                 // FRSh (Right Shift key) as its usual self
+# define AC_FRCt ACTION_MODS_ONESHOT(MOD_RCTL)       // FRCt (Right Ctrl key) as sticky control
+#elif STICKYMODS == 3
+# define AC_FLSh ACTION_MODS_ONESHOT(MOD_LSFT)       // FLSh (Left Shift key) as sticky shift
+# define AC_FRSh ACTION_MODS_ONESHOT(MOD_RSFT)       // FRSh (Right Shift key) as sticky shift
+# define AC_FRCt ACTION_MODS_ONESHOT(MOD_RCTL)       // FRCt (Right Ctrl key) as sticky control
+#else
+# define AC_FLSh ACTION_KEY(KC_LSFT)                 // FLSh (Left Shift key) as its usual self
+# define AC_FRSh ACTION_KEY(KC_RSFT)                 // FRSh (Right Shift key) as its usual self
+# define AC_FRCt ACTION_KEY(KC_RCTL)                 // FRCt (Right Ctrl key) as its usual self
+#endif /* if STICKYMODS */
+
+#if SLCKBEHAVIOR == 1
 # define AC_FSLk ACTION_KEY(KC_LGUI)                   // FSLk as GUI/Win (for 101/104-key boards)
-//# define AC_FPau ACTION_KEY(KC_PAUS)                   // FPau (Pause/Break key) as its usual self
+#else
+# define AC_FSLk ACTION_KEY(KC_SLCK)                   // FSLk (ScrollLock key) as its usual self
+#endif /* if SLCKBEHAVIOR */
+
+#if PAUSBEHAVIOR == 1
 # define AC_FPau ACTION_LAYER_TOGGLE(1)                // FPau as layer1 toggle
-//#  define AC_FPau ACTION_LAYER_MOMENTARY(1)          // FPau as layer1 switch (for mirrored typing)
+#elif PAUSBEHAVIOR == 2
+#  define AC_FPau ACTION_LAYER_MOMENTARY(1)            // FPau as layer1 switch (for mirrored typing)
+#else
+# define AC_FPau ACTION_KEY(KC_PAUS)                   // FPau (Pause/Break key) as its usual self
+#endif /* if PAUSBEHAVIOR */
+
 #if DREYMARHACK == 1
 /*    Adaptations for Nor/etc locale (DreymaR's ISO/Nor hack):
  *    MINS <> SLSH    RBRC -> SCLN -> NUBS -> NUHS -> QUOT
- *    FMin    FSls    FRBr    FSCl    FLGt    FHsh    FQuo    */
+ *    FMin    FSls    FRbr    FScl    FLgt    FHsh    FQuo    */
 # define AC_FMin ACTION_KEY(KC_SLSH)                   // FMin (MINS key) as SLSH (ISO/Nor hack)
 # define AC_FSls ACTION_KEY(KC_MINS)                   // FSls (SLSH key) as MINS (ISO/Nor hack)
-# define AC_FRBr ACTION_KEY(KC_QUOT)                   // FRBr (RBRC key) as QUOT (ISO/Nor hack)
-# define AC_FSCl ACTION_KEY(KC_RBRC)                   // FSCl (SCLN key) as RBRC (ISO/Nor hack)
-# define AC_FLGt ACTION_KEY(KC_SCLN)                   // FLGt (NUBS key) as SCLN (ISO/Nor hack)
+# define AC_FRbr ACTION_KEY(KC_QUOT)                   // FRbr (RBRC key) as QUOT (ISO/Nor hack)
+# define AC_FScl ACTION_KEY(KC_RBRC)                   // FScl (SCLN key) as RBRC (ISO/Nor hack)
+# define AC_FLgt ACTION_KEY(KC_SCLN)                   // FLgt (NUBS key) as SCLN (ISO/Nor hack)
 # define AC_FHsh ACTION_KEY(KC_NUBS)                   // FHsh (NUHS key) as NUBS (ISO/Nor hack)
 # define AC_FQuo ACTION_KEY(KC_NUHS)                   // FQuo (QUOT key) as NUHS (ISO/Nor hack)
 #  define AC_FSh9 ACTION_MODS_KEY(MOD_LSFT, KC_8)    // FSh9 is Shift+8 (left parenthesis, Nor)
@@ -185,9 +248,9 @@ enum macro_id {
 #else
 # define AC_FMin ACTION_KEY(KC_MINS)                   // FMin (MINS key) as its usual self
 # define AC_FSls ACTION_KEY(KC_SLSH)                   // FSls (SLSH key) as its usual self
-# define AC_FRBr ACTION_KEY(KC_RBRC)                   // FRBr (RBRC key) as its usual self
-# define AC_FSCl ACTION_KEY(KC_SCLN)                   // FSCl (SCLN key) as its usual self
-# define AC_FLGt ACTION_KEY(KC_NUBS)                   // FLGt (NUBS key) as its usual self
+# define AC_FRbr ACTION_KEY(KC_RBRC)                   // FRbr (RBRC key) as its usual self
+# define AC_FScl ACTION_KEY(KC_SCLN)                   // FScl (SCLN key) as its usual self
+# define AC_FLgt ACTION_KEY(KC_NUBS)                   // FLgt (NUBS key) as its usual self
 # define AC_FHsh ACTION_KEY(KC_NUHS)                   // FHsh (NUHS key) as its usual self
 # define AC_FQuo ACTION_KEY(KC_QUOT)                   // FQuo (QUOT key) as its usual self
 #  define AC_FSh9 ACTION_MODS_KEY(MOD_LSFT, KC_9)    // FSh9 is Shift+9 (left parenthesis)
@@ -195,6 +258,8 @@ enum macro_id {
 #  define AC_FSSC ACTION_MODS_KEY(MOD_LSFT, KC_SCLN) // FSSC is Shift+Semicolon (colon, US)
 #endif /* if DREYMARHACK */
     /* <-- Fn action key definitions (Unimap style) */
+
+/* ***** LAYOUTS **************************************************************************************************** */
 
 /* Keymap layer definitions (mini Unimap style in this file) --> */
 #ifdef USEUNIMAP
@@ -246,9 +311,9 @@ enum macro_id {
      * |Ctrl |Gui |Alt |         Space        |Alt |Gui |Menu| Ctrl|
      * `-----------------------------------------------------------'     */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
-    FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
 #elif ACTIVELAYOUT == 1
     /* Tarmak1 - Transitional Colemak (E)
@@ -263,13 +328,13 @@ enum macro_id {
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
     /* Tarmak1-Curl(Hk) - Transitional Colemak-Curl (E)                  */
-    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  K ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  H ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
-    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 2
@@ -285,18 +350,18 @@ enum macro_id {
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
     /* Tarmak2-Curl(DbgHk) - Transitional Colemak-Curl (ET)              */
-    FTab  ,  Q ,  W ,  F ,  R ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  T ,  G ,  K ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  J ,  H ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  F ,  R ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  T ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  J ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
     /* Tarmak2-Curl(Dvbg) - Transitional Colemak-Curl (ET)               */
-    FTab  ,  Q ,  W ,  F ,  R ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  T ,  G ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  J ,  V ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  F ,  R ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  T ,  G ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  J ,  V ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
-    FTab  ,  Q ,  W ,  F ,  R ,  G ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  T ,  J ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  F ,  R ,  G ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  T ,  J ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 3
@@ -312,18 +377,18 @@ enum macro_id {
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
     /* Tarmak3-Curl(DbgHk) - Transitional Colemak-Curl (ETR)             */
-    FTab  ,  Q ,  W ,  F ,  J ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  F ,  J ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
     /* Tarmak3-Curl(Dvbg) - Transitional Colemak-Curl (ETR)              */
-    FTab  ,  Q ,  W ,  F ,  J ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  R ,  S ,  T ,  G ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  D ,  V ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  F ,  J ,  B ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  R ,  S ,  T ,  G ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
-    FTab  ,  Q ,  W ,  F ,  J ,  G ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  F ,  J ,  G ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 4
@@ -339,18 +404,18 @@ enum macro_id {
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
     /* Tarmak4-Curl(DbgHk) - Transitional Colemak-Curl (ETRO)            */
-    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
     /* Tarmak4-Curl(Dvbg) - Transitional Colemak-Curl (ETRO)             */
-    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  H ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  D ,  V ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
-    FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  U ,  I ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  U ,  I ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 5
@@ -379,14 +444,14 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * | Shift  |  X|  C|  V|  D|  Z|  /|  H|  M|  ,|  ,|    Shift |
      * `-----------------------------------------------------------'     */
-    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
     /* Colemak-Curl(DvbgHm - SteveP99's "Mod-DH" variant). Use with an Angle(Wide) ergo mod! */
-    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
     /* Standard Colemak
      * http://colemak.com
@@ -399,9 +464,9 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * | Shift  |  Z|  X|  C|  V|  B|  K|  M|  ,|  ,|  /|    Shift |
      * `-----------------------------------------------------------'     */
-    FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
 
 #elif ACTIVELAYOUT == 8
@@ -416,10 +481,10 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * | Shift  |  ;|  Q|  J|  K|  X|  B|  M|  W|  V|  Z|    Shift |
      * `-----------------------------------------------------------'     */
-    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,LBRC,FRBr,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,LBRC,FRbr,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     FTab  ,FQuo,COMM,DOT ,  P ,  Y ,  F ,  G ,  C ,  R ,  L ,FSls,EQL ,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  O ,  E ,  U ,  I ,  D ,  H ,  T ,  N ,  S ,FMin,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,FSCl,  Q ,  J ,  K ,  X ,  B ,  M ,  W ,  V ,  Z , RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,FScl,  Q ,  J ,  K ,  X ,  B ,  M ,  W ,  V ,  Z , RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
 #elif ACTIVELAYOUT == 9
     /* Workman (but consider Colemak-Curl instead, as it performs better!)
@@ -434,9 +499,9 @@ enum macro_id {
      * | Shift  |  Z|  X|  M|  C|  V|  K|  L|  ,|  ,|  /|    Shift |
      * `-----------------------------------------------------------'     */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
-    FTab  ,  Q ,  D ,  R ,  W ,  B ,  J ,  F ,  U ,  P ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  D ,  R ,  W ,  B ,  J ,  F ,  U ,  P ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  H ,  T ,  G ,  Y ,  N ,  E ,  O ,  I ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  M ,  C ,  V ,  K ,  L ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  M ,  C ,  V ,  K ,  L ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
 #elif ACTIVELAYOUT == 55
     /* NOTE: This solution is outdated. You can select Colemak-Curl and the DreymaR hack instead. */
@@ -467,18 +532,18 @@ enum macro_id {
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,SLSH,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,RBRC,LBRC,QUOT,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,NUHS,NUBS,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,SCLN,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,MINS, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,SCLN,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,MINS, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
 #endif /* if ACTIVELAYOUT */
     /* The bottom row is layout independent (but you may edit for instance the Fn keys as desired) */
-    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 0: Default Layout */
 
 /* Layer 1: Second/Switch Layout [NOTE: Replace all the #if stuff with one of the Layer0 layouts if desired!] --> */
     [1] = UNIMAP_AWIDEISO(
 /* REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED (taking care to include all necessary lines once!) --> */
 /*    ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
- *    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,LBRC,FRBr,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+ *    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,LBRC,FRbr,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
  */
 #if ACTIVELAYOUT == 5 && SECONDLAYOUT == 6
     /* Mirrored Colemak (used switch layout for one-handed typing)
@@ -500,18 +565,18 @@ enum macro_id {
     BSPC,FMin,  0 ,  9 ,  8 ,  7 ,  6 ,  5 ,  4 ,  3 ,  2 ,  1 ,EQL ,JYEN,GRV ,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
     /* Colemak-Curl(DbgHk). See above. */
-    ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  W ,  F ,  W ,  Q ,ESC ,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  K ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    RSFT ,FLGt,FSls,DOT ,COMM,  M ,  H ,  D ,  V ,  C ,  X ,  Z , RO ,    LSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FRSh ,FLgt,FSls,DOT ,COMM,  M ,  H ,  D ,  V ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
     /* Colemak-Curl(DvbgHm - SteveP99's "Mod-DH" variant). See above. */
-    ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  W ,  F ,  W ,  Q ,ESC ,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  M ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    RSFT ,FLGt,FSls,DOT ,COMM,  H ,  K ,  V ,  D ,  C ,  X ,  Z , RO ,    LSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FRSh ,FLgt,FSls,DOT ,COMM,  H ,  K ,  V ,  D ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
-    ENT   ,FScl,  Y ,  U ,  L ,  J ,  G ,  P ,  W ,  F ,  W ,  Q ,ESC ,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    ENT   ,FScl,  Y ,  U ,  L ,  J ,  G ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  H ,  D ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    RSFT ,FLGt,FSls,DOT ,COMM,  M ,  K ,  B ,  V ,  C ,  X ,  Z , RO ,    LSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FRSh ,FLgt,FSls,DOT ,COMM,  M ,  K ,  B ,  V ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
 #else
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
@@ -523,42 +588,42 @@ enum macro_id {
     /* Tarmak1 - Transitional Colemak (E) – as above                           */
 #  if CURLMOD == 1
     /* Tarmak1-Curl(Hk) - Transitional Colemak-Curl (E)                        */
-    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  K ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  H ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  else
-    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  N ,  E ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  endif /* if CURLMOD */
 # else
     /* Colemak - as above                                                      */
 #  if CURLMOD == 1
     /* Colemak-Curl(DbgHk). Use with an Angle or Angle(Wide) ergo mod; see the INIT section! */
-    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  elif CURLMOD == 2
     /* Colemak-Curl(DvbgHm - SteveP99's "Mod-DH" variant). Use with an Angle(Wide) ergo mod! */
-    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  else
     /* Standard Colemak                                                        */
-    FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FSCl,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  endif /* if CURLMOD */
 # endif /* if SECONDLAYOUT */
 #else
     /* Plain QWERTY - as above                                                 */
-    FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FSCl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,FLGt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
+    FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #endif /* if ACTIVELAYOUT == 0 (QWERTY) */
 #endif /* if Colemak+Colemak-Mirrored */
 /* <-- REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED */
-    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 1: Second/Switch Layout */
 
 #if EXTENDMODE == 1
@@ -583,8 +648,8 @@ enum macro_id {
     FnU1, F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,JYEN,PAUS,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     TAB   ,ESC ,WH_U,WBAK,WFWD,MS_U,PGUP,HOME, UP ,END ,DEL ,ESC ,INS ,   APP ,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,LALT,WH_D,LSFT,LCTL,MS_D,PGDN,LEFT,DOWN,RGHT,BSPC,APP ,WFAV,  PSCR,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,WH_L,FCtZ,FCtX,FCtC,FCtV,BTN1,BTN2,BTN3,MS_L,MS_R,WH_R, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-    LCTL ,LGUI,FnLA,MHEN,         ENT          ,HENK,KANA,FnRA,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    FLSh ,WH_L,FCtZ,FCtX,FCtC,FCtV,BTN1,BTN2,BTN3,MS_L,MS_R,WH_R, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+    LCTL ,LGUI,FnLA,MHEN,         ENT          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Extend1 */
 
 /* Layer 2: Extend2 (DreymaR)                                                  */
@@ -607,8 +672,8 @@ enum macro_id {
     FnU2,FSh1,FSh2,FSh3,FSh4,FSh5,FSh6, P7 , P8 , P9 ,PAST,PMNS,TRNS,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     FTab  ,HOME, UP ,END ,DEL ,ESC ,PGUP, P4 , P5 , P6 ,PPLS,FSh9,FSh0,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FnE2   ,LEFT,DOWN,RGHT,BSPC,NLCK,PGDN, P1 , P2 , P3 ,PENT,FQuo,COMM,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    LSFT ,TRNS,FCtZ,FCtX,FCtC,FCtV,BTN1,FSSC, P0 , P0 ,PDOT,PSLS, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT,
-    LCTL ,LGUI,FnLA,MHEN,         TRNS         ,HENK,KANA,FnRA,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    FLSh ,TRNS,FCtZ,FCtX,FCtC,FCtV,BTN1,FSSC, P0 , P0 ,PDOT,PSLS, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+    LCTL ,LGUI,FnLA,MHEN,         TRNS         ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Extend2 */
 
 /* TODO: The advanced Extend layer selection using Ext/LAlt+Ext/RAlt+Ext isn't working yet! */
@@ -645,6 +710,7 @@ enum macro_id {
 #endif /* if EXTENDMODE */
 };    /* <-- Keymap layer definitions */
 
+/* ***** FUNCTIONS/MACROS ******************************************************************************************* */
 
 /* User function and macro definitions --> */
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)

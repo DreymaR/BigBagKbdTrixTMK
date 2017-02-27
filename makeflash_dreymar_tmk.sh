@@ -259,8 +259,8 @@ MyPoint "Chip name used: ${MyChip}"
 if [ ${BldHex} == 'yes' ]; then
     ## If using Unimap, the files may be in my unimap folder (common for all architectures)
     if [[ "${Target}" =~ 'unimap' ]]; then  # Using Unimap
-        if [ -f "unimap_${KeyMap}.c" ]; then
-            MyPoint "Unimap file or link 'unimap_${KeyMap}.c' found locally."
+        if [ -f "unimap_${KeyMap}.c" ] && [ -f "unimap_${KeyMap}.h" ]; then
+            MyPoint "Unimap files or links 'unimap_${KeyMap}(.c/.h)' found locally."
         elif [ -d "${MyMaps}" ]; then
                 MyPoint "Unimap folder '${MyMaps}' found, but no local files/links."
                 if $(MyYesNo 'Do you wish to link to these unimap files?'); then
@@ -291,10 +291,10 @@ if [ ${BldHex} == 'yes' ]; then
         cp "${Target}.hex" "${MyHxBk}" \
             && MyPoint "Backup of '${Target}.hex' successful" \
             || MyWarning "Backup of '${Target}.hex' failed"
-        if $(MyYesNo 'Do you wish to clean up the build files?'); then
-            MyCleaner
-        else
+        if $(MyYesNo 'Do you wish to keep the build files (required if no backup)?'); then
             MyPoint "Cleanup deferred"
+        else
+            MyCleaner
         fi
     else
         MyPoint "Writeable backup folder not found, hence no .hex copy"
