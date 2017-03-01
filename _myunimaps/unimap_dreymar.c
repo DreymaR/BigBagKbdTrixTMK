@@ -546,7 +546,7 @@ enum macro_id {
  *    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,LBRC,FRbr,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
  */
 #if ACTIVELAYOUT == 5 && SECONDLAYOUT == 6
-    /* Mirrored Colemak (used switch layout for one-handed typing)
+    /* Mirrored Colemak (used as switch layout for one-handed typing)
      * http://forum.colemak.com/viewtopic.php?id=1438
      * ,---.   ,---------------. ,---------------. ,---------------.
      * |  \|   |F12|F11|F10|F9 | |F8 |F7 |F6 |F5 | |F4 |F3 |F2 |F1 |
