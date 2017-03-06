@@ -33,9 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * |-----------------------------------------------------------| `-----------' |---------------|
  * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,|
  * |-----------------------------------------------------------|     ,---.     |---------------|
- * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  ,|  /| RO|  Sft |     |Up |     |  1|  2|  3|Ent|
+ * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO|  Sft |     |Up |     |  1|  2|  3|Ent|
  * |-----------------------------------------------------------| ,-----------. |---------------|
- * | Ctl|Gui|Alt|MHEN|     Space     |HEN|KANA|Alt|Gui|App|Ctl | |Lft|Dwn|Rgh| |      0|  .|  =|
+ * | Ctrl|Gui|Alt|MHE|     Space     |HEN|KAN|Alt|Gui|App|Ctrl | |Lft|Dwn|Rgh| |      0|  .|  =|
  * `-----------------------------------------------------------' `-----------' `---------------'
  */
 
@@ -51,9 +51,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * |-----------------------------------------------------------| `-----------' |---------------| |-------|
  * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,| |Sel|Cpy|
  * |-----------------------------------------------------------|     ,---.     |---------------| |-------|
- * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  ,|  /| RO|  Sft |     |Up |     |  1|  2|  3|  =| |Exe|Pst|
+ * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO|  Sft |     |Up |     |  1|  2|  3|  =| |Exe|Pst|
  * |-----------------------------------------------------------| ,-----------. |---------------| |-------|
- * | Ctl|Gui|Alt|MHEN|HNJ| Space |H/E|HEN|KANA|Alt|Gui|App|Ctl | |Lft|Dwn|Rgh| |      0|  .|Ent| |Fnd|Cut|
+ * | Ctrl|Gui|Alt|MHE|HNJ| Space |H/E|HEN|KAN|Alt|Gui|App|Ctrl | |Lft|Dwn|Rgh| |      0|  .|Ent| |Fnd|Cut|
  * `-----------------------------------------------------------' `-----------' `---------------' `-------'
  */
 
@@ -67,27 +67,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * |------------------------------------------------------`    | `-----------' |-----------|   |
  * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|    |               |  4|  5|  6|   |
  * |-----------------------------------------------------------|     ,---.     |---------------|
- * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  ,|  /|    Shift |     |Up |     |  1|  2|  3|Ent|
+ * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|    Shift |     |Up |     |  1|  2|  3|Ent|
  * |-----------------------------------------------------------| ,-----------. |-----------|   |
- * | Ctl|LGui|LAlt|         Space          |RAlt|RGui|App |Ctl | |Lft|Dwn|Rgh| |      0|  .|   |
+ * | Ctrl|LGui|LAlt|        Space         |RAlt|RGui|App |Ctrl | |Lft|Dwn|Rgh| |      0|  .|   |
  * `-----------------------------------------------------------' `-----------' `---------------'
  */
 
  
-/* ***** CONFIG ******************************************************************************************************************** */
-/* NOTE: This section (re)defines parts of the controller/converter's local config.h file. The compiler may complain if redefining.  */
+/* ***** CONFIG ******************************************************************************************************** */
+/* NOTE: This section (re)defines parts of the controller/converter's local config.h file. The compiler may complain. */
 /* Period of tapping (ms) - the max duration a key may be held down to register as tapped */
-//#undef TAPPING_TERM
 #define TAPPING_TERM    300
 /* Tap count needed for toggling a feature - used for special multi-tap actions only */
-//#undef TAPPING_TOGGLE
 //#define TAPPING_TOGGLE  5
 /* Oneshot timeout (ms) - the max delay before a one-shot modifier is reset and ignored */
-//#undef ONESHOT_TIMEOUT
 //#define ONESHOT_TIMEOUT 300
 #define ONESHOT_TIMEOUT 600
 
-/* NOTE: Disabling unused debug, print and action features may help reduce firmware size. Don't disable anything that may be needed! */
+/* NOTE: Disabling unused features may help reduce firmware size. Don't disable anything necessary! */
 #define NO_DEBUG
 //#define NO_PRINT
 //#define NO_ACTION_LAYER
@@ -97,7 +94,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_FUNCTION
 
 
-/* ***** MAIN ********************************************************************************************************************** */
+/* ***** MAIN ********************************************************************************************************** */
 #ifndef UNIMAP_DREYMAR_H
 #define UNIMAP_DREYMAR_H
 

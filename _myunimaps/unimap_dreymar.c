@@ -25,9 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Compiler preprocessor defines select layout and Extend layers
  * - ACTIVELAYOUT # selects basic layout (QWERTY, Colemak, etc)
- * - CURLMOD 1      activates the Curl-DbgHk ergo mod (only affects Colemak/Tarmak layouts)
- * - EXTENDMODE 1   selects Extend mappings (navigation layer, NumPad layer, etc)
- * - CAPSBEHAVIOR # selects CapsLock key behavior when Extend is off (Caps, BSpc, LCtrl)
+ * - SECONDLAYOUT # selects switch layout (QWERTY, Colemak, Colemak-mirrored, etc)
+ * - CURLMOD      # 1(2) activates the Curl-DbgHk(DvbgHm) ergo mod - only affects Colemak/Tarmak layouts
+ * - EXTENDMODE   # selects Extend mappings (navigation layer, NumPad layer, etc)
+ * - CAPSBEHAVIOR # selects CapsLock key behavior if Extend is off (Caps, BSpc, LCtrl)
+ * - etc            (see below for more)
  */
 
 /* ***** SETTINGS *************************************************************************************************** */
@@ -52,29 +54,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 5-2: Colemak-Curl(DvbgHm)Angle (--"--)
  * 8  : Dvorak
  * 9  : Workman (if you must - I believe Colemak-Curl/DH is a lot better!)
- * 
- * The CURLMOD options for Colemak/Tarmak layouts are:
- * 0: No Curl - vanilla Colemak
- * 1: DreymaR's DbgHk ergo mod, bringing the common DH keys from the middle "trench" to the QWERTY VN keys
- * 2: SteveP99's DvbgHm ergo mod, bringing the DH keys inwards to the CM keys
  */
 #define ACTIVELAYOUT 5
-#define CURLMOD 1
 
 /* Define the SECONDLAYOUT (and CURLMOD) constant(s) to choose the layer1/switch layout:
  * -  : QWERTY will be the default if ACTIVELAYOUT isn't QWERTY (you may replace it below)
  * -  : The exception to this is choosing Colemak as active and mirrored Colemak as second layout.
- * 1-#: Tarmak1 - transitional Colemak (as above; supports CURLMOD). Copy/Paste in Tarmak2-3-4 as desired.
- * 5-#: Colemak (as above; supports CURLMOD)
+ * 1-#: Tarmak1 - transitional Colemak (as above). Copy/Paste in Tarmak2-3-4 as desired.
+ * 5-#: Colemak (as above)
  * 6-#: Colemak mirrored (as second layout for one-handed typing; needs an accessible switch key!)
  *      NOTE: The "FPau" key is a layer1 toggle or switch (edit it below), normally used on the Pause key.
  *            You may replace, e.g., the LAlt/"FnLA" or RWin/"RGUI" key with "FPau" in your active layout.
  */
 #define SECONDLAYOUT 5
 
+/* The CURLMOD options for Colemak/Tarmak layouts are:
+ * 0: No Curl - vanilla Colemak/Tarmak
+ * 1: DreymaR's DbgHk ergo mod, bringing the common DH keys from the middle "trench" to the QWERTY VN keys
+ * 2: SteveP99's DvbgHm ergo mod, bringing the DH keys inwards to the CM keys
+ */
+#define CURLMOD 1
+
 /* The EXTENDMODE constant activates the extra Extend layers:
- * Ext1 - Caps     : Navigation/editing/multimedia
- * Ext2 - Tab      : NumPad/Navigation [NOTE: For now, the Ext2 modifier is Tab but it should be Alt+Caps]
+ * 0: No Extend (saves a little memory)
+ * 1: Ext1 on Caps    : Navigation/editing/multimedia
+ * 2: Ext1 on LAlt      (Caps used as LAlt instead)
+ * *: Ext2 on Tab     : NumPad/Navigation [NOTE: For now, the Ext2 modifier is Tab but it "should" be Alt+Caps]
+ * NOTE: Depending on your keyboard's scan matrix(?), chorded Extend modifiers such as Ext1+S+T+N for Shift+Ctrl+Left
+ *       may not work. With Caps=Ext1, I've had trouble with Ext1+S+T+N; with LAlt=Ext1 even Ext1+S+N didn't work!
  */
 #define EXTENDMODE 1
 
@@ -134,12 +141,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # include "keymap_dreymar_old.h"
 #endif /* ifdef USEUNIMAP */
 
-/* DreymaR's master key! Define it for quick access. It produces compiler warnings; these may be ignored.             */
+/* DreymaR's master key! Define it for quick override. It gets compiler warnings due to redefinition; ignore these.   */
 //#define DREYMASTERKEY
 #ifdef DREYMASTERKEY
 # define ACTIVELAYOUT 5
 # define SECONDLAYOUT 6
 # define CURLMOD 1
+# define EXTENDMODE 1
+# define CAPSBEHAVIOR 1
+# define STICKYMODS 1
+# define SLCKBEHAVIOR 0
 # define PAUSBEHAVIOR 2
 # define DREYMARHACK 1
 #endif /* ifdef DREYMASTERKEY */
@@ -157,105 +168,98 @@ enum macro_id {
 };    /* <-- User function and macro declarations */
 
 /* Fn action key definitions (Unimap style) --> */
-# if EXTENDMODE == 1
-// NOTE: Current FTab/FnLA/FnRA behavior is until I get the fancy way of selecting Extend2-4 to work...
-#  define AC_FCap ACTION_LAYER_MOMENTARY(3)          // FCap selects Extend1 (gets priority over CAPSBEHAVIOR)
-#  define AC_FnE2 ACTION_LAYER_MOMENTARY(2)          // FnE2 selects Extend2
-//#  define AC_FnE3 ACTION_LAYER_MOMENTARY(3)          // FnE3 selects Extend3 (TODO)
-//#  define AC_FnE4 ACTION_LAYER_MOMENTARY(4)          // FnE4 selects Extend4 (TODO)
-//#  define AC_FnLA ACTION_LAYER_MOMENTARY(5)          // FnLA selects layer5 (TODO; temp-select for Extend2)
-//#  define AC_FnRA ACTION_LAYER_MOMENTARY(6)          // FnRA selects layer6 (TODO; temp-select for Extend3)
-//#  define AC_FnBA ACTION_LAYER_MOMENTARY(7)          // FnBA selects layer7 (TODO; temp-select for Extend4)
-#  define AC_FTab ACTION_LAYER_TAP_KEY(2, KC_TAB)    // FTab (Tab key)  as Ext2 – tap for Tab (for now)
-#  define AC_FnLA ACTION_KEY(KC_LALT)                // FnLA (LAlt key) as usual (for now)
-#  define AC_FnRA ACTION_KEY(KC_RALT)                // FnRA (RAlt key) as usual (for now)
-//#  define AC_FnU1 ACTION_MODS_KEY(MOD_LGUI, KC_T)    // FnU1 (`) as Win+T
-#  define AC_FnU1 ACTION_MACRO(TYPESTR1)             // FnU1 as user macro: Type a string
-#  define AC_FnU2 ACTION_MACRO(TYPESTR2)             // FnU2 as user macro: Type a string
-#  define AC_FSh1 ACTION_MODS_KEY(MOD_LSFT, KC_1)    // FSh1 is Shift+1
-#  define AC_FSh2 ACTION_MODS_KEY(MOD_LSFT, KC_2)    // FSh2 is Shift+2
-#  define AC_FSh3 ACTION_MODS_KEY(MOD_LSFT, KC_3)    // FSh3 is Shift+3
-#  define AC_FSh4 ACTION_MODS_KEY(MOD_LSFT, KC_4)    // FSh4 is Shift+4
-#  define AC_FSh5 ACTION_MODS_KEY(MOD_LSFT, KC_5)    // FSh5 is Shift+5
-#  define AC_FSh6 ACTION_MODS_KEY(MOD_LSFT, KC_6)    // FSh6 is Shift+6
-//#  define AC_FSh7 ACTION_MODS_KEY(MOD_LSFT, KC_7)    // FSh7 is Shift+7
-//#  define AC_FSh8 ACTION_MODS_KEY(MOD_LSFT, KC_8)    // FSh8 is Shift+8
-#  define AC_FCtZ ACTION_MODS_KEY(MOD_LCTL, KC_Z)    // FCtZ is Ctrl+Z
-#  define AC_FCtX ACTION_MODS_KEY(MOD_LCTL, KC_X)    // FCtX is Ctrl+X
-#  define AC_FCtC ACTION_MODS_KEY(MOD_LCTL, KC_C)    // FCtC is Ctrl+C
-#  define AC_FCtV ACTION_MODS_KEY(MOD_LCTL, KC_V)    // FCtV is Ctrl+V
+// NOTE: Current FTab/FnLA behavior is only until I get the fancy way of selecting Extend2-4 to work (I hope?!).
+#if EXTENDMODE == 1
+# define AC_FCap ACTION_LAYER_MOMENTARY(2)           // FCap selects Extend1 (gets priority over CAPSBEHAVIOR)
+# define AC_FnLA ACTION_KEY(KC_LALT)                 // FnLA (LAlt key) as usual (for now)
+# define AC_FTab ACTION_LAYER_TAP_KEY(3, KC_TAB)     // FTab (Tab key)  selects Ext2 – tap for Tab (for now)
+#elif EXTENDMODE == 2
+# define AC_FnLA ACTION_LAYER_MOMENTARY(2)           // FnLA selects Extend1
+# define AC_FCap ACTION_KEY(KC_LALT)                 // FCap as LAlt (gets priority over CAPSBEHAVIOR)
+# define AC_FTab ACTION_LAYER_TAP_KEY(3, KC_TAB)     // FTab (Tab key)  selects Ext2 – tap for Tab (for now)
+#else
+# if CAPSBEHAVIOR == 1
+#  define AC_FCap ACTION_KEY(KC_BSPC)                // FCap (Caps key) as BackSpace (for Colemak etc)
+# elif CAPSBEHAVIOR == 2
+#  define AC_FCap ACTION_KEY(KC_LCTL)                // FCap (Caps key) as LeftCtrl
+# elif CAPSBEHAVIOR == 3
+#  define AC_FCap ACTION_KEY(KC_ESC)                 // FCap (Caps key) as Esc
 # else
-#  define AC_FTab ACTION_KEY(KC_TAB)                 // FTab (Tab key)  as its usual self
-#  define AC_FnLA ACTION_KEY(KC_LALT)                // FnLA (LAlt key) as its usual self
-#  define AC_FnRA ACTION_KEY(KC_RALT)                // FnRA (RAlt key) as its usual self
-#  if CAPSBEHAVIOR == 1
-#   define AC_FCap ACTION_KEY(KC_BSPC)                 // FCap (Caps key) as BackSpace (for Colemak etc)
-#  elif CAPSBEHAVIOR == 2
-#   define AC_FCap ACTION_KEY(KC_LCTL)                 // FCap (Caps key) as LeftCtrl
-#  elif CAPSBEHAVIOR == 3
-#   define AC_FCap ACTION_KEY(KC_ESC)                  // FCap (Caps key) as Esc
-#  else
-#   define AC_FCap ACTION_KEY(KC_CAPS)                 // FCap (Caps key) as its usual self
-#  endif /* if CAPSBEHAVIOR */
-# endif /* if EXTENDMODE */
+#  define AC_FCap ACTION_KEY(KC_CAPS)                // FCap (Caps key) unchanged
+# endif /* if CAPSBEHAVIOR */
+# define AC_FnLA ACTION_KEY(KC_LALT)                 // FnLA (LAlt key) unchanged
+# define AC_FTab ACTION_KEY(KC_TAB)                  // FTab (Tab key)  unchanged
+#endif /* if EXTENDMODE */
+
+#if EXTENDMODE > 0
+//# define AC_FnE2 ACTION_LAYER_MOMENTARY(3)           // FnE2 selects Extend2 layer (TODO)
+//# define AC_FnE3 ACTION_LAYER_MOMENTARY(4)           // FnE3 selects Extend3 layer (TODO)
+//# define AC_FnE4 ACTION_LAYER_MOMENTARY(5)           // FnE4 selects Extend4 layer (TODO)
+//# define AC_FnLA ACTION_LAYER_MOMENTARY(6)           // FnLA selects a temp-select layer for Extend2 (TODO)
+//# define AC_FnRA ACTION_LAYER_MOMENTARY(7)           // FnRA selects a temp-select layer for Extend3 (TODO)
+//# define AC_FnBA ACTION_LAYER_MOMENTARY(8)           // FnBA selects a temp-select layer for Extend4 (TODO)
+//# define AC_FnU1 ACTION_MODS_KEY(MOD_LGUI,KC_T)      // FnU1 (`) as Win+T
+# define AC_FnU1 ACTION_MACRO(TYPESTR1)              // FnU1 as user macro: Type a string
+# define AC_FnU2 ACTION_MACRO(TYPESTR2)              // FnU2 as user macro: Type a string
+#endif /* if EXTENDMODE > 0 */
 
 #if STICKYMODS == 1
-# define AC_FLSh ACTION_MODS_ONESHOT(MOD_LSFT)       // FLSh (Left Shift key) as sticky shift
+# define AC_FLSh ACTION_MODS_ONESHOT(MOD_LSFT)       // FLSh (Left Shift key)  as sticky shift
 # define AC_FRSh ACTION_MODS_ONESHOT(MOD_RSFT)       // FRSh (Right Shift key) as sticky shift
-# define AC_FRCt ACTION_KEY(KC_RCTL)                 // FRCt (Right Ctrl key) as its usual self
+# define AC_FRCt ACTION_KEY(KC_RCTL)                 // FRCt (Right Ctrl key)  unchanged
 #elif STICKYMODS == 2
-# define AC_FLSh ACTION_KEY(KC_LSFT)                 // FLSh (Left Shift key) as its usual self
-# define AC_FRSh ACTION_KEY(KC_RSFT)                 // FRSh (Right Shift key) as its usual self
-# define AC_FRCt ACTION_MODS_ONESHOT(MOD_RCTL)       // FRCt (Right Ctrl key) as sticky control
+# define AC_FLSh ACTION_KEY(KC_LSFT)                 // FLSh (Left Shift key)  unchanged
+# define AC_FRSh ACTION_KEY(KC_RSFT)                 // FRSh (Right Shift key) unchanged
+# define AC_FRCt ACTION_MODS_ONESHOT(MOD_RCTL)       // FRCt (Right Ctrl key)  as sticky control
 #elif STICKYMODS == 3
-# define AC_FLSh ACTION_MODS_ONESHOT(MOD_LSFT)       // FLSh (Left Shift key) as sticky shift
+# define AC_FLSh ACTION_MODS_ONESHOT(MOD_LSFT)       // FLSh (Left Shift key)  as sticky shift
 # define AC_FRSh ACTION_MODS_ONESHOT(MOD_RSFT)       // FRSh (Right Shift key) as sticky shift
-# define AC_FRCt ACTION_MODS_ONESHOT(MOD_RCTL)       // FRCt (Right Ctrl key) as sticky control
+# define AC_FRCt ACTION_MODS_ONESHOT(MOD_RCTL)       // FRCt (Right Ctrl key)  as sticky control
 #else
-# define AC_FLSh ACTION_KEY(KC_LSFT)                 // FLSh (Left Shift key) as its usual self
-# define AC_FRSh ACTION_KEY(KC_RSFT)                 // FRSh (Right Shift key) as its usual self
-# define AC_FRCt ACTION_KEY(KC_RCTL)                 // FRCt (Right Ctrl key) as its usual self
+# define AC_FLSh ACTION_KEY(KC_LSFT)                 // FLSh (Left Shift key)  unchanged
+# define AC_FRSh ACTION_KEY(KC_RSFT)                 // FRSh (Right Shift key) unchanged
+# define AC_FRCt ACTION_KEY(KC_RCTL)                 // FRCt (Right Ctrl key)  unchanged
 #endif /* if STICKYMODS */
 
 #if SLCKBEHAVIOR == 1
-# define AC_FSLk ACTION_KEY(KC_LGUI)                   // FSLk as GUI/Win (for 101/104-key boards)
+# define AC_FSLk ACTION_KEY(KC_LGUI)                 // FSLk as GUI/Win (for 101/104-key boards)
 #else
-# define AC_FSLk ACTION_KEY(KC_SLCK)                   // FSLk (ScrollLock key) as its usual self
+# define AC_FSLk ACTION_KEY(KC_SLCK)                 // FSLk (ScrollLock key) unchanged
 #endif /* if SLCKBEHAVIOR */
 
 #if PAUSBEHAVIOR == 1
-# define AC_FPau ACTION_LAYER_TOGGLE(1)                // FPau as layer1 toggle
+# define AC_FPau ACTION_LAYER_TOGGLE(1)              // FPau as layer1 toggle
 #elif PAUSBEHAVIOR == 2
-#  define AC_FPau ACTION_LAYER_MOMENTARY(1)            // FPau as layer1 switch (for mirrored typing)
+# define AC_FPau ACTION_LAYER_MOMENTARY(1)           // FPau as layer1 switch (e.g., for mirrored typing)
 #else
-# define AC_FPau ACTION_KEY(KC_PAUS)                   // FPau (Pause/Break key) as its usual self
+# define AC_FPau ACTION_KEY(KC_PAUS)                 // FPau (Pause/Break key) unchanged
 #endif /* if PAUSBEHAVIOR */
 
 #if DREYMARHACK == 1
 /*    Adaptations for Nor/etc locale (DreymaR's ISO/Nor hack):
  *    MINS <> SLSH    RBRC -> SCLN -> NUBS -> NUHS -> QUOT
  *    FMin    FSls    FRbr    FScl    FLgt    FHsh    FQuo    */
-# define AC_FMin ACTION_KEY(KC_SLSH)                   // FMin (MINS key) as SLSH (ISO/Nor hack)
-# define AC_FSls ACTION_KEY(KC_MINS)                   // FSls (SLSH key) as MINS (ISO/Nor hack)
-# define AC_FRbr ACTION_KEY(KC_QUOT)                   // FRbr (RBRC key) as QUOT (ISO/Nor hack)
-# define AC_FScl ACTION_KEY(KC_RBRC)                   // FScl (SCLN key) as RBRC (ISO/Nor hack)
-# define AC_FLgt ACTION_KEY(KC_SCLN)                   // FLgt (NUBS key) as SCLN (ISO/Nor hack)
-# define AC_FHsh ACTION_KEY(KC_NUBS)                   // FHsh (NUHS key) as NUBS (ISO/Nor hack)
-# define AC_FQuo ACTION_KEY(KC_NUHS)                   // FQuo (QUOT key) as NUHS (ISO/Nor hack)
-#  define AC_FSh9 ACTION_MODS_KEY(MOD_LSFT, KC_8)    // FSh9 is Shift+8 (left parenthesis, Nor)
-#  define AC_FSh0 ACTION_MODS_KEY(MOD_LSFT, KC_9)    // FSh0 is Shift+9 (right parenthesis, Nor)
-#  define AC_FSSC ACTION_MODS_KEY(MOD_LSFT, KC_DOT)  // FSSC is Shift+Period (colon, Nor)
+# define AC_FMin ACTION_KEY(KC_SLSH)                 // FMin (MINS key) as SLSH (ISO/Nor hack)
+# define AC_FSls ACTION_KEY(KC_MINS)                 // FSls (SLSH key) as MINS (ISO/Nor hack)
+# define AC_FRbr ACTION_KEY(KC_QUOT)                 // FRbr (RBRC key) as QUOT (ISO/Nor hack)
+# define AC_FScl ACTION_KEY(KC_RBRC)                 // FScl (SCLN key) as RBRC (ISO/Nor hack)
+# define AC_FLgt ACTION_KEY(KC_SCLN)                 // FLgt (NUBS key) as SCLN (ISO/Nor hack)
+# define AC_FHsh ACTION_KEY(KC_NUBS)                 // FHsh (NUHS key) as NUBS (ISO/Nor hack)
+# define AC_FQuo ACTION_KEY(KC_NUHS)                 // FQuo (QUOT key) as NUHS (ISO/Nor hack)
+# define AC_FSh9 ACTION_MODS_KEY(MOD_LSFT, KC_8)     // FSh9 is Shift+8 (left parenthesis, Nor)
+# define AC_FSh0 ACTION_MODS_KEY(MOD_LSFT, KC_9)     // FSh0 is Shift+9 (right parenthesis, Nor)
+# define AC_FSSC ACTION_MODS_KEY(MOD_LSFT, KC_DOT)   // FSSC is Shift+Period (colon, Nor)
 #else
-# define AC_FMin ACTION_KEY(KC_MINS)                   // FMin (MINS key) as its usual self
-# define AC_FSls ACTION_KEY(KC_SLSH)                   // FSls (SLSH key) as its usual self
-# define AC_FRbr ACTION_KEY(KC_RBRC)                   // FRbr (RBRC key) as its usual self
-# define AC_FScl ACTION_KEY(KC_SCLN)                   // FScl (SCLN key) as its usual self
-# define AC_FLgt ACTION_KEY(KC_NUBS)                   // FLgt (NUBS key) as its usual self
-# define AC_FHsh ACTION_KEY(KC_NUHS)                   // FHsh (NUHS key) as its usual self
-# define AC_FQuo ACTION_KEY(KC_QUOT)                   // FQuo (QUOT key) as its usual self
-#  define AC_FSh9 ACTION_MODS_KEY(MOD_LSFT, KC_9)    // FSh9 is Shift+9 (left parenthesis)
-#  define AC_FSh0 ACTION_MODS_KEY(MOD_LSFT, KC_0)    // FSh0 is Shift+0 (right parenthesis)
-#  define AC_FSSC ACTION_MODS_KEY(MOD_LSFT, KC_SCLN) // FSSC is Shift+Semicolon (colon, US)
+# define AC_FMin ACTION_KEY(KC_MINS)                 // FMin (MINS key) unchanged
+# define AC_FSls ACTION_KEY(KC_SLSH)                 // FSls (SLSH key) unchanged
+# define AC_FRbr ACTION_KEY(KC_RBRC)                 // FRbr (RBRC key) unchanged
+# define AC_FScl ACTION_KEY(KC_SCLN)                 // FScl (SCLN key) unchanged
+# define AC_FLgt ACTION_KEY(KC_NUBS)                 // FLgt (NUBS key) unchanged
+# define AC_FHsh ACTION_KEY(KC_NUHS)                 // FHsh (NUHS key) unchanged
+# define AC_FQuo ACTION_KEY(KC_QUOT)                 // FQuo (QUOT key) unchanged
+# define AC_FSh9 ACTION_MODS_KEY(MOD_LSFT, KC_9)     // FSh9 is Shift+9 (left parenthesis)
+# define AC_FSh0 ACTION_MODS_KEY(MOD_LSFT, KC_0)     // FSh0 is Shift+0 (right parenthesis)
+# define AC_FSSC ACTION_MODS_KEY(MOD_LSFT, KC_SCLN)  // FSSC is Shift+Semicolon (colon, US)
 #endif /* if DREYMARHACK */
     /* <-- Fn action key definitions (Unimap style) */
 
@@ -292,7 +296,7 @@ enum macro_id {
      * |-----------------------------------------------------------| `-----------' |---------------|
      * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,|
      * |-----------------------------------------------------------|     ,---.     |---------------|
-     * |Shft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  ,|  /| RO| Shft |     |Up |     |  1|  2|  3|Ent|
+     * |Shft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO| Shft |     |Up |     |  1|  2|  3|Ent|
      * |-----------------------------------------------------------| ,-----------. |---------------|
      * |Ctrl|Gui|Alt|MHEN|     Space     |HENK|KANA|Alt|Gui|App|Ctl| |Lft|Dwn|Rgh| |      0|  .|  =|
      * `-----------------------------------------------------------' `-----------' `---------------'
@@ -306,7 +310,7 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * |*BSpc*|  A|  S|  D|  F|  G|  ]|  H|  J|  K|  L|  ;|  Enter |
      * |-----------------------------------------------------------|
-     * | Shift  |  Z|  X|  C|  V|  B|  /|  N|  M|  ,|  ,|    Shift |
+     * | Shift  |  Z|  X|  C|  V|  B|  /|  N|  M|  ,|  .|    Shift |
      * |-----------------------------------------------------------|
      * |Ctrl |Gui |Alt |         Space        |Alt |Gui |Menu| Ctrl|
      * `-----------------------------------------------------------'     */
@@ -432,7 +436,7 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * |*BSpc*|  A|  R|  S|  T|  G|  K|  N|  E|  I|  O|  '|  Enter |
      * |-----------------------------------------------------------|
-     * | Shift  |  X|  C|  V|  D|  Z|  H|  M|  ,|  ,|  /|    Shift |
+     * | Shift  |  X|  C|  V|  D|  Z|  H|  M|  ,|  .|  /|    Shift |
      * `-----------------------------------------------------------'     */
     /* Colemak-Curl(DbgHk)Angle(Z)Wide(')-ANSI; use keymap ANGZWIDE for this ergonomic variant
      * ,-----------------------------------------------------------.
@@ -442,7 +446,7 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * |*BSpc*|  A|  R|  S|  T|  G|  ]|  K|  N|  E|  I|  O|  Enter |
      * |-----------------------------------------------------------|
-     * | Shift  |  X|  C|  V|  D|  Z|  /|  H|  M|  ,|  ,|    Shift |
+     * | Shift  |  X|  C|  V|  D|  Z|  /|  H|  M|  ,|  .|    Shift |
      * `-----------------------------------------------------------'     */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
@@ -462,7 +466,7 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * |*BSpc*|  A|  R|  S|  T|  D|  H|  N|  E|  I|  O|  '|  Enter |
      * |-----------------------------------------------------------|
-     * | Shift  |  Z|  X|  C|  V|  B|  K|  M|  ,|  ,|  /|    Shift |
+     * | Shift  |  Z|  X|  C|  V|  B|  K|  M|  ,|  .|  /|    Shift |
      * `-----------------------------------------------------------'     */
     FTab  ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
@@ -496,7 +500,7 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * |*Caps*|  A|  S|  H|  T|  G|  Y|  N|  E|  O|  I|  '|  Enter |
      * |-----------------------------------------------------------|
-     * | Shift  |  Z|  X|  M|  C|  V|  K|  L|  ,|  ,|  /|    Shift |
+     * | Shift  |  Z|  X|  M|  C|  V|  K|  L|  ,|  .|  /|    Shift |
      * `-----------------------------------------------------------'     */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     FTab  ,  Q ,  D ,  R ,  W ,  B ,  J ,  F ,  U ,  P ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
@@ -515,7 +519,7 @@ enum macro_id {
      * |------------------------------------------------------`    |
      * |*Ext1*|  A|  R|  S|  T|  G|  ]|  K|  N|  E|  I|  O|  '|    |
      * |-----------------------------------------------------------|
-     * |Shft|  Z|  X|  C|  V|  D|  <|  #|  H|  M|  ,|  ,|    Shift |
+     * |Shft|  Z|  X|  C|  V|  D|  <|  #|  H|  M|  ,|  .|    Shift |
      * `-----------------------------------------------------------' 
      * Modifications from the untweaked Colemak-CAW shown above:
      *      -   <>  /       ]   ->  ;   ->  <   ->  #   ->  '   ->  ]  
@@ -527,7 +531,7 @@ enum macro_id {
      * |------------------------------------------------------`    |
      * |*Ext1*|  A|  R|  S|  T|  G|  Æ|  K|  N|  E|  I|  O|  '|    |
      * |-----------------------------------------------------------|
-     * |Shft|  Z|  X|  C|  V|  D|  Ø|  <|  H|  M|  ,|  ,|    Shift |
+     * |Shft|  Z|  X|  C|  V|  D|  Ø|  <|  H|  M|  ,|  .|    Shift |
      * `-----------------------------------------------------------'     */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,SLSH,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,RBRC,LBRC,QUOT,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
@@ -536,7 +540,7 @@ enum macro_id {
 
 #endif /* if ACTIVELAYOUT */
     /* The bottom row is layout independent (but you may edit for instance the Fn keys as desired) */
-    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 0: Default Layout */
 
 /* Layer 1: Second/Switch Layout [NOTE: Replace all the #if stuff with one of the Layer0 layouts if desired!] --> */
@@ -623,11 +627,11 @@ enum macro_id {
 #endif /* if ACTIVELAYOUT == 0 (QWERTY) */
 #endif /* if Colemak+Colemak-Mirrored */
 /* <-- REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED */
-    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 1: Second/Switch Layout */
 
-#if EXTENDMODE == 1
-/* Layer 3 [for now]: Extend1 (DreymaR)                                        */
+#if EXTENDMODE > 0
+/* Layer 2: Extend1 (DreymaR)                                        */
 /* ,----.    ,-------------------. ,-------------------. ,-------------------.
  * |Caps|    |MPly|MPrv|MNxt|MStp| |Mute|VolD|VolU|MSel| |WHom|WSch|MyCm|Calc|
  * `----'    `-------------------' `-------------------' `-------------------'
@@ -640,19 +644,19 @@ enum macro_id {
  * |-------------------------------------------------------------------------|
  * |     |Wh_L| ^Z | ^X | ^C | ^V |Btn1|Btn2|Btn3|Ms_L|Ms_R|Wh_R|            |
  * |-------------------------------------------------------------------------|
- * |      |     |Ext1 |           Return            |     |     |     |      |
+ * |      |     |     |           Return            |Ext3 |     |     |      |
  * `-------------------------------------------------------------------------' */
 /*            ACL0,ACL1,ACL2,BTN4,BTN5, NO , NO ,WAKE, NO , NO , NO , NO , */
-    [3] = UNIMAP_AWIDEISO(
+    [2] = UNIMAP_AWIDEISO(
     CAPS,    MPLY,MPRV,MNXT,MSTP,   MUTE,VOLD,VOLU,MSEL,   WHOM,WSCH,MYCM,CALC,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     FnU1, F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,JYEN,PAUS,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     TAB   ,ESC ,WH_U,WBAK,WFWD,MS_U,PGUP,HOME, UP ,END ,DEL ,ESC ,INS ,   APP ,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,LALT,WH_D,LSFT,LCTL,MS_D,PGDN,LEFT,DOWN,RGHT,BSPC,APP ,WFAV,  PSCR,                      P4 , P5 , P6 ,PCMM,
-    FLSh ,WH_L,FCtZ,FCtX,FCtC,FCtV,BTN1,BTN2,BTN3,MS_L,MS_R,WH_R, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
-    LCTL ,LGUI,FnLA,MHEN,         ENT          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    FLSh ,WH_L,c(Z),c(X),c(C),c(V),BTN1,BTN2,BTN3,MS_L,MS_R,WH_R, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+    LCTL ,LGUI,FnLA,MHEN,         ENT          ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Extend1 */
 
-/* Layer 2: Extend2 (DreymaR)                                                  */
+/* Layer 3: Extend2 (DreymaR)                                                  */
 /* ,----.    ,-------------------. ,-------------------. ,-------------------.
  * |    |    |MPau|MRwd|MFFd|Ejct| |WRef|BriD|BriU|Slep| |www |Mail|App3|App4|
  * `----'    `-------------------' `-------------------' `-------------------'
@@ -665,15 +669,15 @@ enum macro_id {
  * |-------------------------------------------------------------------------|
  * |     |    | ^Z | ^X | ^C | ^V |Btn1| :  | P0 | P0 | P. | P/ |            |
  * |-------------------------------------------------------------------------|
- * |      |     |     |                             |Ext2 |     |     |      |
+ * |      |     |Ext2 |                             |Ext4 |     |     |      |
  * `-------------------------------------------------------------------------' */
-    [2] = UNIMAP_AWIDEISO(
+    [3] = UNIMAP_AWIDEISO(
     CAPS,    MPLY,MRWD,MFFD,EJCT,   WREF, NO , NO ,SLEP,   WSTP,MAIL,MYCM,CALC,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
-    FnU2,FSh1,FSh2,FSh3,FSh4,FSh5,FSh6, P7 , P8 , P9 ,PAST,PMNS,TRNS,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+    FnU2,s(1),s(2),s(3),s(4),s(5),s(6), P7 , P8 , P9 ,PAST,PMNS,TRNS,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     FTab  ,HOME, UP ,END ,DEL ,ESC ,PGUP, P4 , P5 , P6 ,PPLS,FSh9,FSh0,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FnE2   ,LEFT,DOWN,RGHT,BSPC,NLCK,PGDN, P1 , P2 , P3 ,PENT,FQuo,COMM,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    FLSh ,TRNS,FCtZ,FCtX,FCtC,FCtV,BTN1,FSSC, P0 , P0 ,PDOT,PSLS, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
-    LCTL ,LGUI,FnLA,MHEN,         TRNS         ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    FCap   ,LEFT,DOWN,RGHT,BSPC,NLCK,PGDN, P1 , P2 , P3 ,PENT,FQuo,COMM,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,TRNS,c(Z),c(X),c(C),c(V),BTN1,FSSC, P0 , P0 ,PDOT,PSLS, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+    LCTL ,LGUI,FnLA,MHEN,         TRNS         ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Extend2 */
 
 /* TODO: The advanced Extend layer selection using Ext/LAlt+Ext/RAlt+Ext isn't working yet! */
