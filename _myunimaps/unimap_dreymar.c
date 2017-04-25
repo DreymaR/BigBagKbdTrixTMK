@@ -79,6 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 0: No Extend (saves a little memory)
  * 1: Ext1 on Caps    : Navigation/editing/multimedia
  * 2: Ext1 on LAlt      (Caps used as LAlt instead)
+ * 3: Ext1 on RAlt      (Caps used as RAlt instead)
  * *: Ext2 on Tab     : NumPad/Navigation [NOTE: For now, the Ext2 modifier is Tab but it "should" be Alt+Caps]
  * NOTE: Depending on your keyboard's scan matrix(?), chorded Extend modifiers such as Ext1+S+T+N for Shift+Ctrl+Left
  *       may not work. With Caps=Ext1, I've had trouble with Ext1+S+T+N; with LAlt=Ext1 even Ext1+S+N didn't work!
@@ -145,13 +146,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define DREYMASTERKEY
 #ifdef DREYMASTERKEY
 # define ACTIVELAYOUT 5
-# define SECONDLAYOUT 6
+//# define SECONDLAYOUT 6
 # define CURLMOD 1
 # define EXTENDMODE 1
 # define CAPSBEHAVIOR 1
 # define STICKYMODS 1
 # define SLCKBEHAVIOR 0
-# define PAUSBEHAVIOR 2
+# define PAUSBEHAVIOR 1
 # define DREYMARHACK 1
 #endif /* ifdef DREYMASTERKEY */
 
@@ -168,14 +169,21 @@ enum macro_id {
 };    /* <-- User function and macro declarations */
 
 /* Fn action key definitions (Unimap style) --> */
-// NOTE: Current FTab/FnLA behavior is only until I get the fancy way of selecting Extend2-4 to work (I hope?!).
+// NOTE: Current FTab/FnLA/FnRA behavior is only until I get the fancy way of selecting Extend2-4 to work (I hope?!).
 #if EXTENDMODE == 1
 # define AC_FCap ACTION_LAYER_MOMENTARY(2)           // FCap selects Extend1 (gets priority over CAPSBEHAVIOR)
-# define AC_FnLA ACTION_KEY(KC_LALT)                 // FnLA (LAlt key) as usual (for now)
+# define AC_FnLA ACTION_KEY(KC_LALT)                 // FnLA (LAlt key) unchanged
+# define AC_FnRA ACTION_KEY(KC_RALT)                 // FnRA (RAlt key) unchanged
 # define AC_FTab ACTION_LAYER_TAP_KEY(3, KC_TAB)     // FTab (Tab key)  selects Ext2 – tap for Tab (for now)
 #elif EXTENDMODE == 2
-# define AC_FnLA ACTION_LAYER_MOMENTARY(2)           // FnLA selects Extend1
 # define AC_FCap ACTION_KEY(KC_LALT)                 // FCap as LAlt (gets priority over CAPSBEHAVIOR)
+# define AC_FnLA ACTION_LAYER_MOMENTARY(2)           // FnLA selects Extend1
+# define AC_FnRA ACTION_KEY(KC_RALT)                 // FnRA (RAlt key) unchanged
+# define AC_FTab ACTION_LAYER_TAP_KEY(3, KC_TAB)     // FTab (Tab key)  selects Ext2 – tap for Tab (for now)
+#elif EXTENDMODE == 3
+# define AC_FCap ACTION_KEY(KC_RALT)                 // FCap as RAlt (gets priority over CAPSBEHAVIOR)
+# define AC_FnLA ACTION_KEY(KC_LALT)                 // FnLA (LAlt key) unchanged
+# define AC_FnRA ACTION_LAYER_MOMENTARY(2)           // FnRA selects Extend1
 # define AC_FTab ACTION_LAYER_TAP_KEY(3, KC_TAB)     // FTab (Tab key)  selects Ext2 – tap for Tab (for now)
 #else
 # if CAPSBEHAVIOR == 1
@@ -188,6 +196,7 @@ enum macro_id {
 #  define AC_FCap ACTION_KEY(KC_CAPS)                // FCap (Caps key) unchanged
 # endif /* if CAPSBEHAVIOR */
 # define AC_FnLA ACTION_KEY(KC_LALT)                 // FnLA (LAlt key) unchanged
+# define AC_FnRA ACTION_KEY(KC_RALT)                 // FnRA (RAlt key) unchanged
 # define AC_FTab ACTION_KEY(KC_TAB)                  // FTab (Tab key)  unchanged
 #endif /* if EXTENDMODE */
 
@@ -540,7 +549,7 @@ enum macro_id {
 
 #endif /* if ACTIVELAYOUT */
     /* The bottom row is layout independent (but you may edit for instance the Fn keys as desired) */
-    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 0: Default Layout */
 
 /* Layer 1: Second/Switch Layout [NOTE: Replace all the #if stuff with one of the Layer0 layouts if desired!] --> */
@@ -627,7 +636,7 @@ enum macro_id {
 #endif /* if ACTIVELAYOUT == 0 (QWERTY) */
 #endif /* if Colemak+Colemak-Mirrored */
 /* <-- REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED */
-    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 1: Second/Switch Layout */
 
 #if EXTENDMODE > 0
@@ -653,7 +662,7 @@ enum macro_id {
     TAB   ,ESC ,WH_U,WBAK,WFWD,MS_U,PGUP,HOME, UP ,END ,DEL ,ESC ,INS ,   APP ,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,LALT,WH_D,LSFT,LCTL,MS_D,PGDN,LEFT,DOWN,RGHT,BSPC,APP ,WFAV,  PSCR,                      P4 , P5 , P6 ,PCMM,
     FLSh ,WH_L,c(Z),c(X),c(C),c(V),BTN1,BTN2,BTN3,MS_L,MS_R,WH_R, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
-    LCTL ,LGUI,FnLA,MHEN,         ENT          ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         ENT          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Extend1 */
 
 /* Layer 3: Extend2 (DreymaR)                                                  */
@@ -677,7 +686,7 @@ enum macro_id {
     FTab  ,HOME, UP ,END ,DEL ,ESC ,PGUP, P4 , P5 , P6 ,PPLS,FSh9,FSh0,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,LEFT,DOWN,RGHT,BSPC,NLCK,PGDN, P1 , P2 , P3 ,PENT,FQuo,COMM,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,TRNS,c(Z),c(X),c(C),c(V),BTN1,FSSC, P0 , P0 ,PDOT,PSLS, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
-    LCTL ,LGUI,FnLA,MHEN,         TRNS         ,HENK,KANA,RALT,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         TRNS         ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Extend2 */
 
 /* TODO: The advanced Extend layer selection using Ext/LAlt+Ext/RAlt+Ext isn't working yet! */
@@ -707,7 +716,7 @@ enum macro_id {
     TRNS  ,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,   TRNS,   TRNS,TRNS,TRNS,   TRNS,TRNS,TRNS,TRNS,
     FnE2   ,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,  TRNS,                     TRNS,TRNS,TRNS,TRNS,
     TRNS ,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,    TRNS,        TRNS,        TRNS,TRNS,TRNS,TRNS,
-    TRNS ,TRNS,LALT,TRNS,         TRNS         ,TRNS,TRNS,RALT,TRNS,TRNS, TRNS,   TRNS,TRNS,TRNS,   TRNS     ,TRNS,TRNS 
+    TRNS ,TRNS,LALT,TRNS,         TRNS         ,TRNS,TRNS,FnRA,TRNS,TRNS, TRNS,   TRNS,TRNS,TRNS,   TRNS     ,TRNS,TRNS 
     ),    /* <-- Layer 5: Selects Extend2 */
 # endif /* TODO */
 
