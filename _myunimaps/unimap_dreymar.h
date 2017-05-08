@@ -124,7 +124,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
 )
 
-/* ------------------------------------------------------------------------------ # ANGLEISO - Angle-ISO ergo mod # ---- */
+/* ------------------------------------------------------------------------------ # ANIZXCVB - Angle-ISO ergo mod # ---- */
 /*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
@@ -132,7 +132,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
 /*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT, --   */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_ANGLEISO( \
+#define UNIMAP_ANIZXCVB( \
     ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
@@ -148,8 +148,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,LSGT,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
     LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
 )
+/* ------------------------------------------------------------------------------ # ANIZXCBV - Angle-ISO ergo mod # ---- */
+/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
+#define UNIMAP_ANIZXCBV( \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+) UNIMAP( \
+             F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,L1_Z,L2_X,L3_C,L5_B,L4_V,LSGT,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+)
 
-/* ------------------------------------------------------------------------------ # AWIDEISO - AngleWide(/) ergo  # ---- */
+/* ------------------------------------------------------------------------------ # AWIZXCVB - AngleWide(/) ergo  # ---- */
 /*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,SLSH,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
@@ -157,7 +175,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,NUHS,  N ,  M ,COMM,DOT , -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
 /*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT, --   */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_AWIDEISO( \
+#define UNIMAP_AWIZXCVB( \
     ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
@@ -173,8 +191,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,LSGT,HCHS,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
     LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
 )
+/* ------------------------------------------------------------------------------ # AWIZXCBV - AngleWide(/) ergo  # ---- */
+/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
+#define UNIMAP_AWIZXCBV( \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+) UNIMAP( \
+             F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NCEQ,N7_7,N8_8,N9_9,NA_0,NBMN,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UBLB,U6_Y,U7_U,U8_I,U9_O,UA_P,LASL,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UCRB,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,L1_Z,L2_X,L3_C,L5_B,L4_V,LSGT,HCHS,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+)
 
-/* ------------------------------------------------------------------------------ # ANGZANSI - ANSI Angle-Z ergo  # ---- */
+/* ------------------------------------------------------------------------------ # ANAXCVBZ - ANSI Angle-Z ergo  # ---- */
 /*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
@@ -182,7 +218,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
 /*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_ANGZANSI( \
+#define UNIMAP_ANAXCVBZ( \
     ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
@@ -198,8 +234,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,LSGT,L2_X,L3_C,L4_V,L5_B,L1_Z,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
     LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
 )
+/* ------------------------------------------------------------------------------ # ANAXCBVZ - ANSI Angle-Z ergo  # ---- */
+/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
+#define UNIMAP_ANAXCBVZ( \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+) UNIMAP( \
+             F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,LSGT,L2_X,L3_C,L5_B,L4_V,L1_Z,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+)
 
-/* ------------------------------------------------------------------------------ # ANGZWIDE - ANSI AngleWide(Z') # ---- */
+/* ------------------------------------------------------------------------------ # AWAXCVBZ - ANSI AngleWide(Z') # ---- */
 /*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
@@ -207,7 +261,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
 /*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_ANGZWIDE( \
+#define UNIMAP_AWAXCVBZ( \
     ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
@@ -223,8 +277,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,LSGT,L2_X,L3_C,L4_V,L5_B,L1_Z,LASL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
     LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
 )
+/* ------------------------------------------------------------------------------ # AWAXCVBZ - ANSI AngleWide(Z') # ---- */
+/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
+#define UNIMAP_AWAXCBVZ( \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+) UNIMAP( \
+             F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
+    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NCEQ,N7_7,N8_8,N9_9,NA_0,NBMN,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UBLB,U6_Y,U7_U,U8_I,U9_O,UA_P,HBQU,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UCRB,H6_H,H7_J,H8_K,H9_L,HASC,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
+    LSFT ,LSGT,L2_X,L3_C,L5_B,L4_V,L1_Z,LASL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
+    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+)
 
-/* ------------------------------------------------------------------------------ # ANGLWING - ANSI A-Wing ergo   # ---- */
+/* ------------------------------------------------------------------------------ # ANAAWING - ANSI A-Wing ergo   # ---- */
 /*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
 /*  GRV ,EQL ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
 /*  TAB   ,LBRC,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
@@ -232,7 +304,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*  LSFT ,NUBS,  Z ,  X ,  C ,  V ,  B ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
 /*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_ANGLWING( \
+#define UNIMAP_ANAAWING( \
     ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
