@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 4  : Tarmak4 - transitional Colemak (--"--)
  * 5-0: Colemak
  * 5-1: Colemak-Curl(DH) (requires an Angle-modded keymap; see above)
- * 5-2: Colemak-Curl(DvbgHm for matrix keyboards, placing M on the home row) (--"--)
+ * 5-2: Colemak-Curl(DHm for matrix keyboards, placing M on the home row) (--"--)
  * 8  : Dvorak
  * 9  : Workman (if you must - I believe Colemak-Curl/DH is a lot better!)
  */
@@ -75,7 +75,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* The CURLMOD options for Colemak/Tarmak layouts are:
  * 0: No Curl - vanilla Colemak/Tarmak
  * 1: The default Curl(DH) ergo mod, bringing the D and H keys "down-and-in" to comfortable bottom-row positions
- * 2: SteveP99's Curl(DvbgHm) ergo mod for matrix boards, bringing DH "down-and-in" but M to the home row
+ * 2: SteveP99's Curl(DHm) ergo mod for matrix boards, bringing DH "down-and-in" but M to the home row
  * N/A: DreymaR's old Curl(DbgHk) mod, bringing DH "down-and-out" to the QWERTY VN keys (edit the layouts for this)
  *
  * NOTE: On the first Tarmak step, CURLMOD 1 will include the HMK swaps whereas CURLMOD 2 won't. So you can choose.
@@ -116,14 +116,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* The SCLKBEHAVIOR constant chooses ScrollLock key action:
  * 0: Normal ScrollLock (default)
- * 1: Win/GUI key (useful for 101/104-key boards that have no GUI key)
+ * 1: Layer 1 toggle key (toggles the second layout)
+ * 2: Layer 1 switch key (layer shift; e.g., for mirrored typing if you can use it as ghetto foot switch)
  */
-#define SLCKBEHAVIOR 0
+#define SLCKBEHAVIOR 1
 
 /* The PAUSBEHAVIOR constant chooses Pause/Break key action:
  * 0: Normal Pause/Break (default)
- * 1: Layer 1 toggle key (toggles the second layout)
- * 2: Layer 1 switch key (layer shift; e.g., for mirrored typing if you can use it as ghetto foot switch)
+ * 1: Win/GUI key (useful for 101/104-key boards that have no GUI key)
  */
 #define PAUSBEHAVIOR 0
 
@@ -160,8 +160,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # define EXTENDMODE 1
 # define CAPSBEHAVIOR 1
 # define STICKYMODS 1
-# define SLCKBEHAVIOR 0
-# define PAUSBEHAVIOR 1
+# define SLCKBEHAVIOR 1
+# define PAUSBEHAVIOR 0
 # define DREYMARHACK 1
 #endif /* ifdef DREYMASTERKEY */
 
@@ -240,15 +240,15 @@ enum macro_id {
 #endif /* if STICKYMODS */
 
 #if SLCKBEHAVIOR == 1
-# define AC_FSLk ACTION_KEY(KC_LGUI)                 // FSLk as GUI/Win (for 101/104-key boards)
+# define AC_FSLk ACTION_LAYER_TOGGLE(1)              // FSLk as layer1 toggle
+#elif PAUSBEHAVIOR == 2
+# define AC_FSLk ACTION_LAYER_MOMENTARY(1)           // FSLk as layer1 switch (e.g., for mirrored typing)
 #else
 # define AC_FSLk ACTION_KEY(KC_SLCK)                 // FSLk (ScrollLock key) unchanged
 #endif /* if SLCKBEHAVIOR */
 
 #if PAUSBEHAVIOR == 1
-# define AC_FPau ACTION_LAYER_TOGGLE(1)              // FPau as layer1 toggle
-#elif PAUSBEHAVIOR == 2
-# define AC_FPau ACTION_LAYER_MOMENTARY(1)           // FPau as layer1 switch (e.g., for mirrored typing)
+# define AC_FPau ACTION_KEY(KC_LGUI)                 // Fpau as GUI/Win (for 101/104-key boards)
 #else
 # define AC_FPau ACTION_KEY(KC_PAUS)                 // FPau (Pause/Break key) unchanged
 #endif /* if PAUSBEHAVIOR */
@@ -426,7 +426,7 @@ enum macro_id {
      * `-----------------------------------------------------------'     */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
-    /* Tarmak4-Curl(DbgHk) - Transitional Colemak-Curl (ETRO)            */
+    /* Tarmak4-Curl(DH) - Transitional Colemak-Curl (ETRO)            */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -471,7 +471,7 @@ enum macro_id {
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
-    /* Colemak-Curl(DvbgHm for matrix boards). Use with a CurlAngle(Wide) ergo mod! */
+    /* Colemak-Curl(DHm for matrix boards). Use with a CurlAngle(Wide) ergo mod! */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -584,7 +584,7 @@ enum macro_id {
     FQuo   ,  O ,  I ,  E ,  N ,  K ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  M ,  H ,  V ,  D ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
-    /* Colemak-Curl(DvbgHm for matrix boards). See above. */
+    /* Colemak-Curl(DHm for matrix boards). See above. */
     ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  M ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  K ,  H ,  V ,  D ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -593,10 +593,10 @@ enum macro_id {
     FQuo   ,  O ,  I ,  E ,  N ,  H ,  D ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  M ,  K ,  B ,  V ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
+
 #else
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
-
 #if ACTIVELAYOUT == 0
 /* If QWERTY is the active layout, set SECONDLAYOUT to 1 for Tarmak1 as switch layout; otherwise it'll be Colemak */
 # if SECONDLAYOUT == 1
@@ -614,12 +614,12 @@ enum macro_id {
 # else
     /* Colemak - as above                                                      */
 #  if CURLMOD == 1
-    /* Colemak-Curl(DbgHk). Use with an Angle or Angle(Wide) ergo mod; see the INIT section! */
+    /* Colemak-Curl(DH). Use with an Angle or Angle(Wide) ergo mod; see the INIT section! */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  elif CURLMOD == 2
-    /* Colemak-Curl(DvbgHm for matrix boards). Use with an Angle(Wide) ergo mod! */
+    /* Colemak-Curl(DHm for matrix boards). Use with an Angle(Wide) ergo mod! */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
