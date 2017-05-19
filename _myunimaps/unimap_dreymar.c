@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Compiler preprocessor defines select layout and Extend layers
  * - ACTIVELAYOUT # selects basic layout (QWERTY, Colemak, etc)
  * - SECONDLAYOUT # selects switch layout (QWERTY, Colemak, Colemak-mirrored, etc)
- * - CURLMOD      # 1(2) activates the Curl-DH ergo mod (2 for the matrix mod); only affects Colemak/Tarmak layouts
+ * - CURLMOD      # activates the Curl(DH) ergo mod; only affects Colemak/Tarmak layouts
  * - EXTENDMODE   # selects Extend mappings (navigation layer, NumPad layer, etc)
  * - CAPSBEHAVIOR # selects CapsLock key behavior if Extend is off (Caps, BSpc, LCtrl)
  * - etc            (see below for more)
@@ -34,8 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* ***** SETTINGS *************************************************************************************************** */
 
-/* Search-replace 'UNIMAP_AWIZXCBV' (CurlAngleWide-ISO) in this file to use ergonomic Curl/Angle/Wide keyboard mods:
- * _MINIMALL - Default unimap format for all keyboard and converter types (this one is w/o F13-24)
+/* Search-replace 'UNIMAP_AWIZXCBV' (CurlAngleWide-ISO) in this file to choose ergonomic Curl/Angle/Wide keyboard mods:
+ * _MINIMALL - Default unimap format for all keyboard and converter types (w/o F13-24; this one is unmodded)
  * _ANIZXCVB (w/ Curl-DH: _ANIZXCBV) - ISO/Int Angle ergo mod (the simple ZXCVB_ half-row shift)
  * _AWIZXCVB (w/ Curl-DH: _AWIZXCBV) - ISO/Int Angle-Wide(/) ergo mod
  * _ANAXCVBZ (w/ Curl-DH: _ANAXCBVZ) - ANSI/US Angle(Z) ergo mod
@@ -43,8 +43,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * _ANAAWING (w/ Curl-DH: N/A)       - ANSI/US A-Wing ergo mod
  *
  * NOTE: Select a Curl(DH) or non-Curl ergo model, or plain MINIMALL. For Curl(DH), you also need to set CURLMOD.
- * NOTE: You could use the non-Curl models for my old Curl(DbgHk) mod, as the B is swapped with D anyway.
- *       To get the right-hand old mod (only HK swapped) you would have to edit HMK on your layout manually though.
  */
 
 /* Define the ACTIVELAYOUT (and CURLMOD) constant(s) to choose the layer0 layout:
@@ -54,8 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 3  : Tarmak3 - transitional Colemak (--"--)
  * 4  : Tarmak4 - transitional Colemak (--"--)
  * 5-0: Colemak
- * 5-1: Colemak-Curl(DH) (requires an Angle-modded keymap; see above)
- * 5-2: Colemak-Curl(DHm for matrix keyboards, placing M on the home row) (--"--)
+ * 5-1: Colemak-Curl(DH) (requires a CurlAngle keymap; see above)
  * 8  : Dvorak
  * 9  : Workman (if you must - I believe Colemak-Curl/DH is a lot better!)
  */
@@ -74,13 +71,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* The CURLMOD options for Colemak/Tarmak layouts are:
  * 0: No Curl - vanilla Colemak/Tarmak
- * 1: The default Curl(DH) ergo mod, bringing the D and H keys "down-and-in" to comfortable bottom-row positions
- * 2: SteveP99's Curl(DHm) ergo mod for matrix boards, bringing DH "down-and-in" but M to the home row
+ * 1: The Curl(DH) ergo mod, bringing the D and H keys "down-and-in" to comfortable bottom-row positions
+ * 2: SteveP99's old Curl(DHm or DvbgHm) ergo mod, bringing D/H "down-and-in" but M to the home row.
+ *    (Some matrix board users may prefer this mod, but several prefer the default even on matrix boards.)
  * N/A: DreymaR's old Curl(DbgHk) mod, bringing DH "down-and-out" to the QWERTY VN keys (edit the layouts for this)
  *
  * NOTE: On the first Tarmak step, CURLMOD 1 will include the HMK swaps whereas CURLMOD 2 won't. So you can choose.
- *       If you want to take baby steps at first, use CURLMOD 2 and then 1. The K will be misplaced, but it's rare.
- *       For the other steps, CURLMOD 2 still doesn't move HM so either edit the layouts or do HM in the last step.
+ *       To take baby steps at the Tarmak1 stage, use CURLMOD 2 and then 1. The K will be misplaced, but it's rare.
+ *       For the other steps, CURLMOD 2 still doesn't move HM so Curl(DHm) users generally do HM in the last step.
+ * NOTE: You could use a non-Curl UNIMAP_# for a Curl(DH) mod, to keep ZXCV together as in my old Curl(DbgHk) mod.
+ *       To get my complete old Curl mod though, you would have to swap H/M manually in this file for your layout(s).
  */
 #define CURLMOD 1
 
@@ -319,7 +319,7 @@ enum macro_id {
      * |Ctrl|Gui|Alt|MHEN|     Space     |HENK|KANA|Alt|Gui|App|Ctl| |Lft|Dwn|Rgh| |      0|  .|  =|
      * `-----------------------------------------------------------' `-----------' `---------------'
      */
-    /* QWERTY-Wide(') for ANSI boards; use keymap ANGZWIDE for this ergonomic variant (see the INIT section)
+    /* QWERTY-Angle(Z)Wide(') for ANSI boards; use keymap AWAXCVBZ for this ergonomic variant (see the INIT section)
      * http://forum.colemak.com/viewtopic.php?id=1438
      * ,-----------------------------------------------------------.
      * |  `|  1|  2|  3|  4|  5|  6|  =|  7|  8|  9|  0|  -|  BSpc |
@@ -328,7 +328,7 @@ enum macro_id {
      * |-----------------------------------------------------------|
      * |*BSpc*|  A|  S|  D|  F|  G|  ]|  H|  J|  K|  L|  ;|  Enter |
      * |-----------------------------------------------------------|
-     * | Shift  |  Z|  X|  C|  V|  B|  /|  N|  M|  ,|  .|    Shift |
+     * | Shift  |  X|  C|  V|  B|  Z|  /|  N|  M|  ,|  .|    Shift |
      * |-----------------------------------------------------------|
      * |Ctrl |Gui |Alt |         Space        |Alt |Gui |Menu| Ctrl|
      * `-----------------------------------------------------------'     */
@@ -369,6 +369,14 @@ enum macro_id {
      * |      |  a|  s|  d|  T| *J|  h|  N|  E|  l|  ;|   |        |
      * |-----------------------------------------------------------|
      * |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
+     * `-----------------------------------------------------------'     */
+    /* Tarmak2-Curl(DH) - Transitional Colemak-Curl-DH (ET)
+     * ,-----------------------------------------------------------.
+     * |     |  q|  w|  F|  r|  B|  y|  u|  i|  o|  p|   |   |     |
+     * |-----------------------------------------------------------|
+     * |      |  a|  s|  d|  T|  g|  K|  N|  E|  l|  ;|   |        |
+     * |-----------------------------------------------------------|
+     * |    |  z|  x|  c| *J|  v|  _|  M|  H|   |   |   |          |
      * `-----------------------------------------------------------'     */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1

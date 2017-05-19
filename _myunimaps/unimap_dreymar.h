@@ -277,7 +277,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,LSGT,L2_X,L3_C,L4_V,L5_B,L1_Z,LASL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
     LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
 )
-/* ------------------------------------------------------------------------------ # AWAXCVBZ - ANSI AngleWide(Z') # ---- */
+/* ------------------------------------------------------------------------------ # AWAXCBVZ - ANSI AngleWide(Z') # ---- */
 /* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
 #define UNIMAP_AWAXCBVZ( \
     ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
