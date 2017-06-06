@@ -16,25 +16,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*
- * 2016- Øystein "DreymaR" Gadmar: Curl/Angle/Wide and Extend layouts
+ * 2016- Øystein "DreymaR" Gadmar: Colemak, Curl/Angle/Wide and Extend layouts
  * See the Colemak Forum (DreymaR's Big Bag of Keyboard Tricks) for info
  * http://forum.colemak.com/viewtopic.php?id=2158
  * 
- * For the Angle/Wide mods, I found no good way to replace the keymap before parsing the resulting macro
- * Instead, manually search/replace the UNIMAP_AWIZXCBV text globally before compiling this file
- * 
- * Compiler preprocessor defines select layout and Extend layers
- * - ACTIVELAYOUT # selects basic layout (QWERTY, Colemak, etc)
- * - SECONDLAYOUT # selects switch layout (QWERTY, Colemak, Colemak-mirrored, etc)
+ * Compiler preprocessor definitions select layout and Extend layers:
+ * - ACTIVELAYOUT # selects first/active layout (QWERTY, Colemak etc)
+ * - SECONDLAYOUT # selects second/switch layout (QWERTY, Colemak, Colemak-mirrored etc)
  * - CURLMOD      # activates the Curl(DH) ergo mod; only affects Colemak/Tarmak layouts
- * - EXTENDMODE   # selects Extend mappings (navigation layer, NumPad layer, etc)
- * - CAPSBEHAVIOR # selects CapsLock key behavior if Extend is off (Caps, BSpc, LCtrl)
+ * - EXTENDMODE   # selects Extend mappings (navigation layer, NumPad layer etc)
+ * - CAPSBEHAVIOR # selects CapsLock key behavior if Extend is off (Caps, BckSpc, LCtrl, Esc)
  * - etc            (see below for more)
+ * 
+ * For the Angle/Wide ergo mods, I couldn't use #define to replace the keymap before parsing the resulting macro
+ * Instead, manually search/replace the text UNIMAP_AWIZXCBV globally before compiling this file; see below
  */
 
 /* ***** SETTINGS *************************************************************************************************** */
 
-/* Search-replace 'UNIMAP_AWIZXCBV' (CurlAngleWide-ISO) in this file to choose ergonomic Curl/Angle/Wide keyboard mods:
+/* Search/replace 'UNIMAP_AWIZXCBV' (CurlAngleWide-ISO) in this file to choose ergonomic Curl/Angle/Wide keyboard mods:
  * _MINIMALL - Default unimap format for all keyboard and converter types (w/o F13-24; this one is unmodded)
  * _ANIZXCVB (w/ Curl-DH: _ANIZXCBV) - ISO/Int Angle ergo mod (the simple ZXCVB_ half-row shift)
  * _AWIZXCVB (w/ Curl-DH: _AWIZXCBV) - ISO/Int Angle-Wide(/) ergo mod
@@ -47,44 +47,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Define the ACTIVELAYOUT (and CURLMOD) constant(s) to choose the layer0 layout:
  * 0  : QWERTY
- * 1  : Tarmak1 - transitional Colemak (supports CURLMOD 1; 2 is not relevant)
- * 2  : Tarmak2 - transitional Colemak (supports CURLMOD 1 & 2; see below)
+ * 1  : Tarmak1 - transitional Colemak (supports CURLMOD; see below)
+ * 2  : Tarmak2 - transitional Colemak (--"--)
  * 3  : Tarmak3 - transitional Colemak (--"--)
  * 4  : Tarmak4 - transitional Colemak (--"--)
  * 5-0: Colemak
- * 5-1: Colemak-Curl(DH) (requires a CurlAngle keymap; see above)
+ * 5-1: Colemak Curl-DH (requires a CurlAngle keymap; see above)
  * 8  : Dvorak
- * 9  : Workman (if you must - I believe Colemak-Curl/DH is a lot better!)
+ * 9  : Workman (if you must - I believe Colemak Curl-DH is a lot better!)
  */
 #define ACTIVELAYOUT 5
 
-/* Define the SECONDLAYOUT (and CURLMOD) constant(s) to choose the layer1/switch layout:
- * -  : QWERTY will be the default if ACTIVELAYOUT isn't QWERTY (you may replace it below)
- * -  : The exception to this is choosing Colemak as active and mirrored Colemak as second layout.
- * 1-#: Tarmak1 - transitional Colemak (as above). Copy/Paste in Tarmak2-3-4 as desired.
- * 5-#: Colemak (as above)
- * 6-#: Colemak mirrored (as second layout for one-handed typing; needs an accessible switch key!)
+/* Define the SECONDLAYOUT (and CURLMOD) constant(s) to choose the second/switch layout:
+ *  - : Unmodded QWERTY will be the default (you may replace it below) if ACTIVELAYOUT isn't QWERTY; otherwise:
+ * 1-#: Tarmak1 - transitional Colemak. Replace below with another layout if desired.
+ *      After Tarmak1, it's simplest to have Tarmak# as your first layout (and QWERTY on switch)
+ * 5-#: Colemak
+ *  - : ONLY when Colemak (5-#) is selected as first layout:
+ * 6-#: Colemak Mirrored as second layout for one-handed typing (needs an accessible switch key!)
  *      NOTE: The "FPau" key is a layer1 toggle or switch (edit it below), normally used on the Pause key.
  *            You may replace, e.g., the LAlt/"FnLA" or RWin/"RGUI" key with "FPau" in your active layout.
  */
 #define SECONDLAYOUT 5
 
-/* The CURLMOD options for Colemak/Tarmak layouts are:
+/* The CURLMOD options for Colemak and Tarmak layouts are:
  * 0: No Curl - vanilla Colemak/Tarmak
- * 1: The Curl(DH) ergo mod, bringing the D and H keys "down-and-in" to comfortable bottom-row positions
- * 2: SteveP99's old Curl(DHm or DvbgHm) ergo mod, bringing D/H "down-and-in" but M to the home row.
- *    (Some matrix board users may prefer this mod, but several prefer the default even on matrix boards.)
- * N/A: DreymaR's old Curl(DbgHk) mod, bringing DH "down-and-out" to the QWERTY VN keys (edit the layouts for this)
+ * 1: The Curl(DH) ergo mod, bringing the D and H keys down to comfortable bottom-row positions (QWERTY C/M)
+ * 2: SteveP99's old Curl(DHm or DvbgHm) ergo mod, bringing D/H down but M to the home row.
+ *    Some matrix board users may prefer this mod, but several prefer the default even on matrix boards.
+ * N/A: DreymaR's old Curl(DbgHk) mod, bringing DH "down-and-out" to the QWERTY V/N keys (edit the layouts for this)
  *
  * NOTE: On the first Tarmak step, CURLMOD 1 will include the HMK swaps whereas CURLMOD 2 won't. So you can choose.
- *       To take baby steps at the Tarmak1 stage, use CURLMOD 2 and then 1. The K will be misplaced, but it's rare.
- *       For the other steps, CURLMOD 2 still doesn't move HM so Curl(DHm) users generally do HM in the last step.
+ *       For a baby Tarmak1 step, use CURLMOD 2 and then 1. The K will be misplaced at first, but it's rare.
+ *       (For the other steps, CURLMOD 2 still doesn't move HM so Curl(DHm) users generally do HM in the last step.)
+ * NOTE: Another baby step after Tarmak1 could be transitioning to a CurlAngle(Wide) keymap model before Tarmak2.
  * NOTE: You could use a non-Curl UNIMAP_# for a Curl(DH) mod, to keep ZXCV together as in my old Curl(DbgHk) mod.
  *       To get my complete old Curl mod though, you would have to swap H/M manually in this file for your layout(s).
  */
 #define CURLMOD 1
 
-/* The EXTENDMODE constant activates the extra Extend layers:
+/* The EXTENDMODE constant activates the powerful Extend layers:
  * 0: No Extend (saves a little memory)
  * 1: Ext1 on Caps    : Navigation/editing/multimedia
  * 2: Ext1 on LAlt      (Caps used as LAlt instead)
@@ -95,7 +97,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define EXTENDMODE 1
 
-/* The CAPSBEHAVIOR constant chooses non-Extend Caps key action:
+/* The CAPSBEHAVIOR constant chooses Caps key action if EXTENDMODE is 0:
  * 0: CapsLock (default)
  * 1: BackSpace (for Colemak or otherwise)
  * 2: LCtrl
@@ -108,7 +110,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 1: Sticky Shift only
  * 2: Sticky Ctrl only
  * 3: Sticky Shift & Ctrl
- * NOTE: In the unimap_dreymar.h file, some constants normally set in config.h are (re)set:
+ * NOTE: In the unimap_dreymar.h file, some relevant constants normally set in config.h are (re)set:
  *       - TAPPING_TERM is the max time a key may be held down for it to register as tapped
  *       - ONESHOT_TIMEOUT is the max delay before a oneshot modifier is ignored
  */
@@ -140,7 +142,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Define the keymap type used in the header file (affects includes, map array format and Fn key definitions):
  * UNIMAP (new universal 128-key format w/o the Korean and rare rightmost keys)
- * KEYMAP_ALL (or similar keymaps); NOTE: For this to work, use my keymap_dreymar_old files (may be outdated)!
+ * KEYMAP_ALL (or similar keymaps); NOTE: For this to work, you must use my now outdated keymap_dreymar_old files!
  */
 #define USEUNIMAP
 #ifdef USEUNIMAP
@@ -151,7 +153,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # include "keymap_dreymar_old.h"
 #endif /* ifdef USEUNIMAP */
 
-/* DreymaR's master key! Define it for quick override. It gets compiler warnings due to redefinition; ignore these.   */
+/* DreymaR's master key! Define it for a quick override. It gets compiler warnings due to redefinition; ignore these. */
 //#define DREYMASTERKEY
 #ifdef DREYMASTERKEY
 # define ACTIVELAYOUT 5
@@ -564,10 +566,9 @@ enum macro_id {
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 0: Default Layout */
 
-/* Layer 1: Second/Switch Layout [NOTE: Replace all the #if stuff with one of the Layer0 layouts if desired!] --> */
-    [1] = UNIMAP_AWIZXCBV(
-/* REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED (taking care to include all necessary lines once!) --> */
+/* Layer 1: Second/Switch Layout (see below for replacing it with your any layer0 layout or your own) */
 #if ACTIVELAYOUT == 5 && SECONDLAYOUT == 6
+/* NOTE: This is the special case of using Colemak(Curl-DH) as the first, and Mirrored Colemak as the second layout. */
     /* Mirrored Colemak (used as switch layout for one-handed typing)
      * http://forum.colemak.com/viewtopic.php?id=1438
      * ,---.   ,---------------. ,---------------. ,---------------.
@@ -583,6 +584,7 @@ enum macro_id {
      * | Shift  |  /|  .|  ,|  M|  K|  B|  V|  C|  X|  Z|    Shift |
      * `-----------------------------------------------------------'     */
     /* NOTE: Set an accessible key in your active layout (e.g., FnLA or RGUI) as a layer1 switch (FPau does this) */
+    [1] = UNIMAP_AWIZXCBV(
     BSLS,    F12 ,F11 ,F10 , F9 ,    F8 , F7 , F6 , F5 ,    F4 , F3 , F2 , F1 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     BSPC,FMin,  0 ,  9 ,  8 ,  7 ,  6 ,  5 ,  4 ,  3 ,  2 ,  1 ,EQL ,JYEN,GRV ,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
@@ -603,10 +605,12 @@ enum macro_id {
 # endif /* if CURLMOD */
 
 #else
-    ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
-    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+/* REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED - taking care to include all necessary lines once! --> */
 #if ACTIVELAYOUT == 0
 /* If QWERTY is the active layout, set SECONDLAYOUT to 1 for Tarmak1 as switch layout; otherwise it'll be Colemak */
+    [1] = UNIMAP_AWIZXCBV(
+    ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
+    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if SECONDLAYOUT == 1
     /* Tarmak1 - Transitional Colemak (E) – as above                           */
 #  if CURLMOD == 1
@@ -639,13 +643,17 @@ enum macro_id {
 #  endif /* if CURLMOD */
 # endif /* if SECONDLAYOUT */
 #else
-    /* Plain QWERTY - as above                                                 */
-    FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+    /* Plain QWERTY - non-CurlAngleWide-modded and w/o DreymarHack, to reflect the key caps of a standard keyboard. */
+//    [1] = UNIMAP_AWIZXCBV(
+    [1] = UNIMAP_MINIMALL(
+    ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
+    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+    FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,NUBS,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,SLSH, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #endif /* if ACTIVELAYOUT == 0 (QWERTY) */
 #endif /* if Colemak+Colemak-Mirrored */
-/* <-- REPLACE SECOND LAYOUT BETWEEN THESE LINES AS NEEDED */
+/* <-- REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED */
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* <-- Layer 1: Second/Switch Layout */
 
