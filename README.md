@@ -20,6 +20,9 @@ More info
 * The hexfile folder holds precompiled .hex binaries, most for the USB-2-USB converter; new backups may also go there.
 * The unimaps folder holds universal keymaps suitable for all controllers.
 
+* Hasu's PS/2-USB converter currently uses the ATmega32U2 chip, vs the USB-USB controller's ATmega32U4
+* To compile for the PS/2-USB converter: $> ./makeflash_tmk_dreymar.sh -d converter/ps2_usb/ -m Makefile.unimap.rev2
+
 
 Links & notes
 -------------

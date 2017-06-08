@@ -47,10 +47,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Define the ACTIVELAYOUT (and CURLMOD) constant(s) to choose the layer0 layout:
  * 0  : QWERTY
- * 1  : Tarmak1 - transitional Colemak (supports CURLMOD; see below)
- * 2  : Tarmak2 - transitional Colemak (--"--)
- * 3  : Tarmak3 - transitional Colemak (--"--)
- * 4  : Tarmak4 - transitional Colemak (--"--)
+ * 1-#: Tarmak1 - transitional Colemak (supports CURLMOD; see below)
+ * 2-#: Tarmak2 - transitional Colemak (--"--)
+ * 3-#: Tarmak3 - transitional Colemak (--"--)
+ * 4-#: Tarmak4 - transitional Colemak (--"--)
  * 5-0: Colemak
  * 5-1: Colemak Curl-DH (requires a CurlAngle keymap; see above)
  * 8  : Dvorak
@@ -58,17 +58,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define ACTIVELAYOUT 5
 
-/* Define the SECONDLAYOUT (and CURLMOD) constant(s) to choose the second/switch layout:
- *  - : Unmodded QWERTY will be the default (you may replace it below) if ACTIVELAYOUT isn't QWERTY; otherwise:
- * 1-#: Tarmak1 - transitional Colemak. Replace below with another layout if desired.
- *      After Tarmak1, it's simplest to have Tarmak# as your first layout (and QWERTY on switch)
- * 5-#: Colemak
- *  - : ONLY when Colemak (5-#) is selected as first layout:
- * 6-#: Colemak Mirrored as second layout for one-handed typing (needs an accessible switch key!)
+/* Define the SECONDLAYOUT (and CURLMOD) constant(s) to choose the layer1 switch layout:
+ * 0  : Unmodded QWERTY is the default; otherwise:
+ * 1  : QWERTY with any ergo mods (AngleWide etc)
+ * 2-#: Colemak (if you want something else, replace it in the code between the 'REPLACE THE SECOND LAYOUT...' lines)
+ * 3-#: Colemak Mirrored as second layout for one-handed typing (needs an accessible switch key!)
  *      NOTE: The "FPau" key is a layer1 toggle or switch (edit it below), normally used on the Pause key.
  *            You may replace, e.g., the LAlt/"FnLA" or RWin/"RGUI" key with "FPau" in your active layout.
  */
-#define SECONDLAYOUT 5
+#define SECONDLAYOUT 0
 
 /* The CURLMOD options for Colemak and Tarmak layouts are:
  * 0: No Curl - vanilla Colemak/Tarmak
@@ -157,7 +155,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define DREYMASTERKEY
 #ifdef DREYMASTERKEY
 # define ACTIVELAYOUT 5
-//# define SECONDLAYOUT 6
+# define SECONDLAYOUT 0
 # define CURLMOD 1
 # define EXTENDMODE 1
 # define CAPSBEHAVIOR 1
@@ -168,7 +166,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif /* ifdef DREYMASTERKEY */
 
 /* TODO for DreymaR:
- * - Make all Extend definitions and modifiers work (extra layers for Alt+Caps etc)
+ * - Make the advanced LAlt/RAlt/Caps Extend modifiers work as planned
+ * - One or two more Extend layers?
+ * - Turn the ScrollLock LED on when the second layout is active?
  */
 
 /* ***** DECLARATIONS *********************************************************************************************** */
@@ -243,7 +243,7 @@ enum macro_id {
 
 #if SLCKBEHAVIOR == 1
 # define AC_FSLk ACTION_LAYER_TOGGLE(1)              // FSLk as layer1 toggle
-#elif PAUSBEHAVIOR == 2
+#elif SLCKBEHAVIOR == 2
 # define AC_FSLk ACTION_LAYER_MOMENTARY(1)           // FSLk as layer1 switch (e.g., for mirrored typing)
 #else
 # define AC_FSLk ACTION_KEY(KC_SLCK)                 // FSLk (ScrollLock key) unchanged
@@ -436,7 +436,7 @@ enum macro_id {
      * `-----------------------------------------------------------'     */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
-    /* Tarmak4-Curl(DH) - Transitional Colemak-Curl (ETRO)            */
+    /* Tarmak4-Curl(DH) - Transitional Colemak-Curl (ETRO)               */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -455,7 +455,7 @@ enum macro_id {
     /* Colemak */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if CURLMOD == 1
-    /* Colemak-Curl(DH). Use with an Angle or Angle(Wide) ergo mod; see the INIT section!
+    /* Colemak-Curl(DH). Use with an CurlAngle or CurlAngleWide ergo mod; see the INIT section!
      * http://forum.colemak.com/viewtopic.php?id=1438
      * (Shown here with the ANSI Angle(Z) mod; keymap ANAXCDVZ selects this variant)
      * ,-----------------------------------------------------------.
@@ -481,7 +481,7 @@ enum macro_id {
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif CURLMOD == 2
-    /* Colemak-Curl(DHm for matrix boards). Use with a CurlAngle(Wide) ergo mod! */
+    /* Colemak-Curl(old DHm variant). Use with a CurlAngle(Wide) ergo mod!     */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -567,7 +567,7 @@ enum macro_id {
     ),    /* <-- Layer 0: Default Layout */
 
 /* Layer 1: Second/Switch Layout (see below for replacing it with your any layer0 layout or your own) */
-#if ACTIVELAYOUT == 5 && SECONDLAYOUT == 6
+#if SECONDLAYOUT == 3
 /* NOTE: This is the special case of using Colemak(Curl-DH) as the first, and Mirrored Colemak as the second layout. */
     /* Mirrored Colemak (used as switch layout for one-handed typing)
      * http://forum.colemak.com/viewtopic.php?id=1438
@@ -603,35 +603,33 @@ enum macro_id {
     FQuo   ,  O ,  I ,  E ,  N ,  H ,  D ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  M ,  K ,  B ,  V ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # endif /* if CURLMOD */
-
+// NOTE: Optionally, the bottom/modifier line may also be mirrored. Comment/uncomment the lines below for this.
+//       If using such a modifier as your Mirror switch, beware: The layer switch key should be the same in both layers.
+//    FRCt ,RGUI,FnRA,MHEN,         SPC          ,HENK,KANA,FnLA,LGUI,APP , LCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+    LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
 #else
-/* REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED - taking care to include all necessary lines once! --> */
-#if ACTIVELAYOUT == 0
-/* If QWERTY is the active layout, set SECONDLAYOUT to 1 for Tarmak1 as switch layout; otherwise it'll be Colemak */
+/* Set SECONDLAYOUT to 1 for QWERTY or 2 for Colemak/custom as switch layout; otherwise it'll be unmodded QWERTY */
+# if SECONDLAYOUT == 1
+    /* QWERTY – as above                                                       */
     [1] = UNIMAP_AWIZXCBV(
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
-# if SECONDLAYOUT == 1
-    /* Tarmak1 - Transitional Colemak (E) – as above                           */
-#  if CURLMOD == 1
-    /* Tarmak1-Curl(Hmk) - Transitional Colemak-Curl (E)                       */
-    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
-# else
-    FTab  ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
-#  endif /* if CURLMOD */
-# else
+    FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+# elif SECONDLAYOUT == 2
+/* --> REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED - taking care to include all necessary lines once!    */
     /* Colemak - as above                                                      */
+    [1] = UNIMAP_AWIZXCBV(
+    ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
+    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 #  if CURLMOD == 1
-    /* Colemak-Curl(DH). Use with an Angle or Angle(Wide) ergo mod; see the INIT section! */
+    /* Colemak-Curl(DH). Use with an CurlAngle or CurlAngleWide ergo mod!      */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  elif CURLMOD == 2
-    /* Colemak-Curl(DHm for matrix boards). Use with an Angle(Wide) ergo mod! */
+    /* Colemak-Curl(old DHm variant). Use with a CurlAngle(Wide) ergo mod!     */
     FTab  ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,LBRC,FRbr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -641,9 +639,9 @@ enum macro_id {
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  endif /* if CURLMOD */
-# endif /* if SECONDLAYOUT */
-#else
-    /* Plain QWERTY - non-CurlAngleWide-modded and w/o DreymarHack, to reflect the key caps of a standard keyboard. */
+/* <-- REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED                                                       */
+# else
+    /* Plain QWERTY - without CurlAngleWide or DreymarHack, to reflect the key caps of a standard keyboard. */
 //    [1] = UNIMAP_AWIZXCBV(
     [1] = UNIMAP_MINIMALL(
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
@@ -651,10 +649,9 @@ enum macro_id {
     FTab  ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,NUBS,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,SLSH, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
-#endif /* if ACTIVELAYOUT == 0 (QWERTY) */
-#endif /* if Colemak+Colemak-Mirrored */
-/* <-- REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED */
+# endif /* if SECONDLAYOUT */
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
+#endif /* if Colemak-Mirrored */
     ),    /* <-- Layer 1: Second/Switch Layout */
 
 #if EXTENDMODE > 0
