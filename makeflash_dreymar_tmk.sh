@@ -5,7 +5,7 @@
 ## ===            by Øystein Bech "DreymaR" Gadmar, 2016-              ===
 ## =======================================================================
 
-HeadStr="DreymaR's Big Bag Of Tricks for TMK controllers (by GadOE, 2017-01)"
+HeadStr="DreymaR's Big Bag Of Tricks for TMK controllers (by GadOE, 2018-01)"
 DescStr=\
 "Shell script to make a .hex file for a USB-USB converter device\n"\
 "  or other TMK-compatible keyboard translator microcontroller\n"\
@@ -282,7 +282,7 @@ if [ ${BldHex} == 'yes' ]; then
     [ -d "obj_${Target}" ] && MyCleaner \
         || MyPoint "Cleanup not needed (found no 'obj_${Target}' dir)"
     MyPoint "Running 'make KEYMAP=${KeyMap}' to create '${Target}.hex':"
-    MyWarning "This may take a while! ;-)"
+    MyWarning "This may take a while!"
     make -f ${MkeFil} KEYMAP=$KeyMap >${LogTo} \
         && MyPoint "Make KEYMAP=${KeyMap} done.${MyLogTxt}" || MyError "Make failed"
     [ -n "${MyLog}" ] && tail --lines=7 "${MyLog}" | head --lines=5

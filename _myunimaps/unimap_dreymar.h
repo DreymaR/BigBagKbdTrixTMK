@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*
- * 2016 Øystein "DreymaR" Gadmar: AngleWide ergonomic keyboard mods as keymap types
+ * 2016- Øystein "DreymaR" Gadmar: AngleWide ergonomic keyboard mods as keymap types
  * See the Colemak Forum (DreymaR's Big Bag of Keyboard Tricks) for info
  * http://forum.colemak.com/viewtopic.php?id=2158
  */
@@ -73,8 +73,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * `-----------------------------------------------------------' `-----------' `---------------'
  */
 
- 
+
 /* ***** CONFIG ******************************************************************************************************** */
+/* ***** Utility function declarations (I may apply for these to become TMK standard) ***** */
+void type_code( uint8_t key1 );
+void dual_code( uint8_t key1, uint8_t key2 );
+/* TODO: Determine whether these functions should be TMK standard. Or is it as good to #define them for my use? */
+//#define type_code(key1)         register_code(key1);                  unregister_code(key1)
+//#define dual_code(key1,key2)    register_code(key1); type_code(key2); unregister_code(key1)
+void type_code( uint8_t key1 ) {
+    register_code(key1);
+    unregister_code(key1);
+}
+
+void dual_code( uint8_t key1, uint8_t key2 ) {
+    register_code(key1);
+    type_code(key2);
+    unregister_code(key1);
+}
+
+/* ***** Utility macro declarations (I will apply for these to become TMK standard) ***** */
+/* Macro definitions for typing modified keys more easily in TMK macros                                               */
+/*      - Example: Ctrl+Alt+[Shift+]<key> can be entered with CTL_( ALT_( [S]T(key) ))                                */
+/*      - AGR_ is for RAlt/AltGr input, useful with international system layouts.                                     */
+#define ST(key)    D(LSFT),   T(key),    U(LSFT)
+#define SFT_(...)  D(LSFT), __VA_ARGS__, U(LSFT)
+#define CTL_(...)  D(LCTL), __VA_ARGS__, U(LCTL)
+#define ALT_(...)  D(LALT), __VA_ARGS__, U(LALT)
+#define AGR_(...)  D(RALT), __VA_ARGS__, U(RALT)
+/* Unicode macro for XOrg : #define UNI_(d1,d2,d3,d4)  CTL_( ST(U) ), T(d1), T(d2), T(d3), T(d4), T(ENT)              */
+/* Unicode macro for MacOS: #define UNI_(d1,d2,d3,d4)  ALT_( T(d1), T(d2), T(d3), T(d4) )                             */
+/* Unicode macro for Win  : #define UNI_(d1,d2,d3,d4)  ALT_( T(P##d1), T(P##d2), T(P##d3), T(P##d4) )                 */
+#define UNI_(d1,d2,d3,d4)  ALT_( T(P##d1), T(P##d2), T(P##d3), T(P##d4) )
+
 /* NOTE: This section (re)defines parts of the controller/converter's local config.h file. The compiler may complain. */
 /* Period of tapping (ms) - the max duration a key may be held down to register as tapped */
 #define TAPPING_TERM    300
@@ -107,7 +138,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*  LSFT ,NUBS,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,SLSH, RO ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
 /*  LCTL ,LGUI,LALT,MHEN,         SPC          ,HENK,KANA,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_MINIMALL( \
+#define UNIMAP_UNMODDED( \
     ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
@@ -323,12 +354,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* NOTE: I used KEYMAP_ALL before, but have switched to the more universal Unimap.
  *       - To convert from USB-USB KEYMAP_ALL to UNIMAP, remove the rare right-hand block, PWR and HAEN/HANJ.
- *       - Some key codes are different, but that doesn't matter (unless you mix formats in one macro).
+ *       - Some key tokens are different, but that doesn't matter (unless you mix formats in one macro).
  *       - All rare right-hand block keys [HELP/STOP/AGIN/MENU/UNDO/SLCT/COPY/EXEC/PSTE/FIND/CUT] are gone in Unimap
  *       - [PWR] K66 gone but [PCMM] K85 -> K66; [VOLD/VOLU/MUTE] K81/K80/K7F -> K01/K02/K03
  *       - [LCTL/LSFT/LALT/LGUI/RCTL/RSFT/RALT/RGUI] KE0/KE1/KE2/KE3/KE4/KE5/KE6/KE7 -> K78/K79/K7A/K7B/K7C/K7D/K7E/K7F
  *       - [HAEN/HANJ] K90/K91 (Korean) gone; [RO/KANA/JYEN/HENK/MHEN] K87/K88/K89/K8A/K8B -> K75/K00/K74/K76/K77
- *       - Koreans special keys are missing in Unimap. Koreans could redefine, say, two of the Japanese keys to these?
+ *       - Korean special keys are missing in Unimap. Koreans could redefine, say, two of the Japanese keys to these?
  * DONE: In 2016-10, Hasu switched KP Enter and KP Equals (the equals is now below Enter) for Unimap.
  */
 
