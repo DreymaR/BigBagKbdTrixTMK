@@ -202,23 +202,19 @@ enum isoadaptations {
 # define ISOANSIADAPT   2   /* ISOA_FOURLVLUNI  */
 #endif /* ifdef DREYMASTERKEY */
 
+/* DONE by DreymaR:
+ *  - Made a FOURLVL user function that allows locale letter input with RAlt/AltGr on a few keys.
+ *      - It uses an OS specific input method selected by #define.
+ *  - Made tmk_core ST(), MOD_() and UNI#_() #define functions for macros, simplifying typing and unicode input (by OS).
+ *  - Made a tmk_core type_code() function, so typing (registering/unregistering) key codes is easy and clear.
+ */
+
 /* TODO for DreymaR:
  * - Make the advanced LAlt/RAlt/Caps Extend modifiers work as planned. Make a user function for the main Ext modifier?
  *      - Like FOURLVL, it'd check the state of the ALT mod bits. Then switch layer. Release would clear mods & return.
  *      - The current ExtendModes wouldn't play well with this. Suggest hard-swapping (in .h) Caps and Alt keys instead.
  * - One or two more Extend layers? Memory permitting.
  * - Turn the ScrollLock LED on when the second layout is active?
- * - Suggest the typing function/macro solutions as a future standard for TMK.
- * - [DONE] Make a user function for locale letter input
- *      - With it, I can run an US layout and still get locale special letters on my work computer.
- *      - These are OS specific (Win: Alt+NumPad). Workaround: #define them with a solution for each OS.
- *      - Make a ALT_(key) AltCode compiler macro that takes a value like, e.g., s(key) does, and Alt+NumPads it?
- *      - Could I use, e.g., A(å), with a macro defined for å (å/Å=0229/0197, æ/Æ=0230/0198, ø/Ø=0248/0216)?
- *      - E.g., #define UNI_(a,b,c,d) ACTION_MODS_KEY(MOD_LALT, KC_Pa) etc. ? (See my comments in the Macro section!)
- *          #define å 0,2,2,9 etc ? Or #define å KC_P0,KC_P2,KC_P2,KC_P9 etc ?
- *      - Problem: Requires an AltGr+Shift aware macro! Could I make one key&shift aware macro for all 2*3 strings?
- *      - Is it possible to use the macro's record->event.key value to determine what goes on? How?
- *      - Likely, I need a user function to detect AltGr/Shift, with an array for sending four digits.
  */
 
 /* ***** DECLARATIONS ************************************************************************************************* */
@@ -787,14 +783,6 @@ enum macro_id {
 /* ***** FUNCTIONS/MACROS ********************************************************************************************* */
 
 /* *******  User function and macro definitions -->                     ******* */
-
-/* Hasu on making a 4-shiftstate user function (https://github.com/tmk/tmk_keyboard/issues/506):                        */
-/* You can get an 8-bit representation of the current modifier state by get_mods() and get_weak_mods().                 */
-/*     - #include tmk_keyboard/tmk_core/common/action_util.h (see line 37 in 5132607: 'uint8_t get_mods(void);')        */
-/*     - Bit 0/1/2/3 4/5/6/7 = LCTRL/LSHIFT/LALT/LGUI RCTRL/RSHIFT/RALT/RGUI                                            */
-
-/* Extra includes/definitions for FOURLVL user function: */
-#include "action_util.h"
 
 /* UNICODEHEADER and UNICODEFOOTER handle OS dependency in the FOURLVL user function.                                   */
 /* For XOrg,    Unicode 4-digit hex input uses Ctrl+Shift+u, ####, Enter.                                               *

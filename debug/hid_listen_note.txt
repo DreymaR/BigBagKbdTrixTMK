@@ -1,0 +1,24 @@
+https://github.com/tmk/tmk_keyboard/wiki#debug
+https://github.com/tmk/tmk_keyboard/wiki/FAQ#debug-console
+https://www.pjrc.com/teensy/hid_listen.html
+
+Hasu:
+I'd strongly recommend you have debug console as long as flash size allows while writing code at least. Example:
+xprintf("%02X %02X\n", get_mods(), get_weak_mods());
+
+The HID Listen Program
+Update: This page only applies to Teensy 2.0. Teensy 3.0 is supported by Teensyduino. To use Teensy 3.0 without Arduino, first install Teensyduino. A sample makefile is installed in hardware/teensy/cores/teensy3. The makefile comments explain how to detete the unnecessary portions of Arduino, if you wish to use only the makefile.
+
+Download HID Listen
+No driver installation is required. All major operating systems have the USB HID drivers built in.
+
+Macintosh OS X 10.5
+Just run the hid_listen.mac program in Terminal. You may need to give the file execute permission with the "chmod" command before you can run it.
+
+Linux
+On Ubuntu Linux, the /dev/hidraw device files are not readable by default for normal users. You could create a custom udev rule, or simply run hid_listen with sudo.
+
+Update, Jan 1, 2011: The 32 bit linux binary does not work on 64 bit linux systems (2.6.32 tested), likely because of missing hidraw 32 bit ioctl support (HIDIOCGDEVINFO, HIDIOCGVERSION, HIDIOCAPPLICATION). Future kernels may fix this. Until then, hid_listen must be recompiled from the source to work on 64 bit linux.
+
+Windows XP & Vista
+On Windows, simply double click the hid_listen.exe program. Windows will automatically launch the command prompt and run hid_listen in it. 

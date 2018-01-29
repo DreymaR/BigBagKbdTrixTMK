@@ -126,7 +126,7 @@ MyFindValue() {
     ## (at the end of the first found line starting with '<$1>')
     local Detected
     for file in ${2}; do
-        Detected=$(less "${file}" | awk "/^${1}/ "'{print $NF}' 2>&1)
+        Detected=$(less "${file}" | awk "/^${1}/ "'{gsub(/\r$/,""); print $NF}' 2>&1)
         #echo "Detected: '$Detected'" >&2
         [ -n "${Detected}" ] && break
     done
@@ -251,7 +251,7 @@ if [ -z "${MyChip}" ]; then
     FindIt=`MyFindValue 'MCU [\?]?=' "${Makefiles}"`     ; MyChip=${FindIt:-$MyChipDef}
 fi
 MyPoint "Chip name used: ${MyChip}"
-#MyError "DEBUG! FindIt=${FindIt}, Target=${Target}, MyChip=${MyChip}, Makefiles=${Makefiles}"
+#MyError "DEBUG! FindIt='${FindIt}', Target='${Target}'"
 
 ## Build .hex file using make. If using unimap, create links to common files as necessary.
 ## Also cleanup before build and, if .hex file is backed up, ask to cleanup after build.

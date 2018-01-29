@@ -75,36 +75,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /* ***** CONFIG ******************************************************************************************************** */
-/* ***** Utility function declarations (I may apply for these to become TMK standard) ***** */
-void type_code( uint8_t key1 );
-void dual_code( uint8_t key1, uint8_t key2 );
-/* TODO: Determine whether these functions should be TMK standard. Or is it as good to #define them for my use? */
-//#define type_code(key1)         register_code(key1);                  unregister_code(key1)
-//#define dual_code(key1,key2)    register_code(key1); type_code(key2); unregister_code(key1)
-void type_code( uint8_t key1 ) {
-    register_code(key1);
-    unregister_code(key1);
-}
-
-void dual_code( uint8_t key1, uint8_t key2 ) {
-    register_code(key1);
-    type_code(key2);
-    unregister_code(key1);
-}
-
-/* ***** Utility macro declarations (I will apply for these to become TMK standard) ***** */
-/* Macro definitions for typing modified keys more easily in TMK macros                                               */
-/*      - Example: Ctrl+Alt+[Shift+]<key> can be entered with CTL_( ALT_( [S]T(key) ))                                */
-/*      - AGR_ is for RAlt/AltGr input, useful with international system layouts.                                     */
-#define ST(key)    D(LSFT),   T(key),    U(LSFT)
-#define SFT_(...)  D(LSFT), __VA_ARGS__, U(LSFT)
-#define CTL_(...)  D(LCTL), __VA_ARGS__, U(LCTL)
-#define ALT_(...)  D(LALT), __VA_ARGS__, U(LALT)
-#define AGR_(...)  D(RALT), __VA_ARGS__, U(RALT)
-/* Unicode macro for XOrg : #define UNI_(d1,d2,d3,d4)  CTL_( ST(U) ), T(d1), T(d2), T(d3), T(d4), T(ENT)              */
-/* Unicode macro for MacOS: #define UNI_(d1,d2,d3,d4)  ALT_( T(d1), T(d2), T(d3), T(d4) )                             */
-/* Unicode macro for Win  : #define UNI_(d1,d2,d3,d4)  ALT_( T(P##d1), T(P##d2), T(P##d3), T(P##d4) )                 */
-#define UNI_(d1,d2,d3,d4)  ALT_( T(P##d1), T(P##d2), T(P##d3), T(P##d4) )
+/* ***** Extra includes/definitions                                                         ***** */
+/* For the FourLvl user function, action_util.h is needed: */
+#include "action_util.h"
 
 /* NOTE: This section (re)defines parts of the controller/converter's local config.h file. The compiler may complain. */
 /* Period of tapping (ms) - the max duration a key may be held down to register as tapped */
