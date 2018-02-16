@@ -35,7 +35,8 @@ MClean='no'                       # (-c) Just make clean (to remove all generate
 InsAVR='no'                       # (-a) Install required AVR tools, then quit?
 InsTMK='no'                       # (-g) Install TMK_keyboard from GitHub, then quit?
 MyChipDef='atmega32u4'            # (-n) Device name (for DFU-programmer only; may be detected instead)
-TargetDef='tmk_makeflash'         # (-t) Name of resulting .hex file (may be detected in the Makefile)
+TargetDef='tmk_makeflash'         # (-t) Name of resulting .hex file (may be detected in a Makefile)
+ConsEnabl='no'                    # (--) Value of CONSOLE_ENABLE ('no' saves memory; 'yes' for debug)
 KeyMap='dreymar'                  # (--) Layout file to use, "keymap_${KeyMap}.c"
 ## NOTE: '# (-a)' means that the value can be set by option argument '-a <value>'
 ## NOTE: To use the keymap.c file with this script, copy/rename it to, e.g., keymap_all.c first
@@ -226,12 +227,11 @@ MyCleaner()
 {
     #MyLog=''; LogTo='/dev/stdout'; MyLogTxt=''
     #MyLog='make_clean_log.txt'; LogTo="${MyLog}"; MyLogTxt=" Output in '${MyLog}'"
-    MyLog=''; LogTo='/dev/null'; MyLogTxt=''
     MyPoint "Running ${MkeFil} clean to remove build files:" >&2
     MyWarning "This may take a little while! ;-)" >&2
     rm make_*_log.txt &>/dev/null
-    make -f ${MkeFil} clean >${LogTo} \
-        && MyPoint "Make clean done.${MyLogTxt}" >&2 || MyError "Make clean failed" >&2
+    make -f ${MkeFil} clean >/dev/null \
+        && MyPoint "Make clean done." >&2 || MyError "Make clean failed" >&2
 }
 
 if [ ${MClean} == 'yes' ]; then
@@ -281,9 +281,9 @@ if [ ${BldHex} == 'yes' ]; then
     fi
     [ -d "obj_${Target}" ] && MyCleaner \
         || MyPoint "Cleanup not needed (found no 'obj_${Target}' dir)"
-    MyPoint "Running 'make KEYMAP=${KeyMap}' to create '${Target}.hex':"
+    MyPoint "Running 'make KEYMAP=${KeyMap} CONSOLE_ENABLE=${ConsEnabl}' to create '${Target}.hex':"
     MyWarning "This may take a while!"
-    make -f ${MkeFil} KEYMAP=$KeyMap >${LogTo} \
+    make -f ${MkeFil} KEYMAP=$KeyMap  CONSOLE_ENABLE=$ConsEnabl >${LogTo} \
         && MyPoint "Make KEYMAP=${KeyMap} done.${MyLogTxt}" || MyError "Make failed"
     [ -n "${MyLog}" ] && tail --lines=7 "${MyLog}" | head --lines=5
     MyPoint "Looking for backup dir '${MyHxBk}'..."

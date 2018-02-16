@@ -76,8 +76,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* ***** CONFIG ******************************************************************************************************** */
 /* ***** Extra includes/definitions                                                         ***** */
-/* For the FourLvl user function, action_util.h is needed: */
-#include "action_util.h"
+#include "action_util.h"                            /* For the FourLvlU user function */
+#include "action_layer.h"                           /* For the Extender user function */
 
 /* NOTE: This section (re)defines parts of the controller/converter's local config.h file. The compiler may complain. */
 /* Period of tapping (ms) - the max duration a key may be held down to register as tapped */
@@ -103,8 +103,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define UNIMAP_DREYMAR_H
 
 /* ------------------------------------------------------------------------------ # UNIMAP (with plain QWERTY)    # ---- */
-/*           F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                          */
-/*  ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
+/*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
 /*  CAPS   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT ,                      P4 , P5 , P6 ,PCMM, */
@@ -112,217 +111,207 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*  LCTL ,LGUI,LALT,MHEN,         SPC          ,HENK,KANA,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
 /* --------------------------------------------------------------------------------------------------------------------- */
 #define UNIMAP_UNMODDED( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
 /* ------------------------------------------------------------------------------ # ANIZXCVB - Angle-ISO ergo mod # ---- */
-/*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
-/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
-/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
-/*  FN1    ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT ,                      P4 , P5 , P6 , -- , */
-/*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
-/*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT, --   */
+/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC                                           */
+/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS                                           */
+/*  FN1    ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT                                            */
+/*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
 #define UNIMAP_ANIZXCVB( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,LSGT,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,L0LG,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 /* ------------------------------------------------------------------------------ # ANIZXCBV - Angle-ISO ergo mod # ---- */
 /* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
 #define UNIMAP_ANIZXCBV( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,L1_Z,L2_X,L3_C,L5_B,L4_V,LSGT,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L1_Z,L2_X,L3_C,L5_B,L4_V,L0LG,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
 /* ------------------------------------------------------------------------------ # AWIZXCVB - AngleWide(/) ergo  # ---- */
-/*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
-/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
-/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,SLSH,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
-/*  FN1    ,  A ,  S ,  D ,  F ,  G ,RBRC,  H ,  J ,  K ,  L ,SCLN,QUOT,  ENT ,                      P4 , P5 , P6 , -- , */
-/*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,NUHS,  N ,  M ,COMM,DOT , -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
-/*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT, --   */
+/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC                                           */
+/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,SLSH,   BSLS                                           */
+/*  FN1    ,  A ,  S ,  D ,  F ,  G ,RBRC,  H ,  J ,  K ,  L ,SCLN,QUOT,  ENT                                            */
+/*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,NUHS,  N ,  M ,COMM,DOT , -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
 #define UNIMAP_AWIZXCVB( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NCEQ,N7_7,N8_8,N9_9,NA_0,NBMN,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UBLB,U6_Y,U7_U,U8_I,U9_O,UA_P,LASL,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UCRB,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,LSGT,HCHS,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NcEQ,N7_7,N8_8,N9_9,Na_0,NbMN,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UbLB,U6_Y,U7_U,U8_I,U9_O,Ua_P,LaSL,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UcRB,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,L0LG,HcHS,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 /* ------------------------------------------------------------------------------ # AWIZXCBV - AngleWide(/) ergo  # ---- */
 /* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
 #define UNIMAP_AWIZXCBV( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NCEQ,N7_7,N8_8,N9_9,NA_0,NBMN,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UBLB,U6_Y,U7_U,U8_I,U9_O,UA_P,LASL,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UCRB,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,L1_Z,L2_X,L3_C,L5_B,L4_V,LSGT,HCHS,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NcEQ,N7_7,N8_8,N9_9,Na_0,NbMN,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UbLB,U6_Y,U7_U,U8_I,U9_O,Ua_P,LaSL,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UcRB,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L1_Z,L2_X,L3_C,L5_B,L4_V,L0LG,HcHS,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
 /* ------------------------------------------------------------------------------ # ANAXCVBZ - ANSI Angle-Z ergo  # ---- */
-/*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
-/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
-/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
-/*  FN1    ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT ,                      P4 , P5 , P6 ,PCMM, */
-/*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
-/*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
+/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC                                           */
+/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS                                           */
+/*  FN1    ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT                                            */
+/*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
 #define UNIMAP_ANAXCVBZ( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L2_X,L3_C,L4_V,L5_B,L1_Z,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L2_X,L3_C,L4_V,L5_B,L1_Z,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 /* ------------------------------------------------------------------------------ # ANAXCBVZ - ANSI Angle-Z ergo  # ---- */
 /* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
 #define UNIMAP_ANAXCBVZ( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L2_X,L3_C,L5_B,L4_V,L1_Z,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L2_X,L3_C,L5_B,L4_V,L1_Z,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
 /* ------------------------------------------------------------------------------ # AWAXCVBZ - ANSI AngleWide(Z') # ---- */
-/*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
-/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
-/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
-/*  FN1    ,  A ,  S ,  D ,  F ,  G ,RBRC,  H ,  J ,  K ,  L ,SCLN,NUHS,  ENT ,                      P4 , P5 , P6 ,PCMM, */
-/*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
-/*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
+/*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC                                           */
+/*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS                                           */
+/*  FN1    ,  A ,  S ,  D ,  F ,  G ,RBRC,  H ,  J ,  K ,  L ,SCLN,NUHS,  ENT                                            */
+/*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
 #define UNIMAP_AWAXCVBZ( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NCEQ,N7_7,N8_8,N9_9,NA_0,NBMN,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UBLB,U6_Y,U7_U,U8_I,U9_O,UA_P,HBQU,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UCRB,H6_H,H7_J,H8_K,H9_L,HASC,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L2_X,L3_C,L4_V,L5_B,L1_Z,LASL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NcEQ,N7_7,N8_8,N9_9,Na_0,NbMN,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UbLB,U6_Y,U7_U,U8_I,U9_O,Ua_P,HbQU,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UcRB,H6_H,H7_J,H8_K,H9_L,HaSC,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L2_X,L3_C,L4_V,L5_B,L1_Z,LaSL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 /* ------------------------------------------------------------------------------ # AWAXCBVZ - ANSI AngleWide(Z') # ---- */
 /* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
 #define UNIMAP_AWAXCBVZ( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NCEQ,N7_7,N8_8,N9_9,NA_0,NBMN,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UBLB,U6_Y,U7_U,U8_I,U9_O,UA_P,HBQU,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UCRB,H6_H,H7_J,H8_K,H9_L,HASC,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L2_X,L3_C,L5_B,L4_V,L1_Z,LASL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,NcEQ,N7_7,N8_8,N9_9,Na_0,NbMN,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UbLB,U6_Y,U7_U,U8_I,U9_O,Ua_P,HbQU,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UcRB,H6_H,H7_J,H8_K,H9_L,HaSC,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L2_X,L3_C,L5_B,L4_V,L1_Z,LaSL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
 /* ------------------------------------------------------------------------------ # ANAAWING - ANSI A-Wing ergo   # ---- */
-/*  ESC ,      F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,        PSCR,SLCK,PAUS,        VOLD,VOLU,MUTE, */
-/*  GRV ,EQL ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS, */
-/*  TAB   ,LBRC,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS, */
-/*  FN1    ,RBRC,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,NUHS,  ENT ,                      P4 , P5 , P6 ,PCMM, */
-/*  LSFT ,NUBS,  Z ,  X ,  C ,  V ,  B ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT,         UP ,         P1 , P2 , P3 ,PENT, */
-/*  LCTL ,LGUI,LALT, -- ,         SPC          , -- , -- ,RALT,RGUI,APP , RCTL,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL  */
+/*  GRV ,EQL ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC                                           */
+/*  TAB   ,LBRC,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS                                           */
+/*  FN1    ,RBRC,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,NUHS,  ENT                                            */
+/*  LSFT ,NUBS,  Z ,  X ,  C ,  V ,  B ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
 #define UNIMAP_ANAAWING( \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,NCEQ,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,UBLB,UCRB,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HBQU,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LASL,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 ) UNIMAP( \
              F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
-    ESC_,    FK01,FK02,FK03,FK04,   FK05,FK06,FK07,FK08,   FK09,FK10,FK11,FK12,   PRSC,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
-    TLDE,NCEQ,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,NA_0,NBMN,JYEN,BKSP,   INS_,HOME,PGUP,   NMLK,KPDV,KPMU,KPMN,  \
-    TAB_  ,UBLB,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,UA_P,HBQU,   BKSL,   DEL_,END_,PGDN,   KP_7,KP_8,KP_9,KPAD,  \
-    CAPS   ,UCRB,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HASC,HCHS,  RTRN,                     KP_4,KP_5,KP_6,KPCM,  \
-    LSFT ,LSGT,L1_Z,L2_X,L3_C,L4_V,L5_B,LASL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        KP_1,KP_2,KP_3,KPEN,  \
-    LCTL ,LWIN,LALT,JMHE,         SPCE         ,JHEN,JKAN,RALT,RWIN,MENU, RCTL,   LEFT,DOWN,RGHT,   KP_0     ,KPDT,KPEQ   \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,NcEQ,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,UbLB,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,HbQU,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,UcRB,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,LaSL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
 /* NOTE: I used KEYMAP_ALL before, but have switched to the more universal Unimap.
