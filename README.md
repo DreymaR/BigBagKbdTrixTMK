@@ -34,7 +34,7 @@ Also, obviously the [main TMK GitHub repo][TMKG].
 
 
 _Happy TMK hacking!_
-_DreymaR, 2017-02_
+_DreymaR, 2020-11_
 
 ___
 <a name="QICO" title="QWERTY USB Input, Colemak Key Input Emulated">¤</a>: **Q**WERTY **U**SB **I**nput, **C**olemak **K**ey **I**nput **E**mulated (my pet name for USB converters like [Hasu's][HU2U]).

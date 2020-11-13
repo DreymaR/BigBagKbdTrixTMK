@@ -127,13 +127,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
-/* ------------------------------------------------------------------------------ # ANIZXCVB - Angle-ISO ergo mod # ---- */
+/* ------------------------------------------------------------------------------ # ISO__A__ - Angle-ISO ergo mod # ---- */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC                                           */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS                                           */
 /*  FN1    ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT                                            */
 /*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_ANIZXCVB( \
+#define UNIMAP_ISO__A__( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -149,9 +149,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,L0LG,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
-/* ------------------------------------------------------------------------------ # ANIZXCBV - Angle-ISO ergo mod # ---- */
-/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
-#define UNIMAP_ANIZXCBV( \
+/* ------------------------------------------------------------------------------ # ISO_CA__ - Angle-ISO ergo mod # ---- */
+/* ------------------------------------------------------------------------------ # VB -> BV for Colemak Curl(DH) # ---- */
+#define UNIMAP_ISO_CA__( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -168,13 +168,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
-/* ------------------------------------------------------------------------------ # AWIZXCVB - AngleWide(/) ergo  # ---- */
+/* ------------------------------------------------------------------------------ # ISO__AW_ - AngleWide(/) ergo  # ---- */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC                                           */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,SLSH,   BSLS                                           */
 /*  FN1    ,  A ,  S ,  D ,  F ,  G ,RBRC,  H ,  J ,  K ,  L ,SCLN,QUOT,  ENT                                            */
 /*  LSFT ,  Z ,  X ,  C ,  V ,  B ,NUBS,NUHS,  N ,  M ,COMM,DOT , -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_AWIZXCVB( \
+#define UNIMAP_ISO__AW_( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -190,9 +190,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,L1_Z,L2_X,L3_C,L4_V,L5_B,L0LG,HcHS,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
-/* ------------------------------------------------------------------------------ # AWIZXCBV - AngleWide(/) ergo  # ---- */
-/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
-#define UNIMAP_AWIZXCBV( \
+/* ------------------------------------------------------------------------------ # ISO_CAW_ - AngleWide(/) ergo  # ---- */
+/* ------------------------------------------------------------------------------ # VB -> BV for Colemak Curl(DH) # ---- */
+#define UNIMAP_ISO_CAW_( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -209,13 +209,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
-/* ------------------------------------------------------------------------------ # ANAXCVBZ - ANSI Angle-Z ergo  # ---- */
+/* ------------------------------------------------------------------------------ # ISO_CAWS - CurlAngleWideSym   # ---- */
+#define UNIMAP_ISO_CAWS( \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,H6_H,H7_J,H8_K,H9_L,HaSC,HbQU,HcHS,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L0LG,L1_Z,L2_X,L3_C,L4_V,L5_B,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
+) UNIMAP( \
+             F13 ,F14 ,F15 ,F16 ,   F17 ,F18 ,F19 ,F20 ,   F21 ,F22 ,F23 ,F24 ,                                           \
+    ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
+    GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,HcHS,N7_7,N8_8,N9_9,Na_0,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
+    TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,UbLB,U6_Y,U7_U,U8_I,U9_O,HbQU,NbMN,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
+    CAPS   ,H1_A,H2_S,H3_D,H4_F,H5_G,UcRB,H6_H,H7_J,H8_K,H9_L,HaSC,Ua_P,  ENT_,                     _P4_,_P5_,_P6_,PCMM,  \
+    LSFT ,L1_Z,L2_X,L3_C,L5_B,L4_V,L0LG,LaSL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
+    LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
+)
+
+/* ------------------------------------------------------------------------------ # ANS__A__ - ANSI Angle-Z ergo  # ---- */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL , -- ,BSPC                                           */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,LBRC,RBRC,   BSLS                                           */
 /*  FN1    ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,QUOT,NUHS,  ENT                                            */
 /*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,  N ,  M ,COMM,DOT ,SLSH, -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_ANAXCVBZ( \
+#define UNIMAP_ANS__A__( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -231,9 +249,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,L0LG,L2_X,L3_C,L4_V,L5_B,L1_Z,L6_N,L7_M,L8CM,L9DT,LaSL,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
-/* ------------------------------------------------------------------------------ # ANAXCBVZ - ANSI Angle-Z ergo  # ---- */
-/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
-#define UNIMAP_ANAXCBVZ( \
+/* ------------------------------------------------------------------------------ # ANS_CA__ - ANSI Angle-Z ergo  # ---- */
+/* ------------------------------------------------------------------------------ # VB -> BV for Colemak Curl(DH) # ---- */
+#define UNIMAP_ANS_CA__( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -250,13 +268,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
-/* ------------------------------------------------------------------------------ # AWAXCVBZ - ANSI AngleWide(Z') # ---- */
+/* ------------------------------------------------------------------------------ # ANS__AW_ - ANSI AngleWide(Z') # ---- */
 /*  GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,EQL ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC                                           */
 /*  TAB   ,  Q ,  W ,  E ,  R ,  T ,LBRC,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS                                           */
 /*  FN1    ,  A ,  S ,  D ,  F ,  G ,RBRC,  H ,  J ,  K ,  L ,SCLN,NUHS,  ENT                                            */
 /*  LSFT ,NUBS,  X ,  C ,  V ,  B ,  Z ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_AWAXCVBZ( \
+#define UNIMAP_ANS__AW_( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -272,9 +290,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LSFT ,L0LG,L2_X,L3_C,L4_V,L5_B,L1_Z,LaSL,L6_N,L7_M,L8CM,L9DT,JROM,    RSFT,        _UP_,        _P1_,_P2_,_P3_,PENT,  \
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
-/* ------------------------------------------------------------------------------ # AWAXCBVZ - ANSI AngleWide(Z') # ---- */
-/* ------------------------------------------------------------------------------ # for use with Colemak Curl(DH) # ---- */
-#define UNIMAP_AWAXCBVZ( \
+/* ------------------------------------------------------------------------------ # ANS_CAW_ - ANSI AngleWide(Z') # ---- */
+/* ------------------------------------------------------------------------------ # VB -> BV for Colemak Curl(DH) # ---- */
+#define UNIMAP_ANS_CAW_( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
@@ -291,13 +309,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
-/* ------------------------------------------------------------------------------ # ANAAWING - ANSI A-Wing ergo   # ---- */
+/* ------------------------------------------------------------------------------ # ANSAWING - ANSI A-Wing ergo   # ---- */
 /*  GRV ,EQL ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS, -- ,BSPC                                           */
 /*  TAB   ,LBRC,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,QUOT,   BSLS                                           */
 /*  FN1    ,RBRC,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,SCLN,NUHS,  ENT                                            */
 /*  LSFT ,NUBS,  Z ,  X ,  C ,  V ,  B ,SLSH,  N ,  M ,COMM,DOT , -- ,    RSFT                                           */
 /* --------------------------------------------------------------------------------------------------------------------- */
-#define UNIMAP_ANAAWING( \
+#define UNIMAP_ANSAWING( \
     ESC_,    _F1_,_F2_,_F3_,_F4_,   _F5_,_F6_,_F7_,_F8_,   _F9_,F10_,F11_,F12_,   PSCR,SCLK,PAUS,        VOLD,VOLU,MUTE,  \
     GRV_,N1_1,N2_2,N3_3,N4_4,N5_5,N6_6,N7_7,N8_8,N9_9,Na_0,NbMN,NcEQ,JYEN,BSPC,   INS_,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,  \
     TAB_  ,U1_Q,U2_W,U3_E,U4_R,U5_T,U6_Y,U7_U,U8_I,U9_O,Ua_P,UbLB,UcRB,   BSLS,   DEL_,END_,PGDN,   _P7_,_P8_,_P9_,PPLS,  \
