@@ -12,16 +12,16 @@ DreymaR's Big Bag of Keyboard Tricks
 More info
 ---------
 
-* Run the enclosed MakeFlash script with -h for more help and info.
+* Run the enclosed MakeFlash script with `-h` for more help and info.
 * The MakeFlash script can install the needed AVR tools for Linux, and Git plus TMK before building/flashing.
-* The install switches (-a and -g) can also update existing tools/TMK.
-* If you already have TMK, my dir should be placed within or beside the tmk_keyboard dir.
-* Alternatively, the contents of my dir could be placed directly in the tmk_keyboard dir.
+* The install switches (`-a` and `-g`) can also update existing tools/TMK.
+* If you already have TMK, this dir should be placed within or beside the `tmk_keyboard` dir.
+* Alternatively, the contents of this dir could be placed directly in the `tmk_keyboard` dir.
 * The hexfile folder holds precompiled .hex binaries, most for the USB-2-USB converter; new backups may also go there.
 * The unimaps folder holds universal keymaps suitable for all controllers.
 
 * Hasu's PS/2-USB converter currently uses the ATmega32U2 chip, vs the USB-USB controller's ATmega32U4
-* To compile for the PS/2-USB converter: $> ./makeflash_tmk_dreymar.sh -d converter/ps2_usb/ -m Makefile.unimap.rev2
+* To compile for the PS/2-USB converter: `$> ./makeflash_tmk_dreymar.sh -d converter/ps2_usb/ -m Makefile.unimap.rev2`
 
 
 Links & notes
@@ -38,6 +38,11 @@ _DreymaR, 2020-11_
 
 ___
 <a name="QICO" title="QWERTY USB Input, Colemak Key Input Emulated">¤</a>: **Q**WERTY **U**SB **I**nput, **C**olemak **K**ey **I**nput **E**mulated (my pet name for USB converters like [Hasu's][HU2U]).
+
+TODO:
+-----
+- Port the Forum docs to Markdown and add to this repo
+- How hard would it be to port this to QMK? Would that work for the Hasu device?
 
 [TMKG]: https://github.com/tmk/tmk_keyboard (Hasu's TMK repository on GitHub)
 [DBBU]: http://forum.colemak.com/viewtopic.php?id=2158 (DreymaR's Big Bag of Keyboard Tricks - USB edition)
