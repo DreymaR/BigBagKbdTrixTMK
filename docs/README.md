@@ -3,9 +3,16 @@ DreymaR's Big Bag of Keyboard Tricks for USB/TMK
 
 For general info on the Big Bag of Tricks, consult the [Big Bag pages][BBoT]. <br>
 Select the controller platform icon to make the purple info boxes show relevant info for controllers and USB-2-USB devices.
+
 <br><br>
 
-<br><h2>DREYMAR'S BIG BAG OF TRICKS for QUICKIE USB-2-USB devices</h2>
+---
+
+<br><br>
+
+<h2>DREYMAR'S BIG BAG OF TRICKS for QUICKIE USB-2-USB devices</h2>
+
+Chapters 1–3 correspond to BigBag chapters with links in the table below, while chapter 4 is on this page only.
 
 <i>WARNING - Some Assembly May Be Required (if you want a specific locale/ergo variant for instance)</i>
 
@@ -14,15 +21,15 @@ Select the controller platform icon to make the purple info boxes show relevant 
 <b>[1.2]</b> <b><a href="https://dreymar.colemak.org/layers-extend.html?platform=tmk">Extend layers</a></b> using Caps Lock (and Tab) as switch modifier(s) for navigation/editing/browsing/etc from near the home position<br>
 
 <b>[2]    <ins>Ergonomic Key Remappings</ins></b><br>
-<b>[2.1]</b> <b>Angle/Wide ergo modifications</b> to improve wrist angles, hand spacing and right pinky stretch/load effort<br>
-<b>[2.2]</b> <b>Colemak-DH</b> alias the <b>Curl(DH)</b> ergo mod (deprioritize middle columns without keys changing fingers)<br>
-<b>[2.3]</b> <b>Symbol key mods</b> for the adventurous (better apostrophe and/or hyphen positions)<br>
-<b>[2.4]</b> <b>Modifier modness</b> for the adventurous (Sticky, One-shot etc; Work-In-Progress)<br>
+<b>[2.1]</b> <a href="https://dreymar.colemak.org/ergo-mods.html?platform=tmk#angle-wide"><b>Angle/Wide ergo modifications</b></a> to improve wrist angles, hand spacing and right pinky stretch/load effort<br>
+<b>[2.2]</b> <a href="https://dreymar.colemak.org/ergo-mods.html?platform=tmk#curl-dh"><b>Colemak-DH</b></a> alias the <b>Curl(DH)</b> ergo mod (deprioritize middle columns without keys changing fingers)<br>
+<b>[2.3]</b> <a href="https://dreymar.colemak.org/ergo-mods.html?platform=tmk#symbols"><b>Symbol key mods</b></a> for the adventurous (better apostrophe and/or hyphen positions)<br>
+<b>[2.4]</b> <a href="https://dreymar.colemak.org/ergo-mods.html?platform=tmk#modifiers"><b>Modifier modness</b></a> for the adventurous (Sticky, One-shot etc; Work-In-Progress)<br>
 
 <b>[3]    <ins>Layout Variants</ins></b><br>
 <b>[3.1]</b> <b><a href="https://dreymar.colemak.org/tarmak-intro.html?platform=tmk">Tarmak</a> transitional Colemak</b> layouts for learning Colemak in smaller steps if so desired<br>
-<b>[3.2]</b> (<b><a href="https://dreymar.colemak.org/variants.html#locales?platform=tmk">Locale</a></b> and phonetic layout variants)<br>
-<b>[3.3]</b> <b>Mirrored Colemak</b> that allows one-handed typing without extra learning<br>
+<b>[3.2]</b> (<b><a href="https://dreymar.colemak.org/variants.html?platform=tmk#locales">Locale</a></b> and phonetic layout variants)<br>
+<b>[3.3]</b> <a href="https://dreymar.colemak.org/variants.html?platform=tmk#mirror"><b>Mirrored Colemak</b></a> that allows one-handed typing without extra learning<br>
 
 <b>[4]    <ins>Download and Setup</ins></b><br>
 <b>[4.1]</b> <b>[Download and Install](#download-and-install)</b><br>
@@ -76,7 +83,7 @@ Freedom of choice through <b>modularity</b> is an ideal in the DreymaR world, as
 
 <h2>[1]    <ins>Character/Key Mapping Layers</ins></h2>
 
-<s>### [1.1]    COLEMAK[eD] - EDITION DREYMAR</s>
+<br><h3>[1.1]    <s>COLEMAK[eD] - EDITION DREYMAR</s></h3>
 
 A USB-2-USB device remaps only key strokes, not character input events. So key mods like layout and ergo remappings are possible, but not mods that send glyphs. Your dead keys and AltGr mappings will work as they do without the device, and you may only move their keys around as they are.
 
@@ -345,7 +352,7 @@ Tip: Sticky Shift and Ctrl could be useful for one-handed typing! See the STICKY
 
 <b>First off: <a href="https://github.com/DreymaR/BigBagKbdTrix_TMK">These are my TMK-based files</a></b> on GitHub! There's:
 
-* A <b>BigBagKbdTrix_TMK</b> dir with my files; it can go into or beside the tmk_keyboard/ dir of <a href="https://github.com/tmk/tmk_keyboard/">Hasu's repo</a>
+* A <b>BigBagKbdTrix_TMK</b> dir with my files; it can go into or beside the tmk_keyboard/ dir of <a href="https://github.com/tmk/tmk_keyboard/">Hasu's TMK repo</a>
 * A <b>MakeFlash shell script</b> (see below) that'll install and run TMK with my files under Linux
 * A <b>_myhexfiles</b> dir with some ready-made HEX files that you can flash directly onto a Hasu device (or any other ATmega32U4 chip)
 
