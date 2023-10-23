@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * _UNMODDED - Standard Unimap format for all keyboard and converter types (w/o F13-24; this one is without ergo mods)
  * _ISO__A__ (w/ Curl-DH: _ISO_CA__) - ISO/Int Angle (the simple lower left half-row shift)
  * _ISO__AW_ (w/ Curl-DH: _ISO_CAW_) - ISO/Int Angle-Wide(/)
- * _ISO_CAWS                         - ISO/Int Curl-Angle-Wide(/)-Sym (more accessible apostrophe and hyphen/minus)
+ * _ISO_CAWS                         - ISO/Int Curl-Angle-Wide(/)-Sym (more accessible apostrophe and hyphen/minus)     // WIP: This should be in layout def, not model.
  * _ANS__A__ (w/ Curl-DH: _ANS_CA__) - ANSI/US Angle(Z)
  * _ANS__AW_ (w/ Curl-DH: _ANS_CAW_) - ANSI/US Angle(Z)-Wide(')
  * _ANSAWING (   Curl-DH:  N/A     ) - ANSI/US A-Wing
@@ -79,7 +79,7 @@ enum mainlayouts    {
     LAY_COLEMAK     ,   /* Colemak!                                 */
     LAY_CMKMIRR     ,   /* (Mirrored Colemak; normally 2nd layout!) */
     LAY_DVORAK      ,   /* Dvorak, if you're retro                  */
-    LAY_WORKMAN     };  /* Workman ... but don't! Use Cmk-DH! ^_^   */
+    LAY_CANARY      };  /* Canary, if you're avantgarde             */
 /* Define the ACTIVELAYOUT (and CURLMOD) constant(s) to choose the layer0 layout:
  * 0  : QWERTY
  * 1-#: Tarmak1 - transitional Colemak (supports CURLMOD; see below)
@@ -89,8 +89,8 @@ enum mainlayouts    {
  * 5-0: Colemak
  * 5-1: Colemak Curl-DH (requires a CurlAngle keymap; see above)
  * 6-#: Mirrored Colemak (normally used as second layout with a layer switch)
- * 7  : Dvorak
- * 8  : Workman (but don't use that - Colemak Curl-DH is a _lot_ better!)
+ * 7  : Dvorak (only recommended if you already use it)
+ * 8  : Canary (Colemak-like layout; changes more keys, less implemented)
  */
 #define ACTIVELAYOUT    5   /* LAY_COLEMAK      */
 
@@ -368,34 +368,34 @@ enum macro_id {
 
 #if     ACTIVELAYOUT == 0
     /* Plain QWERTY (shown on a full _UNIMAP_D layout without the top F13-24 row)
-     * ,---.   ,---------------. ,---------------. ,---------------. ,-----------.     ,-----------.
-     * |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|     |VDn|VUp|Mut|
-     * `---'   `---------------' `---------------' `---------------' `-----------'     `-----------'
-     * ,-----------------------------------------------------------. ,-----------. ,---------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|JPY|BSp| |Ins|Hom|PgU| |NLk|  /|  *|  -|
-     * |-----------------------------------------------------------| |-----------| |---------------|
-     * | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|  \  | |Del|End|PgD| |  7|  8|  9|  +|
-     * |-----------------------------------------------------------| `-----------' |---------------|
-     * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,|
-     * |-----------------------------------------------------------|     ,---.     |---------------|
-     * |Shft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO| Shft |     |Up |     |  1|  2|  3|Ent|
-     * |-----------------------------------------------------------| ,-----------. |---------------|
-     * |Ctrl|Gui|Alt|MHEN|     Space     |HENK|KANA|Alt|Gui|App|Ctl| |Lft|Dwn|Rgh| |      0|  .|  =|
-     * `-----------------------------------------------------------' `-----------' `---------------'
-     */
+    *  ,---.   ,---------------. ,---------------. ,---------------. ,-----------.     ,-----------.
+    *  |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|     |VDn|VUp|Mut|
+    *  `---'   `---------------' `---------------' `---------------' `-----------'     `-----------'
+    *  ,-----------------------------------------------------------. ,-----------. ,---------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|JPY|BSp| |Ins|Hom|PgU| |NLk|  /|  *|  -|
+    *  |-----------------------------------------------------------| |-----------| |---------------|
+    *  | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|  \  | |Del|End|PgD| |  7|  8|  9|  +|
+    *  |-----------------------------------------------------------| `-----------' |---------------|
+    *  | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,|
+    *  |-----------------------------------------------------------|     ,---.     |---------------|
+    *  |Shft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO| Shft |     |Up |     |  1|  2|  3|Ent|
+    *  |-----------------------------------------------------------| ,-----------. |---------------|
+    *  |Ctrl|Gui|Alt|MHEN|     Space     |HENK|KANA|Alt|Gui|App|Ctl| |Lft|Dwn|Rgh| |      0|  .|  =|
+    *  `-----------------------------------------------------------' `-----------' `---------------'
+    */
     /* QWERTY-Angle(Z)Wide(') for ANSI boards; use keymap AWAXCVBZ for this ergonomic variant (see the INIT section)
-     * http://forum.colemak.com/viewtopic.php?id=1438
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  =|  7|  8|  9|  0|  -|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  Q|  W|  E|  R|  T|  [|  Y|  U|  I|  O|  P|  '|   \ |
-     * |-----------------------------------------------------------|
-     * |*BSpc*|  A|  S|  D|  F|  G|  ]|  H|  J|  K|  L|  ;|  Enter |
-     * |-----------------------------------------------------------|
-     * | Shift  |  X|  C|  V|  B|  Z|  /|  N|  M|  ,|  .|    Shift |
-     * |-----------------------------------------------------------|
-     * |Ctrl |Gui |Alt |         Space        |Alt |Gui |Menu| Ctrl|
-     * `-----------------------------------------------------------'    */
+    *  http://forum.colemak.com/viewtopic.php?id=1438
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  =|  7|  8|  9|  0|  -|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  Q|  W|  E|  R|  T|  [|  Y|  U|  I|  O|  P|  '|   \ |
+    *  |-----------------------------------------------------------|
+    *  |*BSpc*|  A|  S|  D|  F|  G|  ]|  H|  J|  K|  L|  ;|  Enter |
+    *  |-----------------------------------------------------------|
+    *  | Shift  |  X|  C|  V|  B|  Z|  /|  N|  M|  ,|  .|    Shift |
+    *  |-----------------------------------------------------------|
+    *  |Ctrl |Gui |Alt |         Space        |Alt |Gui |Menu| Ctrl|
+    *  `-----------------------------------------------------------'    */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     TAB   ,  Q ,  W ,  E ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  F ,  G ,  H ,  J ,  K ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
@@ -403,18 +403,18 @@ enum macro_id {
 
 #elif   ACTIVELAYOUT == 1
     /* Tarmak1 - Transitional Colemak (E)
-     * http://forum.colemak.com/viewtopic.php?id=1858
-     * ,-----------------------------------------------------------.
-     * |     |  q|  w| *J|  r|  t|  y|  u|  i|  o|  p|   |   |     |
-     * |-----------------------------------------------------------|
-     * |      |  a|  s|  d|  f|  g|  h|  N|  E|  l|  ;|   |        |
-     * |-----------------------------------------------------------|
-     * |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
-     * `-----------------------------------------------------------'    */
-    /* NOTE: The Curl(DHk) modder has a choice of swapping HMK in this step or not. Set CURLMOD 1/2 for yes/no.         */
+    *  http://forum.colemak.com/viewtopic.php?id=1858
+    *  ,-----------------------------------------------------------.
+    *  |     |  q|  w| *J|  r|  t|  y|  u|  i|  o|  p|   |   |     |
+    *  |-----------------------------------------------------------|
+    *  |      |  a|  s|  d|  f|  g|  h|  N|  E|  l|  ;|   |        |
+    *  |-----------------------------------------------------------|
+    *  |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
+    *  `-----------------------------------------------------------'    */
+    /* NOTE: The Curl(DHk) modder has a choice of swapping HMK in this step or not. Set CURLMOD 1/2 for yes/no.        */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if    CURLMOD == 1
-    /* Tarmak1-Curl(Hmk) - Transitional Colemak-DHk (E)                 */
+    /* Tarmak1-Curl(Hmk) - Transitional Colemak-DHk (E)                */
     TAB   ,  Q ,  W ,  J ,  R ,  T ,  Y ,  U ,  I ,  O ,  P ,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  F ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -426,30 +426,30 @@ enum macro_id {
 
 #elif   ACTIVELAYOUT == 2
     /* Tarmak2 - Transitional Colemak (ET)
-     * http://forum.colemak.com/viewtopic.php?id=1858
-     * ,-----------------------------------------------------------.
-     * |     |  q|  w|  F|  r|  G|  y|  u|  i|  o|  p|   |   |     |
-     * |-----------------------------------------------------------|
-     * |      |  a|  s|  d|  T| *J|  h|  N|  E|  l|  ;|   |        |
-     * |-----------------------------------------------------------|
-     * |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
-     * `-----------------------------------------------------------'    */
+    *  http://forum.colemak.com/viewtopic.php?id=1858
+    *  ,-----------------------------------------------------------.
+    *  |     |  q|  w|  F|  r|  G|  y|  u|  i|  o|  p|   |   |     |
+    *  |-----------------------------------------------------------|
+    *  |      |  a|  s|  d|  T| *J|  h|  N|  E|  l|  ;|   |        |
+    *  |-----------------------------------------------------------|
+    *  |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
+    *  `-----------------------------------------------------------'    */
     /* Tarmak2-Curl(DHk) - Transitional Colemak-Curl-DHk (ET)
-     * ,-----------------------------------------------------------.
-     * |     |  q|  w|  F|  r|  B|  y|  u|  i|  o|  p|   |   |     |
-     * |-----------------------------------------------------------|
-     * |      |  a|  s|  d|  T|  g|  K|  N|  E|  l|  ;|   |        |
-     * |-----------------------------------------------------------|
-     * |    |  z|  x|  c| *J|  v|  _|  M|  H|   |   |   |          |
-     * `-----------------------------------------------------------'    */
+    *  ,-----------------------------------------------------------.
+    *  |     |  q|  w|  F|  r|  B|  y|  u|  i|  o|  p|   |   |     |
+    *  |-----------------------------------------------------------|
+    *  |      |  a|  s|  d|  T|  g|  K|  N|  E|  l|  ;|   |        |
+    *  |-----------------------------------------------------------|
+    *  |    |  z|  x|  c| *J|  v|  _|  M|  H|   |   |   |          |
+    *  `-----------------------------------------------------------'    */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if    CURLMOD == 1
-    /* Tarmak2-Curl(DHk) - Transitional Colemak-DHk (ET)                */
+    /*  Tarmak2-Curl(DHk) - Transitional Colemak-DHk (ET)               */
     TAB   ,  Q ,  W ,  F ,  R ,  B ,  Y ,  U ,  I ,  O ,  P ,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  T ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  J ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif  CURLMOD == 2
-    /* Tarmak2-Curl(Dvbg only) - Transitional Colemak-DH (ET)           */
+    /*  Tarmak2-Curl(Dvbg only) - Transitional Colemak-DH (ET)          */
     TAB   ,  Q ,  W ,  F ,  R ,  B ,  Y ,  U ,  I ,  O ,  P ,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  S ,  D ,  T ,  G ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  J ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -461,22 +461,22 @@ enum macro_id {
 
 #elif   ACTIVELAYOUT == 3
     /* Tarmak3 - Transitional Colemak (ETR)
-     * http://forum.colemak.com/viewtopic.php?id=1858
-     * ,-----------------------------------------------------------.
-     * |     |  q|  w|  F| *J|  G|  y|  u|  i|  o|  p|   |   |     |
-     * |-----------------------------------------------------------|
-     * |      |  a|  R|  S|  T|  D|  h|  N|  E|  l|  ;|   |        |
-     * |-----------------------------------------------------------|
-     * |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
-     * `-----------------------------------------------------------'    */
+    *  http://forum.colemak.com/viewtopic.php?id=1858
+    *  ,-----------------------------------------------------------.
+    *  |     |  q|  w|  F| *J|  G|  y|  u|  i|  o|  p|   |   |     |
+    *  |-----------------------------------------------------------|
+    *  |      |  a|  R|  S|  T|  D|  h|  N|  E|  l|  ;|   |        |
+    *  |-----------------------------------------------------------|
+    *  |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
+    *  `-----------------------------------------------------------'    */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if    CURLMOD == 1
-    /* Tarmak3-Curl(DHk) - Transitional Colemak-DHk (ETR)               */
+    /*  Tarmak3-Curl(DHk) - Transitional Colemak-DHk (ETR)              */
     TAB   ,  Q ,  W ,  F ,  J ,  B ,  Y ,  U ,  I ,  O ,  P ,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif  CURLMOD == 2
-    /* Tarmak3-Curl(Dvbg) - Transitional Colemak-DH (ETR)               */
+    /*  Tarmak3-Curl(Dvbg) - Transitional Colemak-DH (ETR)              */
     TAB   ,  Q ,  W ,  F ,  J ,  B ,  Y ,  U ,  I ,  O ,  P ,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  H ,  N ,  E ,  L ,FScl,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -488,22 +488,22 @@ enum macro_id {
 
 #elif   ACTIVELAYOUT == 4
     /* Tarmak4 - Transitional Colemak (ETRO)
-     * http://forum.colemak.com/viewtopic.php?id=1858
-     * ,-----------------------------------------------------------.
-     * |     |  q|  w|  F|  P|  G|  J|  u|  i|  Y|  ;|   |   |     |
-     * |-----------------------------------------------------------|
-     * |      |  a|  R|  S|  T|  D|  h|  N|  E|  l|  O|   |        |
-     * |-----------------------------------------------------------|
-     * |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
-     * `-----------------------------------------------------------'    */
+    *  http://forum.colemak.com/viewtopic.php?id=1858
+    *  ,-----------------------------------------------------------.
+    *  |     |  q|  w|  F|  P|  G|  J|  u|  i|  Y|  ;|   |   |     |
+    *  |-----------------------------------------------------------|
+    *  |      |  a|  R|  S|  T|  D|  h|  N|  E|  l|  O|   |        |
+    *  |-----------------------------------------------------------|
+    *  |        |  z|  x|  c|  v|  b|  K|  m|   |   |   |          |
+    *  `-----------------------------------------------------------'    */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if    CURLMOD == 1
-    /* Tarmak4-Curl(DHk) - Transitional Colemak-DHk (ETRO)              */
+    /*  Tarmak4-Curl(DHk) - Transitional Colemak-DHk (ETRO)             */
     TAB   ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif  CURLMOD == 2
-    /* Tarmak4-Curl(Dvbg) - Transitional Colemak-DH (ETRO)              */
+    /*  Tarmak4-Curl(Dvbg) - Transitional Colemak-DH (ETRO)             */
     TAB   ,  Q ,  W ,  F ,  P ,  B ,  J ,  U ,  I ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  H ,  N ,  E ,  L ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -514,51 +514,51 @@ enum macro_id {
 # endif /* if CURLMOD */
 
 #elif   ACTIVELAYOUT == 5
-    /* Colemak */
+    /*  Colemak  */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if    CURLMOD == 1
-    /* Colemak-Curl(DHk). Use w/ a CurlAngle(Wide) ergo mod!            */
+    /*  Colemak-Curl(DHk). Use w/ a CurlAngle(Wide) ergo mod!           */
     TAB   ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  M ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif  CURLMOD == 2
     /* Colemak-Curl(DH). Use with a CurlAngle or CurlAngleWide ergo mod; see the INIT section!
-     * http://forum.colemak.com/viewtopic.php?id=1438
-     * (Shown here with the ANSI Angle(Z) mod; keymap ANAXCDVZ selects this variant)
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  Q|  W|  F|  P|  B|  J|  L|  U|  Y|  ;|  [|  ]|   \ |
-     * |-----------------------------------------------------------|
-     * |*BSpc*|  A|  R|  S|  T|  G|  M|  N|  E|  I|  O|  '|  Enter |
-     * |-----------------------------------------------------------|
-     * | Shift  |  X|  C|  D|  V|  Z|  K|  H|  ,|  .|  /|    Shift |
-     * `-----------------------------------------------------------'    */
+    *  http://forum.colemak.com/viewtopic.php?id=1438
+    *  (Shown here with the ANSI Angle(Z) mod; keymap ANAXCDVZ selects this variant)
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  Q|  W|  F|  P|  B|  J|  L|  U|  Y|  ;|  [|  ]|   \ |
+    *  |-----------------------------------------------------------|
+    *  |*BSpc*|  A|  R|  S|  T|  G|  M|  N|  E|  I|  O|  '|  Enter |
+    *  |-----------------------------------------------------------|
+    *  | Shift  |  X|  C|  D|  V|  Z|  K|  H|  ,|  .|  /|    Shift |
+    *  `-----------------------------------------------------------'    */
     /* Colemak-Curl(DH)Angle(Z)Wide(')-ANSI; use keymap AWAXCDVZ for this ergonomic variant
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  =|  7|  8|  9|  0|  -|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  Q|  W|  F|  P|  B|  [|  J|  L|  U|  Y|  ;|  '|   \ |
-     * |-----------------------------------------------------------|
-     * |*BSpc*|  A|  R|  S|  T|  G|  ]|  M|  N|  E|  I|  O|  Enter |
-     * |-----------------------------------------------------------|
-     * | Shift  |  X|  C|  D|  V|  Z|  /|  K|  H|  ,|  .|    Shift |
-     * `-----------------------------------------------------------'    */
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  =|  7|  8|  9|  0|  -|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  Q|  W|  F|  P|  B|  [|  J|  L|  U|  Y|  ;|  '|   \ |
+    *  |-----------------------------------------------------------|
+    *  |*BSpc*|  A|  R|  S|  T|  G|  ]|  M|  N|  E|  I|  O|  Enter |
+    *  |-----------------------------------------------------------|
+    *  | Shift  |  X|  C|  D|  V|  Z|  /|  K|  H|  ,|  .|    Shift |
+    *  `-----------------------------------------------------------'    */
     TAB   ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
     /* Standard Colemak
-     * http://colemak.com
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  Q|  W|  F|  P|  G|  J|  L|  U|  Y|  ;|  [|  ]|   \ |
-     * |-----------------------------------------------------------|
-     * |*BSpc*|  A|  R|  S|  T|  D|  H|  N|  E|  I|  O|  '|  Enter |
-     * |-----------------------------------------------------------|
-     * | Shift  |  Z|  X|  C|  V|  B|  K|  M|  ,|  .|  /|    Shift |
-     * `-----------------------------------------------------------'    */
+    *  http://colemak.com
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  Q|  W|  F|  P|  G|  J|  L|  U|  Y|  ;|  [|  ]|   \ |
+    *  |-----------------------------------------------------------|
+    *  |*BSpc*|  A|  R|  S|  T|  D|  H|  N|  E|  I|  O|  '|  Enter |
+    *  |-----------------------------------------------------------|
+    *  | Shift  |  Z|  X|  C|  V|  B|  K|  M|  ,|  .|  /|    Shift |
+    *  `-----------------------------------------------------------'    */
     TAB   ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -566,33 +566,33 @@ enum macro_id {
 
 #elif   ACTIVELAYOUT == 6
     /* Colemak mirrored (designed for one-handed typing using a layer switch) */
-    /* NOTE: Mirrored Colemak is normally used as the second layout (see below) with unmirrored Colemak as active.      */
+    /* NOTE: Mirrored Colemak is normally used as the second layout (see below) with unmirrored Colemak as active.     */
     /* Mirrored Colemak (used as switch layout for one-handed typing)
-     * http://forum.colemak.com/viewtopic.php?id=1438
-     * ,---.   ,---------------. ,---------------. ,---------------.
-     * |  \|   |F12|F11|F10|F9 | |F8 |F7 |F6 |F5 | |F4 |F3 |F2 |F1 |
-     * `---'   `---------------' `---------------' `---------------'
-     * ,-----------------------------------------------------------.
-     * |BSp|  -|  0|  9|  8|  7|  6|  5|  4|  3|  2|  1|  =|     ` |
-     * |-----------------------------------------------------------|
-     * | Ent |  ;|  Y|  U|  L|  J|  G|  P|  F|  W|  Q|Esc|Cps|   \ |
-     * |-----------------------------------------------------------|
-     * |    ' |  O|  I|  E|  N|  H|  D|  T|  S|  R|  A|  '|  Enter |
-     * |-----------------------------------------------------------|
-     * | Shift  |  /|  .|  ,|  M|  K|  B|  V|  C|  X|  Z|    Shift |
-     * `-----------------------------------------------------------'    */
-    /* NOTE: Set an accessible key in your active layout (e.g., LALT or RGUI) as a layer1 switch (FPau does this).      */
+    *  http://forum.colemak.com/viewtopic.php?id=1438
+    *  ,---.   ,---------------. ,---------------. ,---------------.
+    *  |  \|   |F12|F11|F10|F9 | |F8 |F7 |F6 |F5 | |F4 |F3 |F2 |F1 |
+    *  `---'   `---------------' `---------------' `---------------'
+    *  ,-----------------------------------------------------------.
+    *  |BSp|  -|  0|  9|  8|  7|  6|  5|  4|  3|  2|  1|  =|     ` |
+    *  |-----------------------------------------------------------|
+    *  | Ent |  ;|  Y|  U|  L|  J|  G|  P|  F|  W|  Q|Esc|Cps|   \ |
+    *  |-----------------------------------------------------------|
+    *  |    ' |  O|  I|  E|  N|  H|  D|  T|  S|  R|  A|  '|  Enter |
+    *  |-----------------------------------------------------------|
+    *  | Shift  |  /|  .|  ,|  M|  K|  B|  V|  C|  X|  Z|    Shift |
+    *  `-----------------------------------------------------------'    */
+    /*  NOTE: Set an accessible key in your active layout (e.g., LALT or RGUI) as a layer1 switch (FPau does this).     */
     [1] = UNIMAPLAYOUT(
     BSLS,    F12 ,F11 ,F10 , F9 ,    F8 , F7 , F6 , F5 ,    F4 , F3 , F2 , F1 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     BSPC,FMin,  0 ,  9 ,  8 ,  7 ,  6 ,  5 ,  4 ,  3 ,  2 ,  1 ,FEql,JYEN,GRV ,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if    CURLMOD == 1
-    /* Colemak-Curl(DHk). See above.                                    */
-    /* NOTE: Using a CurlAngle mod, the DV keys are swapped. The mirrored layout has to counteract that.                */
+    /*  Colemak-Curl(DHk). See above.                                   */
+    /*  NOTE: Using a CurlAngle mod, the DV keys are swapped. The mirrored layout has to counteract that.               */
     ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  K ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  M ,  H ,  V ,  D ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif  CURLMOD == 2
-    /* Colemak-Curl(DHm). See above.                                    */
+    /*  Colemak-Curl(DHm). See above.                                   */
     ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  M ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  K ,  H ,  V ,  D ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -607,84 +607,85 @@ enum macro_id {
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
 
 #elif   ACTIVELAYOUT == 7
-    /* Dvorak
-     * http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  [|  ]|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  '|  ,|  .|  P|  Y|  F|  G|  C|  R|  L|  /|  =|   \ |
-     * |-----------------------------------------------------------|
-     * |*BSpc*|  A|  O|  E|  U|  I|  D|  H|  T|  N|  S|  -|  Enter |
-     * |-----------------------------------------------------------|
-     * | Shift  |  ;|  Q|  J|  K|  X|  B|  M|  W|  V|  Z|    Shift |
-     * `-----------------------------------------------------------'    */
+    /* Dvorak (outdated, but still in use)
+    *  http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  [|  ]|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  '|  ,|  .|  P|  Y|  F|  G|  C|  R|  L|  /|  =|   \ |
+    *  |-----------------------------------------------------------|
+    *  |*BSpc*|  A|  O|  E|  U|  I|  D|  H|  T|  N|  S|  -|  Enter |
+    *  |-----------------------------------------------------------|
+    *  | Shift  |  ;|  Q|  J|  K|  X|  B|  M|  W|  V|  Z|    Shift |
+    *  `-----------------------------------------------------------'    */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FLBr,FRBr,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     TAB   ,FQuo,COMM,DOT ,  P ,  Y ,  F ,  G ,  C ,  R ,  L ,FSls,FEql,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  O ,  E ,  U ,  I ,  D ,  H ,  T ,  N ,  S ,FMin,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,FScl,  Q ,  J ,  K ,  X ,  B ,  M ,  W ,  V ,  Z , RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
 #elif   ACTIVELAYOUT == 8
-    /* Workman (but really, consider Colemak Curl-DH instead as it performs much better!)
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  Q|  D|  R|  W|  B|  J|  F|  U|  P|  ;|  [|  ]|   \ |
-     * |-----------------------------------------------------------|
-     * |*Caps*|  A|  S|  H|  T|  G|  Y|  N|  E|  O|  I|  '|  Enter |
-     * |-----------------------------------------------------------|
-     * | Shift  |  Z|  X|  M|  C|  V|  K|  L|  ,|  .|  /|    Shift |
-     * `-----------------------------------------------------------'    */
+    /* Canary (newer Colemak alternative, less implemented)
+    *  https://github.com/Apsu/Canary
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  W|  L|  Y|  P|  K|  Z|  X|  O|  U|  ;|  [|  ]|   \ |
+    *  |-----------------------------------------------------------|
+    *  |*Caps*|  C|  R|  S|  T|  B|  F|  N|  E|  I|  A|  '|  Enter |
+    *  |-----------------------------------------------------------|
+    *  | Shift  |  Q|  J|  V|  D|  G|  M|  H|  /|  ,|  .|    Shift |
+    *  `-----------------------------------------------------------'    */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
-    TAB   ,  Q ,  D ,  R ,  W ,  B ,  J ,  F ,  U ,  P ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
-    FCap   ,  A ,  S ,  H ,  T ,  G ,  Y ,  N ,  E ,  O ,  I ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    FLSh ,FLgt,  Z ,  X ,  M ,  C ,  V ,  K ,  L ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+    TAB   ,  W ,  L ,  Y ,  P ,  K ,  Z ,  X ,  O ,  U ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  C ,  R ,  S ,  T ,  B ,  F ,  N ,  E ,  I ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Q ,  J ,  V ,  D ,  G ,  M ,  H ,FSls,COMM,DOT , RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
     /* ******* Extra graphics of some of my layouts: ****************** */
     /* Colemak-CurlAngleWide, adapted for Norwegian locale (DreymaR's ISO/Nor hack solution)
-     * (Shown with the AngleWide-ISO-ZXCDV ergo mod; keymap AWIZXCDV selects that)
-     * http://forum.colemak.com/viewtopic.php?id=2158
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  =|  7|  8|  9|  0|  -|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  Q|  W|  F|  P|  B|  [|  J|  L|  U|  Y|  ;|  /| Ent |
-     * |------------------------------------------------------`    |
-     * |*Ext1*|  A|  R|  S|  T|  G|  ]|  K|  N|  E|  I|  O|  '|    |
-     * |-----------------------------------------------------------|
-     * |Shft|  Z|  X|  C|  D|  V|  <|  #|  M|  H|  ,|  .|    Shift |
-     * `-----------------------------------------------------------' 
-     * Modifications from the untweaked Colemak-CAW shown above:
-     *      -   <>  /       ]   ->  ;   ->  <   ->  #   ->  '   ->  ]  
-     *     MINS <> SLSH    RBRC -> SCLN -> NUBS -> NUHS -> QUOT -> RBRC
-     * ,-----------------------------------------------------------.
-     * |  `|  1|  2|  3|  4|  5|  6|  \|  7|  8|  9|  0|  -|  BSpc |
-     * |-----------------------------------------------------------|
-     * | Tab |  Q|  W|  F|  P|  B|  Å|  J|  L|  U|  Y|  ¨|  +| Ent |
-     * |------------------------------------------------------`    |
-     * |*Ext1*|  A|  R|  S|  T|  G|  Æ|  K|  N|  E|  I|  O|  '|    |
-     * |-----------------------------------------------------------|
-     * |Shft|  Z|  X|  C|  D|  V|  Ø|  <|  M|  H|  ,|  .|    Shift |
-     * `-----------------------------------------------------------'    */
+    *  (Shown with the AngleWide-ISO-ZXCDV ergo mod; keymap AWIZXCDV selects that)
+    *  http://forum.colemak.com/viewtopic.php?id=2158
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  =|  7|  8|  9|  0|  -|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  Q|  W|  F|  P|  B|  [|  J|  L|  U|  Y|  ;|  /| Ent |
+    *  |------------------------------------------------------`    |
+    *  |*Ext1*|  A|  R|  S|  T|  G|  ]|  K|  N|  E|  I|  O|  '|    |
+    *  |-----------------------------------------------------------|
+    *  |Shft|  Z|  X|  C|  D|  V|  <|  #|  M|  H|  ,|  .|    Shift |
+    *  `-----------------------------------------------------------' 
+    *  Modifications from the untweaked Colemak-CAW shown above:
+    *       -   <>  /       ]   ->  ;   ->  <   ->  #   ->  '   ->  ]  
+    *      MINS <> SLSH    RBRC -> SCLN -> NUBS -> NUHS -> QUOT -> RBRC
+    *  ,-----------------------------------------------------------.
+    *  |  `|  1|  2|  3|  4|  5|  6|  \|  7|  8|  9|  0|  -|  BSpc |
+    *  |-----------------------------------------------------------|
+    *  | Tab |  Q|  W|  F|  P|  B|  Å|  J|  L|  U|  Y|  ¨|  +| Ent |
+    *  |------------------------------------------------------`    |
+    *  |*Ext1*|  A|  R|  S|  T|  G|  Æ|  K|  N|  E|  I|  O|  '|    |
+    *  |-----------------------------------------------------------|
+    *  |Shft|  Z|  X|  C|  D|  V|  Ø|  <|  M|  H|  ,|  .|    Shift |
+    *  `-----------------------------------------------------------'    */
 
 #endif  /* if ACTIVELAYOUT */
-    /* The bottom row is layout independent (but you may edit the keys here as desired)                                 */
+    /*  The bottom row is layout independent (but you may edit the keys here as desired)                                */
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
     ),    /* *******    <-- Layer 0: Default Layout                     ******* */
 
 /* *******  Layer 1: Second/Switch Layout (see below for replacing it with any layer0 layout or your own) -->   ******* */
 #if     SECONDLAYOUT == 3
-/* NOTE: This is the special case of using Colemak(Curl-DH) as the first, and Mirrored Colemak as the second layout.    */
-    /* NOTE: Set an accessible key in your active layout (e.g., LALT or RGUI) as a layer1 switch (FPau does this).      */
+/*  NOTE: This is the special case of using Colemak(Curl-DH) as the first, and Mirrored Colemak as the second layout.   */
+    /*  NOTE: Set an accessible key in your active layout (e.g., LALT or RGUI) as a layer1 switch (FPau does this).     */
     [1] = UNIMAPLAYOUT(
     BSLS,    F12 ,F11 ,F10 , F9 ,    F8 , F7 , F6 , F5 ,    F4 , F3 , F2 , F1 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     BSPC,FMin,  0 ,  9 ,  8 ,  7 ,  6 ,  5 ,  4 ,  3 ,  2 ,  1 ,FEql,JYEN,GRV ,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 # if    CURLMOD == 1
-    /* Colemak-Curl(DHk). See above.                                    */
-    /* NOTE: Using a CurlAngle mod, the DV keys are swapped. The mirrored layout has to counteract that.                */
+    /*  Colemak-Curl(DHk). See above.                                   */
+    /*  NOTE: Using a CurlAngle mod, the DV keys are swapped. The mirrored layout has to counteract that.               */
     ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  K ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  M ,  H ,  V ,  D ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif  CURLMOD == 2
-    /* Colemak-Curl(DHm). See above.                                    */
+    /*  Colemak-Curl(DHm). See above.                                   */
     ENT   ,FScl,  Y ,  U ,  L ,  J ,  B ,  P ,  F ,  W ,  Q ,ESC ,FCap,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FQuo   ,  O ,  I ,  E ,  N ,  M ,  G ,  T ,  S ,  R ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FRSh ,FLgt,FSls,DOT ,COMM,  K ,  H ,  V ,  D ,  C ,  X ,  Z , RO ,    FLSh,         UP ,         P1 , P2 , P3 ,PENT,
@@ -700,7 +701,7 @@ enum macro_id {
 #else
 /* Set SECONDLAYOUT to 1 for QWERTY or 2 for Colemak/custom as switch layout; otherwise it'll be unmodded QWERTY        */
 # if    SECONDLAYOUT == 1
-    /* QWERTY – as above                                                */
+    /*  QWERTY – as above                                               */
     [1] = UNIMAPLAYOUT(
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
@@ -709,29 +710,29 @@ enum macro_id {
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  N ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # elif  SECONDLAYOUT == 2
 /* --> REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED - taking care to include all necessary lines once!      */
-    /* Colemak - as above                                               */
+    /*  Colemak - as above                                              */
     [1] = UNIMAPLAYOUT(
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
 #  if   CURLMOD == 1
-    /* Colemak-Curl(DHk). Use w/ a CurlAngle or CurlAngleWide ergo mod! */
+    /*  Colemak-Curl(DHk). Use w/ CurlAngle or CurlAngleWide ergo mod!  */
     TAB   ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  K ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  D ,  H ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  elif CURLMOD == 2
-    /* Colemak-Curl(DHm). Use w/ a CurlAngle or CurlAngleWide ergo mod! */
+    /*  Colemak-Curl(DHm). Use w/ CurlAngle or CurlAngleWide ergo mod!  */
     TAB   ,  Q ,  W ,  F ,  P ,  B ,  J ,  L ,  U ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  else
-    /* Standard Colemak                                                 */
+    /*  Standard Colemak                                                */
     TAB   ,  Q ,  W ,  F ,  P ,  G ,  J ,  L ,  U ,  Y ,FScl,FLBr,FRBr,   BSLS,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  A ,  R ,  S ,  T ,  D ,  H ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  V ,  B ,  K ,  M ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 #  endif /* if CURLMOD */
 /* <-- REPLACE THE SECOND LAYOUT BETWEEN THESE LINES IF DESIRED                                                         */
 # else
-    /* Plain QWERTY - without CurlAngleWide nor ISO adaptations, to reflect the key caps of a standard keyboard.        */
+    /*  Plain QWERTY - without CurlAngleWide nor ISO adaptations, to reflect the key caps of a standard keyboard.       */
     [1] = UNIMAP_UNMODDED(
     ESC ,     F1 , F2 , F3 , F4 ,    F5 , F6 , F7 , F8 ,    F9 ,F10 ,F11 ,F12 ,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,MINS,EQL ,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
@@ -803,7 +804,7 @@ enum macro_id {
 
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
-    /* Base keycode and 4-digit Windows input codes for several glyphs, for use with 4-level ISO adaptation             */
+    /*  Base keycode and 4-digit Windows input codes for several glyphs, for use with 4-level ISO adaptation            */
     static const uint8_t KeyDict[4][2][5] =                 {       /*  [key#][shifted][codes]      */
         {{ KC_LBRC, KC_P0  , KC_P2  , KC_P2  , KC_P9   },           /*  å on Win is Alt+KP(0229)    */
          {       0, KC_P0  , KC_P1  , KC_P9  , KC_P7   }}   ,       /*  Å on Win is Alt+KP(0197)    */
@@ -819,8 +820,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     switch (id) {
     case FOURLVLU:  /* Four-level keys, producing OS specific Unicode input with AltGr/RAlt held down                   */
         if  (record->event.pressed) {
-            /* NOTE: Removing the RAlt mod to avoid menu activation means you must re-press RAlt for another go.        */
-            /* NOTE: To save data memory, only real mods are considered. This seems enough for me.                      */
+            /*  NOTE: Removing the RAlt mod to avoid menu activation means you must re-press RAlt for another go.       */
+            /*  NOTE: To save data memory, only real mods are considered. This seems enough for me.                     */
             if ( rmods & MOD_BIT(KC_RALT) ) {                       /*  - If AltGr is pressed:      */
                 uint8_t shftd = ( rmods & ( MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT) ) ) ? 1 : 0;
                 clear_mods();                                       /*    Temporarily remove mods,  */
@@ -835,7 +836,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 type_code( KeyDict[opt][0][0] );                    /*    Send the base key.        */
             }
             send_keyboard_report();
-//      } else {                            /* No need to do anything if our key wasn't pressed.    */
+//      } else {                            /*  No need to do anything if our key wasn't pressed.   */
         }
         break;
     case EXTENDER:  /* Multi-Extend modifier, switching to different Extend layers depending on mod state.              */
@@ -843,10 +844,10 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
             rmods &= ( EXT2BIT | EXT3BIT );                         /*  - Ignore any other mods.    */
             switch ( rmods ) {
             case ( EXT2BIT | EXT3BIT )                          :   /*  - If Ext2+Ext3 are pressed: */
-                /* TODO: Select Extend4 (not implemented yet)       */
+                /*  TODO: Select Extend4 (not implemented yet)      */
             break;
             case ( EXT3BIT )                                    :   /*  - If Ext3 is pressed:       */
-                /* TODO: Select Extend3 (not implemented yet)       */
+                /*  TODO: Select Extend3 (not implemented yet)      */
             break;
             case ( EXT2BIT )                                    :   /*  - If Ext2 is pressed:       */
                 layer_on(3);                                        /*    Select Extend2 (layer3)   */
@@ -867,7 +868,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
     switch (id) {
     case TYPESTR1:
-        /* Type a string (standard email footer) then select the name line.                         */
+        /*  Type a string (standard email footer) then select the name line.                        */
         return (record->event.pressed ?
             MACRO( I(0), 
                 T(ENT), T(ENT), ST(M), T(V), T(H), T(COMM), T(ENT), 
@@ -878,7 +879,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
                 END ) :
             MACRO_NONE );
     case TYPESTR2:
-        /* Type a string (a smiley; it'll be layout dependent so find one that works for you!).     */
+        /*  Type a string (a smiley; it'll be layout dependent so find one that works for you!).    */
         return (record->event.pressed ?
             MACRO( I(0), 
                 T(SPC), ST(SCLN), T(MINS), ST(0), T(ENT),

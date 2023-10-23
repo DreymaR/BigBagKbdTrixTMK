@@ -569,8 +569,8 @@ For layouts and layout options, the directives will select which pieces of code 
   * 5-0: Colemak
   * 5-1: Colemak Curl-DH (requires a CurlAngle keymap; see above)
   * 6-#: Mirrored Colemak (normally used as second layout with a layer switch)
-  * 7  : Dvorak
-  * 8  : Workman (but don't use that - Colemak Curl-DH is a _lot_ better!)
+  * 7  : Dvorak (only recommended if you already use it)
+  * 8  : Canary (Colemak-like layout; changes more keys, less implemented)
   */
 #define ACTIVELAYOUT    5   /* LAY_COLEMAK      */
 </code></pre><br>

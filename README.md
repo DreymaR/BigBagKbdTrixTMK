@@ -53,13 +53,15 @@ ___
 
 TODO:
 -----
-- Should the Sym mod be made a layout option (it should not affect Extend!)? One for non-Wide and one for Wide, then.
-- Nuke the Workman entry!!! A worthy candidate to take its place might be Canary or something?
+- The Sym mod should be made a layout option (it should not affect Extend!)? One for non-Wide and one for Wide, then.
+- It'll be many combos with Curl+Sym. Choose just a few, like {C,CA,CAWS}?
+- Make two different Extend bottom rows depending on CURLMOD setting
 - How hard would it be to port this to QMK? Would that work for the Hasu device?
 
 DONE:
 -----
 - Converted the Forum docs to Markdown+HTML and added them to this repo in a docs folder.
+- Nuked that accursed old Workman entry. The Canary layout constitutes a far more worthy replacement.
 
 [TMKG]: https://github.com/tmk/tmk_keyboard (Hasu's TMK repository on GitHub)
 [DBBU]: http://forum.colemak.com/viewtopic.php?id=2158 (DreymaR's Big Bag of Keyboard Tricks - USB edition)
