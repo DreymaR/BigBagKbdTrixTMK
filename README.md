@@ -46,7 +46,7 @@ There are other tools for flashing that you may prefer (as I've had my share of 
 	- On Windows: Didn't find my Hasu (atmega23u4) device, at least not right away...?
 
 _Happy TMK hacking!_
-_DreymaR, 2020-11_
+_~ DreymaR_
 
 ___
 <a name="QICO" title="QWERTY USB Input, Colemak Key Input Emulated">¤</a>: **Q**WERTY **U**SB **I**nput, **C**olemak **K**ey **I**nput **E**mulated (my pet name for USB converters like [Hasu's][HU2U]).
@@ -54,14 +54,26 @@ ___
 TODO:
 -----
 - The Sym mod should be made a layout option (it should not affect Extend!)? One for non-Wide and one for Wide, then.
-- It'll be many combos with Curl+Sym. Choose just a few, like {C,CA,CAWS}?
-- Make two different Extend bottom rows depending on CURLMOD setting
-- How hard would it be to port this to QMK? Would that work for the Hasu device?
+	- It'll be many combos with Curl+Sym. Choose just a few, like {C,CA,CAWS}? Or?
+	- If there's one for each non-Wide CurlMod setting, the Angle is done with "Model" anyway.
+	- Same w/ Wide? But here, it's different for ISO and ANSI? May get too complex.
+		- So... Just make a CAWS then, and let AWS and other complexity be?
+	- But how about Sym outside Cmk? It might be nice to offer, say, QWERTY Sym or Canary Sym!
+		- One way might be to offer both a keymap _and_ a layout option. But that's a lot?
+		- How about having a CURL_SYM option (0/1/2/3 bit logic), where the Sym part also affects QWERTY?
+- Uncouple the Curl mod from keymap? It's more of a symbolic/soft mod. Should not affect Extend (much).
+	- Also, Curl is a Colemak thing, should not affect other layouts.
+- Lose the DHk mod now, for reasons of sanity. Maybe leave a little instruction on how to get it.
+- Make two different Extend bottom rows depending on CURLMOD setting. Can use #if.
+- Are UNICODEHEADER and UNICODEFOOTER superseded now, by the handy TMK `UNI[X|W|M]_()` macro syntax (that I devised)?
+- How hard would it be to port this to QMK? Would that work for the Hasu USB-2-USB device?
 
 DONE:
 -----
 - Converted the Forum docs to Markdown+HTML and added them to this repo in a docs folder.
 - Nuked that accursed old Workman entry. The Canary layout constitutes a far more worthy replacement.
+- Nuked the old DHk ergo mod, keeping only standard DH(m) now. Sorry, users of DHk, but you'll now have to edit it in.
+
 
 [TMKG]: https://github.com/tmk/tmk_keyboard (Hasu's TMK repository on GitHub)
 [DBBU]: http://forum.colemak.com/viewtopic.php?id=2158 (DreymaR's Big Bag of Keyboard Tricks - USB edition)

@@ -16,61 +16,75 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*
- * 2016- Øystein "DreymaR" Gadmar: AngleWide ergonomic keyboard mods as keymap types
- * See the Colemak Forum (DreymaR's Big Bag of Keyboard Tricks) for info
- * http://forum.colemak.com/viewtopic.php?id=2158
+ *  2016- Øystein "DreymaR" Gadmar: AngleWide ergonomic keyboard mods as keymap types
+ *  See the Colemak Forum (DreymaR's Big Bag of Keyboard Tricks) for info
+ *  http://forum.colemak.com/viewtopic.php?id=2158
+ *  
+ *  Content:
+ *    - UNIMAP_UNMODDED  (a 'null' map, keeping everything in place)
+ *    - UNIMAP_ISO__A__
+ *    - UNIMAP_ISO_CA__  WIP: Uncouple this from keymap/model, as it should only affect Colemak?! Its only feature is ZXCVB -> ZXCBV (plus Angle)
+ *    - UNIMAP_ISO__AW_
+ *    - UNIMAP_ISO_CAW_
+ *    - UNIMAP_ISO_CAWS  WIP: This probably shouldn't be a keymap mod! Should be handled in the .c file instead, as a soft mod.
+ *    - UNIMAP_ANS__A__  (the Angle-Z-ANSI mod)
+ *    - UNIMAP_ANS_CA__
+ *    - UNIMAP_ANS__AW_
+ *    - UNIMAP_ANS_CAW_
+ *    - UNIMAP_ANSAWING (the rarely used A-Wing ANSI Angle mod)
  */
 
-/*         ,---------------. ,---------------. ,---------------.                UNIMAP w/ QWERTY
- *         |F13|F14|F15|F16| |F17|F18|F19|F20| |F21|F22|F23|F24|
- * ,---.   |---------------| |---------------| |---------------| ,-----------.     ,-----------.
- * |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|     |VDn|VUp|Mut|
- * `---'   `---------------' `---------------' `---------------' `-----------'     `-----------'
- * ,-----------------------------------------------------------. ,-----------. ,---------------.
- * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|JPY|BSp| |Ins|Hom|PgU| |NLk|  /|  *|  -|
- * |-----------------------------------------------------------| |-----------| |---------------|
- * | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|  \  | |Del|End|PgD| |  7|  8|  9|  +|
- * |-----------------------------------------------------------| `-----------' |---------------|
- * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,|
- * |-----------------------------------------------------------|     ,---.     |---------------|
- * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO|  Sft |     |Up |     |  1|  2|  3|Ent|
- * |-----------------------------------------------------------| ,-----------. |---------------|
- * | Ctrl|Gui|Alt|MHE|     Space     |HEN|KAN|Alt|Gui|App|Ctrl | |Lft|Dwn|Rgh| |      0|  .|  =|
- * `-----------------------------------------------------------' `-----------' `---------------'
+/* ***** EXAMPLES ****************************************************************************************************** */
+/*          ,---------------. ,---------------. ,---------------.                UNIMAP w/ QWERTY
+ *          |F13|F14|F15|F16| |F17|F18|F19|F20| |F21|F22|F23|F24|
+ *  ,---.   |---------------| |---------------| |---------------| ,-----------.     ,-----------.
+ *  |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|     |VDn|VUp|Mut|
+ *  `---'   `---------------' `---------------' `---------------' `-----------'     `-----------'
+ *  ,-----------------------------------------------------------. ,-----------. ,---------------.
+ *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|JPY|BSp| |Ins|Hom|PgU| |NLk|  /|  *|  -|
+ *  |-----------------------------------------------------------| |-----------| |---------------|
+ *  | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|  \  | |Del|End|PgD| |  7|  8|  9|  +|
+ *  |-----------------------------------------------------------| `-----------' |---------------|
+ *  | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,|
+ *  |-----------------------------------------------------------|     ,---.     |---------------|
+ *  | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO|  Sft |     |Up |     |  1|  2|  3|Ent|
+ *  |-----------------------------------------------------------| ,-----------. |---------------|
+ *  | Ctrl|Gui|Alt|MHE|     Space     |HEN|KAN|Alt|Gui|App|Ctrl | |Lft|Dwn|Rgh| |      0|  .|  =|
+ *  `-----------------------------------------------------------' `-----------' `---------------'
  */
 
-/*         ,---------------. ,---------------. ,---------------.                KEYMAP_ALL w/ QWERTY
- *         |F13|F14|F15|F16| |F17|F18|F19|F20| |F21|F22|F23|F24|
- * ,---.   |---------------| |---------------| |---------------| ,-----------. ,---------------. ,-------.
- * |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau| |VDn|VUp|Mut|Pwr| | Help  |
- * `---'   `---------------' `---------------' `---------------' `-----------' `---------------' `-------'
- * ,-----------------------------------------------------------. ,-----------. ,---------------. ,-------.
- * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|JPY|BSp| |Ins|Hom|PgU| |NLk|  /|  *|  -| |Stp|Agn|
- * |-----------------------------------------------------------| |-----------| |---------------| |-------|
- * | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|  \  | |Del|End|PgD| |  7|  8|  9|  +| |Mnu|Und|
- * |-----------------------------------------------------------| `-----------' |---------------| |-------|
- * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,| |Sel|Cpy|
- * |-----------------------------------------------------------|     ,---.     |---------------| |-------|
- * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO|  Sft |     |Up |     |  1|  2|  3|  =| |Exe|Pst|
- * |-----------------------------------------------------------| ,-----------. |---------------| |-------|
- * | Ctrl|Gui|Alt|MHE|HNJ| Space |H/E|HEN|KAN|Alt|Gui|App|Ctrl | |Lft|Dwn|Rgh| |      0|  .|Ent| |Fnd|Cut|
- * `-----------------------------------------------------------' `-----------' `---------------' `-------'
+/*          ,---------------. ,---------------. ,---------------.                KEYMAP_ALL w/ QWERTY
+ *          |F13|F14|F15|F16| |F17|F18|F19|F20| |F21|F22|F23|F24|
+ *  ,---.   |---------------| |---------------| |---------------| ,-----------. ,---------------. ,-------.
+ *  |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau| |VDn|VUp|Mut|Pwr| | Help  |
+ *  `---'   `---------------' `---------------' `---------------' `-----------' `---------------' `-------'
+ *  ,-----------------------------------------------------------. ,-----------. ,---------------. ,-------.
+ *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|JPY|BSp| |Ins|Hom|PgU| |NLk|  /|  *|  -| |Stp|Agn|
+ *  |-----------------------------------------------------------| |-----------| |---------------| |-------|
+ *  | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|  \  | |Del|End|PgD| |  7|  8|  9|  +| |Mnu|Und|
+ *  |-----------------------------------------------------------| `-----------' |---------------| |-------|
+ *  | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|Ent |               |  4|  5|  6|  ,| |Sel|Cpy|
+ *  |-----------------------------------------------------------|     ,---.     |---------------| |-------|
+ *  | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /| RO|  Sft |     |Up |     |  1|  2|  3|  =| |Exe|Pst|
+ *  |-----------------------------------------------------------| ,-----------. |---------------| |-------|
+ *  | Ctrl|Gui|Alt|MHE|HNJ| Space |H/E|HEN|KAN|Alt|Gui|App|Ctrl | |Lft|Dwn|Rgh| |      0|  .|Ent| |Fnd|Cut|
+ *  `-----------------------------------------------------------' `-----------' `---------------' `-------'
  */
 
-/* ,---.   ,---------------. ,---------------. ,---------------. ,-----------.  KEYMAP_ISO 
- * |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|  w/ QWERTY
- * `---'   `---------------' `---------------' `---------------' `-----------'
- * ,-----------------------------------------------------------. ,-----------. ,---------------.
- * |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc | |Ins|Hom|PgU| |NLk|  /|  *|  -|
- * |-----------------------------------------------------------| |-----------| |---------------|
- * | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]| Ent | |Del|End|PgD| |  7|  8|  9|  +|
- * |------------------------------------------------------`    | `-----------' |-----------|   |
- * | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|    |               |  4|  5|  6|   |
- * |-----------------------------------------------------------|     ,---.     |---------------|
- * | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|    Shift |     |Up |     |  1|  2|  3|Ent|
- * |-----------------------------------------------------------| ,-----------. |-----------|   |
- * | Ctrl|LGui|LAlt|        Space         |RAlt|RGui|App |Ctrl | |Lft|Dwn|Rgh| |      0|  .|   |
- * `-----------------------------------------------------------' `-----------' `---------------'
+/*  ,---.   ,---------------. ,---------------. ,---------------. ,-----------.  KEYMAP_ISO 
+ *  |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|  w/ QWERTY
+ *  `---'   `---------------' `---------------' `---------------' `-----------'
+ *  ,-----------------------------------------------------------. ,-----------. ,---------------.
+ *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc | |Ins|Hom|PgU| |NLk|  /|  *|  -|
+ *  |-----------------------------------------------------------| |-----------| |---------------|
+ *  | Tab |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]| Ent | |Del|End|PgD| |  7|  8|  9|  +|
+ *  |------------------------------------------------------`    | `-----------' |-----------|   |
+ *  | Caps |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|  #|    |               |  4|  5|  6|   |
+ *  |-----------------------------------------------------------|     ,---.     |---------------|
+ *  | Sft|  <|  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|    Shift |     |Up |     |  1|  2|  3|Ent|
+ *  |-----------------------------------------------------------| ,-----------. |-----------|   |
+ *  | Ctrl|LGui|LAlt|        Space         |RAlt|RGui|App |Ctrl | |Lft|Dwn|Rgh| |      0|  .|   |
+ *  `-----------------------------------------------------------' `-----------' `---------------'
  */
 
 
@@ -332,15 +346,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
-/* NOTE: I used KEYMAP_ALL before, but have switched to the more universal Unimap.
- *       - To convert from USB-USB KEYMAP_ALL to UNIMAP, remove the rare right-hand block, PWR and HAEN/HANJ.
- *       - Some key tokens are different, but that doesn't matter (unless you mix formats in one macro).
- *       - All rare right-hand block keys [HELP/STOP/AGIN/MENU/UNDO/SLCT/COPY/EXEC/PSTE/FIND/CUT] are gone in Unimap
- *       - [PWR] K66 gone but [PCMM] K85 -> K66; [VOLD/VOLU/MUTE] K81/K80/K7F -> K01/K02/K03
- *       - [LCTL/LSFT/LALT/LGUI/RCTL/RSFT/RALT/RGUI] KE0/KE1/KE2/KE3/KE4/KE5/KE6/KE7 -> K78/K79/K7A/K7B/K7C/K7D/K7E/K7F
- *       - [HAEN/HANJ] K90/K91 (Korean) gone; [RO/KANA/JYEN/HENK/MHEN] K87/K88/K89/K8A/K8B -> K75/K00/K74/K76/K77
- *       - Korean special keys are missing in Unimap. Koreans could redefine, say, two of the Japanese keys to these?
- * DONE: In 2016-10, Hasu switched KP Enter and KP Equals (the equals is now below Enter) for Unimap.
+/*  NOTE: I used KEYMAP_ALL before, but have switched to the more universal Unimap.
+ *      - To convert from USB-USB KEYMAP_ALL to UNIMAP, remove the rare right-hand block, PWR and HAEN/HANJ.
+ *      - Some key tokens are different, but that doesn't matter (unless you mix formats in one macro).
+ *      - All rare right-hand block keys [HELP/STOP/AGIN/MENU/UNDO/SLCT/COPY/EXEC/PSTE/FIND/CUT] are gone in Unimap
+ *      - [PWR] K66 gone but [PCMM] K85 -> K66; [VOLD/VOLU/MUTE] K81/K80/K7F -> K01/K02/K03
+ *      - [LCTL/LSFT/LALT/LGUI/RCTL/RSFT/RALT/RGUI] KE0/KE1/KE2/KE3/KE4/KE5/KE6/KE7 -> K78/K79/K7A/K7B/K7C/K7D/K7E/K7F
+ *      - [HAEN/HANJ] K90/K91 (Korean) gone; [RO/KANA/JYEN/HENK/MHEN] K87/K88/K89/K8A/K8B -> K75/K00/K74/K76/K77
+ *      - Korean special keys are missing in Unimap. Koreans could redefine, say, two of the Japanese keys to these?
+ *      - In 2016-10, Hasu switched KP Enter and KP Equals (the equals is now below Enter) for Unimap.
  */
 
 #endif
