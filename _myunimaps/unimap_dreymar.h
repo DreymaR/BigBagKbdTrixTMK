@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *    - UNIMAP_ANS_AW   - AngleWide-ANSI keymap
  *    - UNIMAP_AWINGA   - A-Wing ANSI Angle mod (rarely used)
  *  
- *  REMOVED (as the ZXCVB -> ZXCBV swap should be done in the .c file instead, so it only affects Colemak and Extend):
+ *  REMOVED, as the ZXCVB -> ZXCBV swap is now done in the .c file so it only affects Colemak and Extend as it should:
  *    - UNIMAP_###_CA[_|W]_     - These 'C' maps were exactly like non-C, except for a V-B swap.
  *    - UNIMAP_ISO_CAWS         - Shouldn't be a keymap. Sym is best handled in the .c file (as a soft mod?).
  */
@@ -88,21 +88,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /* ***** CONFIG ******************************************************************************************************** */
-/* ***** Extra includes/definitions                                                         ***** */
-#include "action_util.h"                            /* For the FourLvlU user function */
-#include "action_layer.h"                           /* For the Extender user function */
+/* ***** Extra includes/definitions                                                                                ***** */
+#include "action_util.h"                        /* For the FourLvlU user function                   */
+#include "action_layer.h"                       /* For the Extender user function                   */
 
-/* NOTE: This section (re)defines parts of the controller/converter's local config.h file. The compiler may complain. */
-/* Period of tapping (ms) - the max duration a key may be held down to register as tapped */
+/* NOTE: This section (re)defines parts of the controller/converter's local config.h file.          */
+/*       The compiler may give 'redefined' warnings in some cases; these can be safely ignored.     */
+
+/* Oneshot timeout (ms) - the max delay before a one-shot/sticky modifier is reset and ignored      */
+#define ONESHOT_TIMEOUT 600                     /* was 300 ms                                       */
+/* Period of tapping (ms) - the max duration a key may be held down to register as tapped           */
 #define TAPPING_TERM    300
-/* Tap count needed for toggling a feature - used for special multi-tap actions only */
+/* Tap count needed for toggling a feature - used for special multi-tap actions only                */
 //#define TAPPING_TOGGLE  5
-/* Oneshot timeout (ms) - the max delay before a one-shot modifier is reset and ignored */
-//#define ONESHOT_TIMEOUT 300
-#define ONESHOT_TIMEOUT 600
 
 /* NOTE: Disabling unused features may help reduce firmware size. Don't disable anything necessary! */
-#define NO_DEBUG
+#define NO_DEBUG                                /* May get a 'redefined' warning; that's okay.      */
 //#define NO_PRINT
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
@@ -112,6 +113,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /* ***** MAIN ********************************************************************************************************** */
+/* ***** UNIMAP keymap definitions                                                                                 ***** */
 #ifndef UNIMAP_DREYMAR_H
 #define UNIMAP_DREYMAR_H
 
@@ -255,6 +257,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     LCTL ,LGUI,LALT,JMHE,         SPC_         ,JHEN,JKAN,RALT,RGUI,APP_, RCTL,   LEFT,DOWN,RGHT,   _P0_     ,PDOT,PEQL   \
 )
 
+#endif      /* ifndef UNIMAP_DREYMAR_H  */
+
 /*  NOTE: I used KEYMAP_ALL before, but have switched to the more universal Unimap.
  *      - To convert from USB-USB KEYMAP_ALL to UNIMAP, remove the rare right-hand block, PWR and HAEN/HANJ.
  *      - Some key tokens are different, but that doesn't matter (unless you mix formats in one macro).
@@ -265,5 +269,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *      - Korean special keys are missing in Unimap. Koreans could redefine, say, two of the Japanese keys to these?
  *      - In 2016-10, Hasu switched KP Enter and KP Equals (the equals is now below Enter) for Unimap.
  */
-
-#endif

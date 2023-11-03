@@ -21,13 +21,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *  https://dreymar.colemak.org
  *  
  *  Compiler preprocessor definitions select layout, Extend layers and other options:
- *  - UNIMAPLAYOUT # selects physical/ergonomic layout (ISO/ANSI, Angle/Wide ergo mods)
- *  - ACTIVELAYOUT # selects first/active layout (QWERTY, Colemak etc)
- *  - SECONDLAYOUT # selects second/switch layout (QWERTY, Colemak, mirrored Colemak etc)
- *  - CURLMOD      # selects the Curl(DH) ergo mod; only affects Colemak/Tarmak layouts
- *  - SYMBOLKEYS   # selects the Sym ergo mod and other SymbolKey stuff
- *  - CAPSBEHAVIOR # selects CapsLock key behavior (Extend, BackSpace etc)
- *  - ...            (see below for more)
+ *  - UNIMAPLAYOUT  # selects physical/ergonomic layout: ISO/ANSI, Angle/Wide ergo mods
+ *  - ACTIVELAYOUT  # selects first/active layout: QWERTY, Colemak, etc
+ *  - SECONDLAYOUT  # selects second/switch layout: QWERTY, Colemak, mirrored Colemak, etc
+ *  - CURLMOD       # selects the Curl(DH) ergo mod (only affects Colemak/Tarmak layouts)
+ *  - SYMBOLKEYS    # selects the Sym ergo mod and other SymbolKey stuff
+ *  - CAPSBEHAVIOR  # selects CapsLock key behavior (Extend, BackSpace etc)
+ *  - STICKYMODS    # selects modifier behavior: Shift and/or RCtrl become handy One-Shot Mods
+ *  - ...             (see below for more)
  *  
  *  TODO:
  *  - Turn the ScrollLock LED on when the second layout is active? How?
@@ -54,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *  _ISO_AW - ISO/Int Angle-Wide(/)
  *  _ANS_A_ - ANSI/US Angle(Z)
  *  _ANS_AW - ANSI/US Angle(Z)-Wide(')
- *  _AWINGA - ANSI/US A-Wing
+ *  _AWINGA - ANSI/US A-Wing Angle (rarely used)
  *  
  *  Select an ergo modded keymap, or the plain unmodded Unimap. Note that these maps affect all layouts and layers.
  *  For Curl(DH), you also need to set CURLMOD. For Sym mods, set SYMBOLKEYS according to keymap.
@@ -86,7 +87,7 @@ enum mainlayouts    {
  *  7  : Dvorak (only recommended if you already use it)
  *  8  : Canary (Colemak-like layout; changes more keys, less implemented)
  */
-#define ACTIVELAYOUT    5   /* LAY_COLEMAK      */
+#define ACTIVELAYOUT    5                       /* LAY_COLEMAK      */
 
 enum secondlayouts   {
     SEC_VANQWERTY    ,   /* QWERTY, vanilla/unmodded                */
@@ -98,10 +99,10 @@ enum secondlayouts   {
  *  1  : QWERTY with any active ergo mods (AngleWide etc)
  *  2-#: Colemak (if you want something else, replace it in the code between the 'REPLACE THE SECOND LAYOUT...' lines)
  *  3-#: Colemak Mirrored as second layout for one-handed typing (needs an accessible switch key!)
- *      NOTE: The "FSlk" key is a layer1 toggle or switch (select which below), normally used on the ScrollLock key.
- *            You may swap, e.g., LALT, RGUI or another key with FSlk in your active layout to use that key instead.
+ *      NOTE: The "FSLk" key is a layer1 toggle or switch (select which below), normally used on the ScrollLock key.
+ *            You may swap, e.g., LALT, RGUI or another key with FSLk in your active layout to use that key instead.
  */
-# define SECONDLAYOUT   0   /* SEC_VANQWERTY    */
+#define SECONDLAYOUT    0                       /* SEC_VANQWERTY    */
 
 enum curlmods       {
     CURL_NONE       ,   /* No curl, plain vanilla Colemak/Tarmak    */
@@ -119,7 +120,7 @@ enum curlmods       {
  *        For the other steps, CURLMOD still doesn't move H-M so Curl(DH) users by default will do H-M in the last step.
  *        An extra baby step after Tarmak1 could be transitioning to an Angle(Wide) keymap/model before Tarmak2.
  */
-# define CURLMOD        1   /* CURL_DH          */
+#define CURLMOD         1                       /* CURL_DH          */
 
 enum symbolkeys     {
     SYM_NONE        ,   /* No Sym key changes                       */
@@ -138,7 +139,7 @@ enum symbolkeys     {
  *  4  : Some keys are made four-level: AltGr+<key> sends Unicode glyphs (by OS specific input method)
  *  5  : DreymaR's ISO-Nor hack, moving some keys to make the Norwegian layout more like ANSI/US
  */
-# define SYMBOLKEYS     0   /* SYM_NONE         */
+#define SYMBOLKEYS      3                       /* SYM_WANS         */
 
 enum capsbehaviors  {
     CAPS_CAPS       ,   /* CapsLock as its plain old self           */
@@ -156,7 +157,7 @@ enum capsbehaviors  {
  *  NOTE: Depending on your keyboard's scan matrix(?), chorded Extend modifiers such as Ext1+S+T+N for Shift+Ctrl+Left
  *        may not work. With Caps=Ext1, I've had trouble with Ext1+S+T+N; with LAlt=Ext1 even Ext1+S+N didn't work!
  */
-#define CAPSBEHAVIOR    1   /* CAPS_EXTEND      */
+#define CAPSBEHAVIOR    1                       /* CAPS_EXTEND      */
 
 /*  The EXT#BIT constants with the main Extend key (Caps by default) select Extend# layers in the EXTENDER user function:
  *  Ext1 on Caps alone       : Navigation/editing/multimedia
@@ -166,8 +167,8 @@ enum capsbehaviors  {
  *  NOTE: Alt keys as Extend# selectors failed, as AltUp activates Win menus even when the mod is turned off?!
  *      - It should be possible to write an Alt user function that doesn't release Alt when Ext has been pressed.
  */
-#define EXT2BIT MOD_BIT(KC_RSFT)                                    /*  Ext2+Ext selects Extend2    */
-#define EXT3BIT MOD_BIT(KC_RCTL)                                    /*  Ext3+Ext selects Extend3    */
+#define EXT2BIT MOD_BIT(KC_RSFT)                /*  Ext2+Ext selects Extend2    */
+#define EXT3BIT MOD_BIT(KC_RCTL)                /*  Ext3+Ext selects Extend3    */
 
 enum oneshotmods    {
     STICKY_NONE     ,   /* No sticky/oneshot modifiers              */
@@ -180,10 +181,10 @@ enum oneshotmods    {
  *  2: Sticky Ctrl only
  *  3: Sticky Shift & Ctrl
  *  NOTE: In the unimap_dreymar.h file, some relevant constants normally set in config.h are (re)set:
- *      - TAPPING_TERM is the max time a key may be held down for it to register as tapped
- *      - ONESHOT_TIMEOUT is the max delay before a oneshot modifier is ignored
+ *      - ONESHOT_TIMEOUT   max delay (in ms) before a oneshot/sticky modifier is ignored
+ *      - TAPPING_TERM      max time a key may be held down for it to register as tapped, not held
  */
-#define STICKYMODS      1   /* STICKY_SHFT      */
+#define STICKYMODS      1                       /* STICKY_SHFT      */
 
 enum sclkbehaviors  {
     SLCK_SLCK       ,   /* ScrollLock as its old self               */
@@ -194,7 +195,7 @@ enum sclkbehaviors  {
  *  1: Layer 1 toggle key (toggles the second layout)
  *  2: Layer 1 switch key (layer shift; e.g., for mirrored typing if you can use it as "ghetto" foot switch)
  */
-#define SLCKBEHAVIOR    1   /* SLCK_L1TOGGLE    */
+#define SLCKBEHAVIOR    1                       /* SLCK_L1TOGGLE    */
 
 enum pausbehaviors  {
     PAUS_PAUS       ,   /* Pause as its old self                    */
@@ -203,35 +204,35 @@ enum pausbehaviors  {
  *  0: Normal Pause/Break (default)
  *  1: Win/GUI key (useful for 101/104-key boards that have no GUI key)
  */
-#define PAUSBEHAVIOR    0   /* PAUS_PAUS        */
+#define PAUSBEHAVIOR    0                       /* PAUS_PAUS        */
 
 /*  UNICODEHEADER and UNICODEFOOTER handle OS dependency in the FOURLVLU user function, used by SYMBOLKEYS above.       */
 /*  TODO: These headers haven't been tested on XOrg and MacOS. Also, TMK now has easy-to-use UNI[X|W|M]_() macros.      */
 /*  For XOrg,    Unicode 4-digit hex input uses Ctrl+Shift+u, ####, Enter.                                              */
 //#define UNICODEHEADER add_weak_mods( MOD_BIT(KC_LCTL) | MOD_BIT(KC_LSFT) ); type_code( KC_U    ); /* Ctrl+Shift+U,    */
 //#define UNICODEFOOTER del_weak_mods( MOD_BIT(KC_LCTL) | MOD_BIT(KC_LSFT) ); type_code( KC_ENT  ); /* Del_mods; Enter. */
-    /*  <-- FOURLVLU Unicode header/footer for XOrg                                                                     */
+            /*  <-- FOURLVLU Unicode header/footer for XOrg                                             */
 /*  For MacOS,   Unicode 4-digit hex Unicode input uses Alt+#### (as Alt equals Mac Option).                            */
 //#define UNICODEHEADER   add_weak_mods( MOD_BIT(KC_LALT) );            /*  Hold Option/LAlt.           */
 //#define UNICODEFOOTER   del_weak_mods( MOD_BIT(KC_LALT) );            /*  Release Option/LAlt.        */
-    /*  <-- FOURLVLU Unicode header/footer for MacOS                                                                    */
+            /*  <-- FOURLVLU Unicode header/footer for MacOS                                            */
 /*  For Windows, Unicode 4-digit decimal nr. input uses Alt+Keypad(####). It works with RAlt too on the US/ANSI layout. */
 #define UNICODEHEADER   set_mods( MOD_BIT(KC_RALT) );                   /*  Keep just the RAlt bit,     */
 #define UNICODEFOOTER   ;                                               /*  No footer necessary here.   */
-    /*  <-- FOURLVLU Unicode header/footer for Windows                                                                  */
+            /*  <-- FOURLVLU Unicode header/footer for Windows                                          */
 
 /* DreymaR's master key! Define it for a quick override. It gets compiler warnings due to redefinition; ignore these.   */
 //#define MASTERKEY
 #ifdef MASTERKEY
 # define UNIMAPLAYOUT(...)  UNIMAP_ISO_AW( __VA_ARGS__ )    /* AngleWide-ISO keymap */
-# define ACTIVELAYOUT   5                                   /* LAY_COLEMAK      */
-# define SECONDLAYOUT   0                                   /* SEC_VANQWERTY    */
-# define CURLMOD        1                                   /* CURL_DH(m)       */
+//# define ACTIVELAYOUT   5                                   /* LAY_COLEMAK      */
+//# define SECONDLAYOUT   0                                   /* SEC_VANQWERTY    */
+//# define CURLMOD        1                                   /* CURL_DH(m)       */
 # define SYMBOLKEYS     5                                   /* SYM_ISOHACK      */
-# define CAPSBEHAVIOR   1                                   /* CAPS_EXTEND      */
-# define STICKYMODS     1                                   /* STICKY_SHFT      */
-# define SLCKBEHAVIOR   1                                   /* SLCK_L1TOGGLE    */
-# define PAUSBEHAVIOR   0                                   /* PAUS_PAUS        */
+//# define CAPSBEHAVIOR   1                                   /* CAPS_EXTEND      */
+//# define STICKYMODS     1                                   /* STICKY_SHFT      */
+//# define SLCKBEHAVIOR   1                                   /* SLCK_L1TOGGLE    */
+//# define PAUSBEHAVIOR   0                                   /* PAUS_PAUS        */
 #endif      /* ifdef MASTERKEY */
 
 /* ***** DECLARATIONS ************************************************************************************************* */
@@ -637,7 +638,7 @@ enum macro_id {
     FCap   ,  C ,  R ,  S ,  T ,  B ,  F ,  N ,  E ,  I ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Q ,  J ,  V ,  D ,  G ,  M ,  H ,FSls,COMM,DOT , RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
-    /* ******* Extra graphics of some of my layouts: ****************** */
+    /* ******* Extra graphics of some layouts: ************************ */
     /*  Colemak-CurlAngleWide, adapted for Norwegian locale (DreymaR's ISO-Nor hack)
      *  http://forum.colemak.com/viewtopic.php?id=2158 (this describes the old Cmk-CAW hack; it's Cmk-CAWS now)
      *  US:  -_  ->  /?      ]}  ->  ;:  ->  -_  ->  \|  ->  '"      [{
@@ -856,7 +857,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
         if (record->event.pressed) {
             rmods &= ( EXT2BIT | EXT3BIT );                         /*  - Ignore any other mods.    */
             switch ( rmods ) {
-            case ( EXT2BIT & EXT3BIT )                          :   /*  - If Ext2+Ext3 are pressed: */
+            case ( EXT2BIT | EXT3BIT )                          :   /*  - If Ext2+Ext3 are pressed: */
                 /*  TODO: Select Extend4 (not implemented yet)      */
             break;
             case ( EXT3BIT )                                    :   /*  - If Ext3 is pressed:       */
@@ -885,7 +886,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         return (record->event.pressed ?
             MACRO( I(0), 
                 T(ENT), T(ENT), ST(M), T(V), T(H), T(COMM), T(ENT), 
-                UNIW_(0,2,1,6), T(Y), T(S), T(T), T(E), T(I), T(N), T(ENT), T(ENT), 
+                UNIW_(0,2,1,6), T(Y), T(S), T(T), T(E), T(I), T(N), T(ENT), T(ENT),     /*  Name    */
                 SFT_( T(I), T(K), T(K), T(E), T(SPC), 
                     T(S), T(E), T(N), T(S), T(I), T(T), T(I), T(V), T(T) ), 
                 T(ENT), T(UP), T(UP), T(UP), T(END), ST(HOME), 

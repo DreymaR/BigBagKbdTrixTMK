@@ -45,11 +45,18 @@ There are other tools for flashing that you may prefer (as I've had my share of 
 * [KeyPlus](https://github.com/ahtn/keyplus); "an easy to use keyboard firmware (...) in beta". Precompiled, w/ a GUI. 
   - On Windows: Didn't find my Hasu (atmega23u4) device, at least not right away...?
 
+Lately I've been using the QMK Toolbox on Windows. It works great.
+<br>
+
 _Happy TMK hacking!_
 _~ DreymaR_
 
 ___
 <a name="QICO" title="QWERTY USB Input, Colemak Key Input Emulated">¤</a>: **Q**WERTY **U**SB **I**nput, **C**olemak **K**ey **I**nput **E**mulated (my pet name for USB converters like [Hasu's][HU2U]).
+
+2FIX:
+-----
+- 
 
 TODO:
 -----
@@ -58,13 +65,13 @@ TODO:
 
 DONE:
 -----
-- Added Sym mod variants, merging them and ISOANSIADAPT (4-level keys, ISO-Nor hack) into a new 'soft' SYMBOLKEYS setting.
-	- Also changed the BSLS key to FBsl; using that for ANSI and the similar NUHS/FHsh key for ISO (re)mappings.
+- Added Sym mod variants, merging them and ISOANSIADAPT (4-level keys, ISO-Nor hack) into a new SYMBOLKEYS setting.
+	- Also changed the BSLS key to FBsl; now using that for ANSI and the similar NUHS/FHsh key for ISO (re)mappings.
 	- The Sym mods should work for some non-Cmk layouts too, like QWERTY and Canary. Dvorak, however, already has a "Sym mod".
-- Uncoupled the "soft" Curl mod from "hard" keymaps, removing the '_CA(W)' maps. Instead, Cmk-DH and Extend respects CURLMOD.
+- Uncoupled the "soft" Curl mod from "hard" keymaps, removing the '_CA(W)' maps. Instead, Cmk-DH and Extend respect CURLMOD.
 - Converted the Forum docs to Markdown+HTML and added them to this repo in a docs folder.
 - Nuked that accursed old Workman entry. The Canary layout constitutes a very worthy replacement. Kept Dvorak for nostalgics.
-- Nuked the old DHk ergo mod, keeping only standard DH(m) now. Sorry, users of DHk, but you'll now have to edit it in yourself.
+- Nuked the old DHk ergo mod, keeping only standard DH(m) now. Sorry, user of DHk, but you'll now have to edit it in yourself.
 - TMK repo: Pushed tmk_core ST(), MOD_() and UNI[X|W|M]_() #define functions for macros, simplifying typing and unicode input.
 - TMK repo: Made a tmk_core type_code() function, so typing (registering/unregistering) key codes is easy and clear.
 

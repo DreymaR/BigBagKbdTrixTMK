@@ -1,9 +1,10 @@
-DreymaR's Big Bag of Keyboard Tricks for USB/TMK
+DreymaR's Big Bag of Keyboard Tricks for TMK/USB
 ================================================
 
-For general info on the Big Bag of Tricks, consult the [Big Bag pages][BBoT]. <br>
+For general info on the Big Bag of Keyboard Tricks, consult the [**Big Bag of Tricks**][BBoT] pages. <br>
 Select the controller platform icon to make the purple info boxes show relevant info for controllers and USB-2-USB devices.
 
+This README is based on the now outdated [Colemak Forum BigBag for TMK topic][BBTU].
 <br><br>
 
 ---
@@ -174,7 +175,7 @@ These are ergonomic mods, moving some keys around to achieve straight wrists (th
 
 <br>
 <img src="https://dreymar.colemak.org/res/cmk/ergomods/Cmk-ISO-AWide-35_60d-FShui.png">
-<i>The AngleWide(Slash) ergo mod for ISO keyboards.</i><br>
+<i>The AngleWide ergo mod for ISO keyboards.</i><br>
 <br>
 
 I've implemented the ZXCVB_ "Angle-ISO" shift for ISO keyboards both separately and as part of the AngleWide-ISO mod that I use myself. For ANSI boards I've made an implementation of the "Angle(Z)" shift (moving the Z key to the middle) and a Wide mod as well as <a href="https://dreymar.colemak.org/ergo-mods.html#angle-wide">the AngleWide combination</a> of these. Also the rarely used 'A-Wing' mod to get the Angle and right pinky benefits without messing with the Z position (but at other costs).
@@ -192,15 +193,15 @@ To use one of these, define the Unimap layout constant in my keymap (.c) file:
  *  _ISO_AW - ISO/Int Angle-Wide(/)
  *  _ANS_A_ - ANSI/US Angle(Z)
  *  _ANS_AW - ANSI/US Angle(Z)-Wide(')
- *  _AWINGA - ANSI/US A-Wing
+ *  _AWINGA - ANSI/US A-Wing Angle (rarely used)
  *  
  *  Select an ergo modded keymap, or the plain unmodded Unimap. Note that these maps affect all layouts and layers.
  *  For Curl(DH), you also need to set CURLMOD. For Sym mods, set SYMBOLKEYS according to keymap.
  *  To get, say, the Colemak-CAWS (CurlAngleWideSym) layout on ISO/ANSI, use the _###_AW keymap with
- *      ACTIVELAYOUT 5, CURLMOD 1 and SYMBOLKEYS 2/3 settings below. And CAPSBEHAVIOR 1 for Extend, of course! ^_^
+ *      ACTIVELAYOUT 5, CURLMOD 1 and SYMBOLKEYS 2/3 settings below. And CAPSBEHAVIOR 1 for Extend, of course!
 </code></pre><br>
 
-The actual keymap types are defined in the header (.h) file as compiler macros. These are a bit harder to edit manually.
+The actual keymap types are defined in the header (.h) file as compiler macros. These are harder to edit manually.
 
 
 <br><h3>[2.2]    COLEMAK-DH ALIAS THE CURL ERGO MOD</h3>
@@ -235,7 +236,7 @@ To use Colemak-DH with my TMK files, there's a preprocessor switch named `CURLMO
 This switch only affects Colemak layouts, including the four Tarmak layouts and Mirrored Colemak. As mentioned, use an 'A' keymap with it (optional for Tarmak1).
 
 
-<br><h3>[2.3]    PLAYING WITH THE SYMS (Work-In-Progress)</h3>
+<br><h3>[2.3]    PLAYING WITH THE SYMS</h3>
 
 The Symbol key mods are selected with the `SYMBOLKEYS` setting. The Sym mod depends on your keymap, so select the right one depending on your Wide mod and board type.
 <pre><code>
@@ -362,7 +363,7 @@ If you want a non-Colemak mirrored layout, you're on your own writing one. If yo
 
 You'll want an easily accessible key (such as a thumb key) to switch between normal and mirrored typing. One suggestion is using LAlt for left-handed typing, and RAlt or RWin for right-handed typing. But you may instead use a foot switch set to any other key, or a "ghetto foot switch" made by stripping most keys off a keyboard and placing it on the floor, for instance. A more fancy but still cheap foot switch could be made by soldering the wires from a foot pedal switch (if you have something useable) to the contacts of a key on a cheap keyboard. By default, the layer switch key in my files is Pause/Break which could be cannibalized this way.
 
-Then, you may choose whether the switch key should be a normal Shift-type (switch) or a Caps-type (toggle) modifier. See how I've defined the "FSlk" Fn key in my file; it's used as my definition for the ScrollLock key but you can copy that to any other key as well. The normal way would be to set it to a Shift/switch-type with `ACTION_LAYER_MOMENTARY(1)` (`SLCKBEHAVIOR 2`), and then replace the desired key in your active (layer0) layout with `FSlk` if you wish to move it. If you go with a toggle modifier, you need to make that key transparent (TRNS) on the mirrored layout, or provide a similar toggle somewhere else or you won't be able to get back!
+Then, you may choose whether the switch key should be a normal Shift-type (switch) or a Caps-type (toggle) modifier. See how I've defined the "FSLk" Fn key in my file; it's used as my definition for the ScrollLock key but you can copy that to any other key as well. The normal way would be to set it to a Shift/switch-type with `ACTION_LAYER_MOMENTARY(1)` (`SLCKBEHAVIOR 2`), and then replace the desired key in your active (layer0) layout with `FSLk` if you wish to move it. If you go with a toggle modifier, you need to make that key transparent (TRNS) on the mirrored layout, or provide a similar toggle somewhere else or you won't be able to get back!
 
 Tip: Sticky Shift and Ctrl could be useful for one-handed typing! See the `STICKYMODS` setting.
 
@@ -580,12 +581,12 @@ The layout options are chosen with preprocessor directives; you can edit the val
  *  _ISO_AW - ISO/Int Angle-Wide(/)
  *  _ANS_A_ - ANSI/US Angle(Z)
  *  _ANS_AW - ANSI/US Angle(Z)-Wide(')
- *  _AWINGA - ANSI/US A-Wing
+ *  _AWINGA - ANSI/US A-Wing Angle (rarely used)
  *  
  *  Select an ergo modded keymap, or the plain unmodded Unimap. Note that these maps affect all layouts and layers.
  *  For Curl(DH), you also need to set CURLMOD. For Sym mods, set SYMBOLKEYS according to keymap.
  *  To get, say, the Colemak-CAWS (CurlAngleWideSym) layout on ISO/ANSI, use the _###_AW keymap with
- *      ACTIVELAYOUT 5, CURLMOD 1 and SYMBOLKEYS 2/3 settings below. And CAPSBEHAVIOR 1 for Extend, of course! ^_^
+ *      ACTIVELAYOUT 5, CURLMOD 1 and SYMBOLKEYS 2/3 settings below. And CAPSBEHAVIOR 1 for Extend, of course!
  */
 #define UNIMAPLAYOUT(...)   UNIMAP_ANS_AW( __VA_ARGS__ )    /* AngleWide-ANSI keymap */
 </code></pre><br>
@@ -607,7 +608,7 @@ For layouts and layout options, the directives will select which pieces of code 
  *  7  : Dvorak (only recommended if you already use it)
  *  8  : Canary (Colemak-like layout; changes more keys, less implemented)
  */
-#define ACTIVELAYOUT    5   /* LAY_COLEMAK      */
+#define ACTIVELAYOUT    5                       /* LAY_COLEMAK      */
 </code></pre><br>
 
 <h4>Second/switch layout settings:</h4>
@@ -617,10 +618,10 @@ For layouts and layout options, the directives will select which pieces of code 
  *  1  : QWERTY with any active ergo mods (AngleWide etc)
  *  2-#: Colemak (if you want something else, replace it in the code between the 'REPLACE THE SECOND LAYOUT...' lines)
  *  3-#: Colemak Mirrored as second layout for one-handed typing (needs an accessible switch key!)
- *      NOTE: The "FSlk" key is a layer1 toggle or switch (select which below), normally used on the ScrollLock key.
- *            You may swap, e.g., LALT, RGUI or another key with FSlk in your active layout to use that key instead.
+ *      NOTE: The "FSLk" key is a layer1 toggle or switch (select which below), normally used on the ScrollLock key.
+ *            You may swap, e.g., LALT, RGUI or another key with FSLk in your active layout to use that key instead.
  */
-# define SECONDLAYOUT   0   /* SEC_VANQWERTY    */
+#define SECONDLAYOUT    0                       /* SEC_VANQWERTY    */
 </code></pre><br>
 
 <h4>Curl(DH)-mod settings:</h4>
@@ -638,7 +639,7 @@ For layouts and layout options, the directives will select which pieces of code 
  *        For the other steps, CURLMOD still doesn't move H-M so Curl(DH) users by default will do H-M in the last step.
  *        An extra baby step after Tarmak1 could be transitioning to an Angle(Wide) keymap/model before Tarmak2.
  */
-# define CURLMOD        1   /* CURL_DH          */
+#define CURLMOD         1                       /* CURL_DH          */
 </code></pre><br>
 
 <h4>Symbol key behavior settings:</h4>
@@ -653,7 +654,7 @@ For layouts and layout options, the directives will select which pieces of code 
  *  4  : Some keys are made four-level: AltGr+<key> sends Unicode glyphs (by OS specific input method)
  *  5  : DreymaR's ISO-Nor hack, moving some keys to make the Norwegian layout more like ANSI/US
  */
-# define SYMBOLKEYS     0   /* SYM_NONE         */
+#define SYMBOLKEYS      0                       /* SYM_NONE         */
 </code></pre><br>
 
 <h4>CapsLock behavior settings, including Extend mode:</h4>
@@ -668,7 +669,18 @@ For layouts and layout options, the directives will select which pieces of code 
  *  NOTE: Depending on your keyboard's scan matrix(?), chorded Extend modifiers such as Ext1+S+T+N for Shift+Ctrl+Left
  *        may not work. With Caps=Ext1, I've had trouble with Ext1+S+T+N; with LAlt=Ext1 even Ext1+S+N didn't work!
  */
-#define CAPSBEHAVIOR    1   /* CAPS_EXTEND      */
+#define CAPSBEHAVIOR    1                       /* CAPS_EXTEND      */
+/*  The CAPSBEHAVIOR constant chooses Caps key action, including the powerful Extend layer switch:
+ *  0: CapsLock (unchanged)
+ *  1: Extend modifier (uses a little more layout memory, but it's by far the most powerful option IMNSHO!)
+ *  2: BackSpace (for vanilla Colemak or otherwise; a decent choice but Extend is better!)
+ *  3: LCtrl
+ *  4: Esc
+ *  NOTE: To move modifiers, edit the layouts or the appropriate UNIMAP_### in my .h file (e.g., swapping CAPS and #ALT).
+ *  NOTE: Depending on your keyboard's scan matrix(?), chorded Extend modifiers such as Ext1+S+T+N for Shift+Ctrl+Left
+ *        may not work. With Caps=Ext1, I've had trouble with Ext1+S+T+N; with LAlt=Ext1 even Ext1+S+N didn't work!
+ */
+#define CAPSBEHAVIOR    1                       /* CAPS_EXTEND      */
 
 /*  The EXT#BIT constants with the main Extend key (Caps by default) select Extend# layers in the EXTENDER user function:
  *  Ext1 on Caps alone       : Navigation/editing/multimedia
@@ -678,8 +690,8 @@ For layouts and layout options, the directives will select which pieces of code 
  *  NOTE: Alt keys as Extend# selectors failed, as AltUp activates Win menus even when the mod is turned off?!
  *      - It should be possible to write an Alt user function that doesn't release Alt when Ext has been pressed.
  */
-#define EXT2BIT MOD_BIT(KC_RSFT)                                    /*  Ext2+Ext selects Extend2    */
-#define EXT3BIT MOD_BIT(KC_RCTL)                                    /*  Ext3+Ext selects Extend3    */
+#define EXT2BIT MOD_BIT(KC_RSFT)                /*  Ext2+Ext selects Extend2    */
+#define EXT3BIT MOD_BIT(KC_RCTL)                /*  Ext3+Ext selects Extend3    */
 </code></pre><br>
 
 <h4>Sticky mods (Shift and/or Ctrl) settings:</h4>
@@ -690,10 +702,10 @@ For layouts and layout options, the directives will select which pieces of code 
  *  2: Sticky Ctrl only
  *  3: Sticky Shift & Ctrl
  *  NOTE: In the unimap_dreymar.h file, some relevant constants normally set in config.h are (re)set:
- *      - TAPPING_TERM is the max time a key may be held down for it to register as tapped
- *      - ONESHOT_TIMEOUT is the max delay before a oneshot modifier is ignored
+ *      - ONESHOT_TIMEOUT   max delay (in ms) before a oneshot/sticky modifier is ignored
+ *      - TAPPING_TERM      max time a key may be held down for it to register as tapped, not held
  */
-#define STICKYMODS      1   /* STICKY_SHFT      */
+#define STICKYMODS      1                       /* STICKY_SHFT      */
 </code></pre><br>
 
 <h4>ScrollLock and Pause/Break behavior settings:</h4>
@@ -703,16 +715,13 @@ For layouts and layout options, the directives will select which pieces of code 
  *  1: Layer 1 toggle key (toggles the second layout)
  *  2: Layer 1 switch key (layer shift; e.g., for mirrored typing if you can use it as "ghetto" foot switch)
  */
-#define SLCKBEHAVIOR    1   /* SLCK_L1TOGGLE    */
+#define SLCKBEHAVIOR    1                       /* SLCK_L1TOGGLE    */
 
-enum pausbehaviors  {
-    PAUS_PAUS       ,   /* Pause as its old self                    */
-    PAUS_LGUI       };  /* Pause as LWin/LGUI                       */
 /*  The PAUSBEHAVIOR constant chooses Pause/Break key action:
  *  0: Normal Pause/Break (default)
  *  1: Win/GUI key (useful for 101/104-key boards that have no GUI key)
  */
-#define PAUSBEHAVIOR    0   /* PAUS_PAUS        */
+#define PAUSBEHAVIOR    0                       /* PAUS_PAUS        */
 </code></pre><br>
 
 
@@ -762,7 +771,7 @@ This section shows how to flash your HEX file to a USB-2-USB device and get it r
 <b>NOTE:</b> Flashing with a keyboard plugged into the device may be safe in most cases. But I got trouble with one keyboard (IBM/Unicomp Model M) after using FLIP for flashing with it inserted; it seems like the drivers or registry entry got corrupted somehow because now it won't mount on that PC anymore even though it's quite okay on other machines. Be warned.
 
 
-<h4>Flashing the device with Linux:</h4>
+<h4>Flashing the device on Linux:</h4>
 
 My script run with the <b>-f</b> option flashes the generated HEX file to a connected device using DFU-Programmer; if you've already made the .hex file use <b>-b</b> to skip rebuilding it. If you want to flash without using my script, you could use the 'make dfu' command inside the usb_usb directory, or look inside the script to see how I did it.
 
@@ -780,16 +789,16 @@ For updated WSL installs, this probably isn't a problem anymore.
 If you have another device, you may need some other method and more tools. As mentioned at the start of this page, there are help files you may consult for this.
 
 
-<h4>Flashing the device with Atmel FLIP on Windows:</h4>
+<h4>Flashing the device on Windows:</h4>
+
+I used to flash with Atmel FLIP on Windows instead of under Linux: It gives you more feedback and intuitive control with the process. 
+If you compiled your HEX file on Linux you must make it available for the Windows file system to use Windows FLIP. Using newer WSL, this is easy.
+Earlier, I put the whole TMK repository in a shared folder that both Windows and my virtual Linux machine can see; 
+you could also move it on a USB drive or copy-paste from a Virtual Machine if your VM settings allow this.
 
 NOTE: Atmel FLIP has been difficult for me lately, as it doesn't seem to find an updated Java version on my system. 
-You (and I) may try other available flashing tools, such as <a href="https://github.com/qmk/qmk_toolbox/"><b>QMK Toolbox</b></a>. 
+You may try other flashing tools. Lately I've used the <a href="https://github.com/qmk/qmk_toolbox/"><b>QMK Toolbox</b></a> on Windows. It works great.
 Some of the other tools work in a way quite similar to FLIP, so the instructions below may prove instructive to you no matter what.
-
-You can use Atmel FLIP on Windows instead of flashing under Linux: It gives you more feedback and intuitive control with the process. 
-If you compiled your HEX file on Linux you must make it available for the Windows file system to use Windows FLIP. 
-I just put the whole TMK repository in a shared folder that both Windows and my virtual Linux machine can see; 
-you could also move it on a USB drive or copy-paste from a Virtual Machine if your VM settings allow this.
 
 1) Select the right chip (fig 5–1)</b>. For the Hasu device, it's <b>ATmega32U4</b>. Verify the chip type <b><i>(fig 5–a)</i></b>.
 2) <b>Connect to the device</b> in Bootloader mode. Select <b>USB connection (fig 5–2)</b> then <b>Open</b>. Verify the connection <b><i>(fig 5–c)</i></b>.
@@ -797,7 +806,7 @@ you could also move it on a USB drive or copy-paste from a Virtual Machine if yo
     - Verify for ATmega32U4 which only has 32kB memory minus 4 kB bootloader, that the file size is below <b>28480 bytes</b> <b><i>(fig 5–b)</i></b>.
 4) <b>Flash the device (fig 5–4)</b>. Make sure all options are on as shown, then press "<b>Run</b>".
 5) <b>Activate the device (fig 5–5)</b>. Press "<b>Start Application</b>". Reset should be checked.
-6) <b>Test the device</b>. With a keyboard connected to the device, type something on it and see that it does what it should.
+6) <b>Test the device</b>. You may have to plug it out and in again first. Then, plug a keyboard to the device and type away.
 
 <br>
 <img src="img/USB2USB_AtmelFlip_Hasu.png">
@@ -813,6 +822,9 @@ you could also move it on a USB drive or copy-paste from a Virtual Machine if yo
 <a name="hardware-implementations"></a><h3>[4.4]    HARDWARE IMPLEMENTATIONS</h3>
 
 I won't cover all possibilities here. I use Hasu's converters myself and haven't got any experience with others, but the possibilities are many.
+
+One little note: I've experienced that my Hasu device doesn't provide enough power to drive all keyboards, such as some fancy ones with RGB LEDs. 
+I'm guessing there isn't much to be done about it? Mostly, I use my device with ordinary keyboards and it works perfectly.
 
 A <a href="https://geekhack.org/index.php?topic=80421">Pro Micro (such as the one seen above by GeekHack user Yangdigi)</a> may be cheapest, but it also seems to be the most techy option?
 
@@ -906,7 +918,7 @@ This topic won't show you any more about how to get your own QUICKIE USB-2-USB d
 <br>
 
 [BBoT]: https://dreymar.colemak.org (DreymaR's Big Bag of Keyboard Tricks)
+[BBTU]: http://forum.colemak.com/viewtopic.php?id=2158 (DreymaR's Big Bag of Keyboard Tricks - TMK/USB edition)
 [TMKG]: https://github.com/tmk/tmk_keyboard (Hasu's TMK repository on GitHub)
-[DBBU]: http://forum.colemak.com/viewtopic.php?id=2158 (DreymaR's Big Bag of Keyboard Tricks - USB edition)
 [CMKF]: http://forum.colemak.com (Shai's Colemak forums)
 [HU2U]: https://geekhack.org/index.php?topic=69169 (Hasu's USB-USB keyboard converter)
