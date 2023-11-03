@@ -37,13 +37,13 @@ Also, obviously the [main TMK GitHub repo][TMKG].
 There are other tools for flashing that you may prefer (as I've had my share of trouble using Atmel Flip on Windows!):
 
 * [QMK Toolbox](https://github.com/qmk/qmk_toolbox/); "a collection of flashing tools packaged into one app. It supports auto-detection and auto-flashing of firmware to keyboards."
-	- On Windows: Asked whether to install drivers. Successfully installed a driver for the Hasu device. It showed up in Device Manager as "Atmel USB Devices -> ATmega32U4".
+  - On Windows: Asked whether to install drivers. Successfully installed a driver for the Hasu device. It showed up in Device Manager as "Atmel USB Devices -> ATmega32U4".
 * [DFU-programmer](https://github.com/dfu-programmer/dfu-programmer); "an implementation of the Device Firmware Upgrade class USB driver that enables (...) Atmel chips."
-	- This is a commonly used flashing tool on Linux.
+  - This is a commonly used flashing tool on Linux.
 * [kp_boot_32u4](https://github.com/ahtn/kp_boot_32u4); "a simple bootloader for the ATmega32u4 family (...). The code size is <1kB and doesn't need drivers on Windows."
-	- Command-line-based. Seems compact enough? Installed w/ a Python script. Apparently, KeyPlus below uses it?
+  - Command-line-based. Seems compact enough? Installed w/ a Python script. Apparently, KeyPlus below uses it?
 * [KeyPlus](https://github.com/ahtn/keyplus); "an easy to use keyboard firmware (...) in beta". Precompiled, w/ a GUI. 
-	- On Windows: Didn't find my Hasu (atmega23u4) device, at least not right away...?
+  - On Windows: Didn't find my Hasu (atmega23u4) device, at least not right away...?
 
 _Happy TMK hacking!_
 _~ DreymaR_
@@ -53,26 +53,24 @@ ___
 
 TODO:
 -----
-- The Sym mod should be made a layout option (it should not affect Extend!)? One for non-Wide and one for Wide, then.
-	- It'll be many combos with Curl+Sym. Choose just a few, like {C,CA,CAWS}? Or?
-	- If there's one for each non-Wide CurlMod setting, the Angle is done with "Model" anyway.
-	- Same w/ Wide? But here, it's different for ISO and ANSI? May get too complex.
-		- So... Just make a CAWS then, and let AWS and other complexity be?
-	- But how about Sym outside Cmk? It might be nice to offer, say, QWERTY Sym or Canary Sym!
-		- One way might be to offer both a keymap _and_ a layout option. But that's a lot?
-		- How about having a CURL_SYM option (0/1/2/3 bit logic), where the Sym part also affects QWERTY?
-- Uncouple the Curl mod from keymap? It's more of a symbolic/soft mod. Should not affect Extend (much).
-	- Also, Curl is a Colemak thing, should not affect other layouts.
-- Lose the DHk mod now, for reasons of sanity. Maybe leave a little instruction on how to get it.
-- Make two different Extend bottom rows depending on CURLMOD setting. Can use #if.
-- Are UNICODEHEADER and UNICODEFOOTER superseded now, by the handy TMK `UNI[X|W|M]_()` macro syntax (that I devised)?
-- How hard would it be to port this to QMK? Would that work for the Hasu USB-2-USB device?
+- How hard would it be to port this to QMK? Would that work for the Hasu USB-2-USB device? QMK is so popular these days.
+- Are UNICODEHEADER and UNICODEFOOTER superseded now, by the handy TMK `UNI[X|W|M]_()` macro syntax (that I devised)? Rewrite?
 
 DONE:
 -----
+- Added Sym mod variants, merging them and ISOANSIADAPT (4-level keys, ISO-Nor hack) into a new 'soft' SYMBOLKEYS setting.
+	- Also changed the BSLS key to FBsl; using that for ANSI and the similar NUHS/FHsh key for ISO (re)mappings.
+	- The Sym mods should work for some non-Cmk layouts too, like QWERTY and Canary. Dvorak, however, already has a "Sym mod".
+- Uncoupled the "soft" Curl mod from "hard" keymaps, removing the '_CA(W)' maps. Instead, Cmk-DH and Extend respects CURLMOD.
 - Converted the Forum docs to Markdown+HTML and added them to this repo in a docs folder.
-- Nuked that accursed old Workman entry. The Canary layout constitutes a far more worthy replacement.
-- Nuked the old DHk ergo mod, keeping only standard DH(m) now. Sorry, users of DHk, but you'll now have to edit it in.
+- Nuked that accursed old Workman entry. The Canary layout constitutes a very worthy replacement. Kept Dvorak for nostalgics.
+- Nuked the old DHk ergo mod, keeping only standard DH(m) now. Sorry, users of DHk, but you'll now have to edit it in yourself.
+- TMK repo: Pushed tmk_core ST(), MOD_() and UNI[X|W|M]_() #define functions for macros, simplifying typing and unicode input.
+- TMK repo: Made a tmk_core type_code() function, so typing (registering/unregistering) key codes is easy and clear.
+
+HOLD:
+-----
+- Add Extend3 and Extend4 layers, memory permitting? Not necessary, as I don't use them now.
 
 
 [TMKG]: https://github.com/tmk/tmk_keyboard (Hasu's TMK repository on GitHub)
