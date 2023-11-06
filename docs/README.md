@@ -74,6 +74,7 @@ An advantage of my TMK-based implementation is that you can pick and choose most
 * The Extend layers and switch keys are options that should work with nearly any existing layout
 * The Curl(DH) mod for Colemak layouts and SymbolKey modifications use separate modular switches
 * Mirrored Colemak and Tarmak (transitional Colemak) are separate layouts.
+
 Freedom of choice through <b>modularity</b> is an ideal in the DreymaR world, as it is in Linux.
 
 <br><br>
@@ -401,10 +402,13 @@ The <b>[Keymap Configuration](#keymap-configuration)</b> section will show you h
 
 <h4>Device preparation:</h4>
 
-<b>1.</b> <b>For flashing on Windows: <a href="http://www.atmel.com/tools/FLIP.aspx">Install Atmel's FLIP application</a></b> for device drivers ++
+<b>1.</b> <b>For flashing on Windows: Install an application for device drivers ++</b>
 
-* Note that it says 'Buy now' on a button but the links below don't cost anything!
-* I've had trouble with FLIP not finding a Java Virtual Machine after a Java update; you may have to <b><a href="https://www.java.com/en/download/manual.jsp">reinstall your Java Runtime Environment</a></b>.
+* New way: <a href="https://github.com/qmk/qmk_toolbox/"><b>QMK Toolbox</b></a> on Windows takes care of device drivers.
+* Old way: <a href="http://www.atmel.com/tools/FLIP.aspx">Atmel's FLIP application</a> takes care of device drivers.
+    - Note that it says 'Buy now' on a button but the links below don't cost anything!
+    - I've had trouble with FLIP not finding a Java Virtual Machine after a Java update.
+    - You may have to <a href="https://www.java.com/en/download/manual.jsp">reinstall your Java Runtime Environment</a>.
 
 <b>2.</b> <b>Insert the device and press its Bootloader mode button (fig. 1–4)</b>.
 
@@ -413,13 +417,13 @@ The <b>[Keymap Configuration](#keymap-configuration)</b> section will show you h
 
 <br>
 <img src="img/USB2USB_Hasu-physical.png">
-<i>Fig. 1: Hasu's USB-2-USB device. 1) USB host – plug keyboard here; 2) USB client – plug into computer or whatever; 3) App LED; 4) Bootloader button</i><br>
+<i>Fig. 1: Hasu's USB-2-USB device.<br> &nbsp; &nbsp; 1) USB host – plug keyboard here; 2) USB client – plug into computer; 3) App LED; 4) Bootloader button</i><br>
 <br>
 
 <b>3.</b> <b>For flashing on Windows: Install/update the device drivers for your ATmega32U4 (or other) chip</b>.
 
 * The Windows Device Manager shows your device first as a HID keyboard and then, in Bootloader mode, as an Atmel or ATMega USB device
-* Point the driver update to the <b>C:\Program Files (x86)\Atmel\Flip 3.4.7\usb</b> or similar directory if necessary
+* Point the driver update to the `C:\Program Files (x86)\Atmel\Flip 3.4.7\usb` or similar directory if necessary (I didn't have to).
 * Now, using the Windows Device Manager you can check that the device is mounted:
 
 <br>
@@ -466,26 +470,23 @@ $> ./makeflash_dreymar_tmk.sh
 </code></pre><br>
 
 See the <b>[Keymap Configuration](#keymap-configuration)</b> section below for more info on getting a HEX file that suits you, and the <b>[Device Flashing](#device-flashing)</b> section for how to program your device with the HEX file.
+<br>
 
+<h4>Addendum: Using BASH/Linux through WSL</h4>
 
-<h4>Addendum: Using BASH on Windows through the Linux Subsystem</h4>
+The Windows 10 64-bit Anniversary Edition had an exciting addition: A <a href="http://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">Ubuntu GNU/Linux "Subsystem" running a BASH command line terminal</a>! This is capable of compiling the TMK code just like a Linux machine. In the beta version it couldn't yet flash to a device as dfu-programmer wasn't working – but you could always use Windows-based flashing tools for that.
 
-The Windows 10 Anniversary Edition (64-bit) has an exciting addition that's nominally still in beta but already quite operational (command-line only): A <a href="http://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">Ubuntu GNU/Linux "Subsystem" running a BASH command line terminal</a>! This is capable of compiling the TMK code just like a Linux machine. I've heard you cannot flash to a device with it, as dfu-programmer isn't working (yet) – but that's no biggie as you can just use Windows-based flashing tools. Anyway, just try and see if it works now; let me know if it does!
+Since then, the <b>WSL</b> (Windows Subsystem for Linux) has become a standard app available in the Microsoft Store. I recommend using WSL2; it seems much better than the older ones.
 
-Hasu has <a href="https://github.com/tmk/tmk_keyboard/wiki/Bash-On-Ubuntu-On-Windows10">instructions on how to use BASH on Windows 10 for TMK compiling</a>, but here's a little run-through:
+Hasu had some instructions on <a href="https://github.com/tmk/tmk_keyboard/wiki/Bash-On-Ubuntu-On-Windows10">how to use BASH on Windows 10 for TMK compiling</a>. Here's a little run-through:
 
-* Make sure you have the <b>Windows 10(64bit) Anniversary Update</b> or newer; if you don't then <a href="https://support.microsoft.com/en-us/help/12387/windows-10-update-history">get it from Microsoft's pages</a>.
-    - <b><i>Settings → System → About</i></b>; your WIndows version should be >1607.
-* Activate <b>Developer Mode</b>
-    - <b><i>Settings → Update & Security → For developers → Developer mode</i></b>
-* Activate <b>Windows Subsystem for Linux</b>
-    - <b><i>Control Panel → Programs → Turn Windows features on or off → Windows Subsystem for Linux (beta)</i></b> (requires a restart)
-* Start the <b>BASH terminal</b>
-    - <b><i>Start Menu → Bash on Ubuntu on Windows</i></b>; you'll have to finish the Ubuntu install and choose a username/pwd the first time.
+* Get <a href="https://learn.microsoft.com/en-us/windows/wsl/"><b>Windows Subsystem for Linux 2 (WSL2)</b></a> from Microsoft.
+* Start the <b>WSL terminal</b>
+    - <b><i>Start Menu → Ubuntu</i></b> (or whatever you chose); you'll have to finish the install and choose a username/pwd the first time.
 * Navigate to a suitable folder and follow the step-by-step procedure above to install AVR tools, make, git and TMK and get going!
     - At <b><i>/mnt/c/</i></b> you'll find the C:\ drive; you have access to the same file system as Windows does.
 * If you have my files in a different location from the main tmk ones, you can use a symbolic link to make my script see the tmk dir.
-
+<br>
 
 <h4>Addendum: Using other keyboard converters/controllers</h4>
 
@@ -670,18 +671,7 @@ For layouts and layout options, the directives will select which pieces of code 
  *        may not work. With Caps=Ext1, I've had trouble with Ext1+S+T+N; with LAlt=Ext1 even Ext1+S+N didn't work!
  */
 #define CAPSBEHAVIOR    1                       /* CAPS_EXTEND      */
-/*  The CAPSBEHAVIOR constant chooses Caps key action, including the powerful Extend layer switch:
- *  0: CapsLock (unchanged)
- *  1: Extend modifier (uses a little more layout memory, but it's by far the most powerful option IMNSHO!)
- *  2: BackSpace (for vanilla Colemak or otherwise; a decent choice but Extend is better!)
- *  3: LCtrl
- *  4: Esc
- *  NOTE: To move modifiers, edit the layouts or the appropriate UNIMAP_### in my .h file (e.g., swapping CAPS and #ALT).
- *  NOTE: Depending on your keyboard's scan matrix(?), chorded Extend modifiers such as Ext1+S+T+N for Shift+Ctrl+Left
- *        may not work. With Caps=Ext1, I've had trouble with Ext1+S+T+N; with LAlt=Ext1 even Ext1+S+N didn't work!
- */
-#define CAPSBEHAVIOR    1                       /* CAPS_EXTEND      */
-
+</code></pre><br><pre><code>
 /*  The EXT#BIT constants with the main Extend key (Caps by default) select Extend# layers in the EXTENDER user function:
  *  Ext1 on Caps alone       : Navigation/editing/multimedia
  *  Ext2 on Ext2+Caps        : NumPad/Navigation
@@ -716,7 +706,7 @@ For layouts and layout options, the directives will select which pieces of code 
  *  2: Layer 1 switch key (layer shift; e.g., for mirrored typing if you can use it as "ghetto" foot switch)
  */
 #define SLCKBEHAVIOR    1                       /* SLCK_L1TOGGLE    */
-
+</code></pre><br><pre><code>
 /*  The PAUSBEHAVIOR constant chooses Pause/Break key action:
  *  0: Normal Pause/Break (default)
  *  1: Win/GUI key (useful for 101/104-key boards that have no GUI key)
@@ -766,7 +756,7 @@ Here's an ergo remapping from the <b>unimap_dreymar.h</b> file; this one's (the 
 
 <a name="device-flashing"></a><h3>[4.3]    DEVICE FLASHING</h3>
 
-This section shows how to flash your HEX file to a USB-2-USB device and get it ready for typing. See the above sections for how to <b>[prepare the device](#download-and-install)"</b> and <b>[get the HEX file you want](#keymap-configuration)</b>.
+This section shows how to flash your HEX file to a USB-2-USB device and get it ready for typing. See the sections above for how to [prepare the device](#download-and-install) and [get the HEX file you want](#keymap-configuration).
 
 <b>NOTE:</b> Flashing with a keyboard plugged into the device may be safe in most cases. But I got trouble with one keyboard (IBM/Unicomp Model M) after using FLIP for flashing with it inserted; it seems like the drivers or registry entry got corrupted somehow because now it won't mount on that PC anymore even though it's quite okay on other machines. Be warned.
 
@@ -796,8 +786,8 @@ If you compiled your HEX file on Linux you must make it available for the Window
 Earlier, I put the whole TMK repository in a shared folder that both Windows and my virtual Linux machine can see; 
 you could also move it on a USB drive or copy-paste from a Virtual Machine if your VM settings allow this.
 
-NOTE: Atmel FLIP has been difficult for me lately, as it doesn't seem to find an updated Java version on my system. 
-You may try other flashing tools. Lately I've used the <a href="https://github.com/qmk/qmk_toolbox/"><b>QMK Toolbox</b></a> on Windows. It works great.
+Atmel FLIP has been difficult for me, as it doesn't seem to find an updated Java version on my system. You may prefer other flashing tools. 
+Lately I've used the <a href="https://github.com/qmk/qmk_toolbox/"><b>QMK Toolbox</b></a> on Windows. It works great. 
 Some of the other tools work in a way quite similar to FLIP, so the instructions below may prove instructive to you no matter what.
 
 1) Select the right chip (fig 5–1)</b>. For the Hasu device, it's <b>ATmega32U4</b>. Verify the chip type <b><i>(fig 5–a)</i></b>.
@@ -835,7 +825,7 @@ Colemak forum user <a href="https://forum.colemak.com/user/2108-darkness/">Darkn
 <i>Darkness's Teensy-based USB-2-USB Converter (see <a href="https://forum.colemak.com/viewtopic.php?id=1561">his topic</a>)</i><br>
 <br>
 
-I'm really hoping that <b><a href="https://www.kickstarter.com/projects/paulstoffregen/teensy-35-and-36/description">the upcoming Teensy 3.5/3.6</a></b> can be used for TMK! These devices are fast, have a <i>lot</i> more Flash/RAM (512/192 kB for 3.5; 1024/256 kB for 3.6) and most importantly, come with a second USB intended for Host mode so it won't need a separate USB host! That may make it a cheap and powerful option; someone will hopefully test this soon.
+I'm really hoping that <b><a href="https://www.kickstarter.com/projects/paulstoffregen/teensy-35-and-36/description">Teensy 3.5/3.6</a></b> or a similar chip can be used for TMK! These devices are fast, have a <i>lot</i> more Flash/RAM (512/192 kB for 3.5; 1024/256 kB for 3.6) and most importantly, come with a second USB intended for Host mode so it won't need a separate USB host! That may make it a cheap and powerful option; someone will hopefully test this soon.
 
 The safest and easiest option may be to order the brilliant <b><a href="https://geekhack.org/index.php?topic=69169.0">USB to USB Converter from GeekHack user Hasu</a></b>, who has also developed the TMK software for converting keyboards to more awesome keyboards. (Hasu's device is also available from <a href="https://www.1upkeyboards.com/shop/controllers/usb-to-usb-converter/">1UpKeyboards</a> which has a web shop but at a higher price from what I can see.) I've got a few of these beauties, and my code, instructions and .hex definition files below are based on Hasu's device although they may be used for other devices too (may need some geeky tweaking).
 
@@ -903,13 +893,13 @@ This topic won't show you any more about how to get your own QUICKIE USB-2-USB d
 * 2016-07: Now witness the typing power of this fully operational USB-2-USB device! Happy hacking, brave and adventurous souls!
 * 2018-01: Added a user function that allows for input of Unicode glyphs not in the layout using the AltGr(RAlt) modifier.
 * 2018-02: More advanced modifiers for Extend2+. Hold down, e.g., RShift then Caps (then release RShift) for Extend2. Can't use Alt keys (yet) on Win.
-* 2023-11: Added Sym mods. Some other rework: Removed Workman, DHk and Curl keymaps; added the Canary layout and made Extend respect CURLMOD instead.
+* 2023-11: Added Sym mods. Removed Workman, DHk and Curl keymaps (made Extend respect CURLMOD instead). Added the Canary layout.
 
 
 <br><h3>TODO:</h3>
 * Extend modifiers don't always stack? Caps+S+T+N didn't produce Ctrl+Shift+Left but ST keystrokes for me once; others have had no such problems.
 * Use the ScrollLock LED to show whether the second layout is active?
-* Port the BigBag4USB to the more popular QMK code platform? Does it support Hasu's USB-2-USB device?
+* Port the BigBag4USB to the more popular QMK code platform? Does QMK support Hasu's USB-2-USB device?
 
 
 <br>
