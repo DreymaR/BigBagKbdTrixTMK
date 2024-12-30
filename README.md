@@ -8,6 +8,7 @@ DreymaR's Big Bag of Keyboard Tricks
 * Curl-DH ergo modifications to encourage natural finger curvature (only for Colemak as of now)
 * The 4 Tarmak transitional Colemak layouts for learning Colemak or Colemak-Curl in smaller steps if desired
 * Mirrored Colemak that allows one-handed typing (normally used as second layout with a switch key)
+* In addition, a few other layouts that may interest users
 
 More info
 ---------
@@ -61,6 +62,13 @@ ___
 TODO:
 -----
 - How hard would it be to port this to QMK? Would that work for the Hasu USB-2-USB device? QMK is so popular these days.
+	- Casuanoob on the Colemak Discord told me than yes, Atmega32u4 runs QMK and there's support for the Hasu USB-USB device.
+		- https://discord.com/channels/409502982246236160/548799170765389834/1316924223200952330
+		- https://github.com/qmk/qmk_firmware/tree/master/keyboards/converter/usb_usb/hasu
+	- Could the UNIMAP remaps be used as-is? May need some reordering of the enumeration? It's called a `wrapper`, apparently.
+		- https://github.com/drashna/qmk_userspace/blob/custom_drashna/docs/wrappers.md
+	- Things are done through userspaces and maybe GitHub workflows?
+		- https://github.com/qmk/qmk_userspace
 - Are UNICODEHEADER and UNICODEFOOTER superseded now, by the handy TMK `UNI[X|W|M]_()` macro syntax (that I devised)? Rewrite?
 
 DONE:
@@ -70,7 +78,7 @@ DONE:
 	- The Sym mods should work for some non-Cmk layouts too, like QWERTY and Canary. Dvorak, however, already has a "Sym mod".
 - Uncoupled the "soft" Curl mod from "hard" keymaps, removing the '_CA(W)' maps. Instead, Cmk-DH and Extend respect CURLMOD.
 - Converted the Forum docs to Markdown+HTML and added them to this repo in a docs folder.
-- Nuked that accursed old Workman entry. The Canary layout constitutes a very worthy replacement. Kept Dvorak for nostalgics.
+- Nuked that accursed old Workman entry. The Canary and Gralmak layouts constitute better replacements. Kept Dvorak for nostalgics, though.
 - Nuked the old DHk ergo mod, keeping only standard DH(m) now. Sorry, user of DHk, but you'll now have to edit it in yourself.
 - TMK repo: Pushed tmk_core ST(), MOD_() and UNI[X|W|M]_() #define functions for macros, simplifying typing and unicode input.
 - TMK repo: Made a tmk_core type_code() function, so typing (registering/unregistering) key codes is easy and clear.

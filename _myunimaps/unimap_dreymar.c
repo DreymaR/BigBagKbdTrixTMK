@@ -74,7 +74,8 @@ enum mainlayouts    {
     LAY_COLEMAK     ,   /* Colemak!                                 */
     LAY_CMKMIRR     ,   /* (Mirrored Colemak; normally 2nd layout!) */
     LAY_DVORAK      ,   /* Dvorak, if you're retro                  */
-    LAY_CANARY      };  /* Canary, if you're avantgarde             */
+    LAY_CANARY      ,   /* Canary, if you're avantgarde             */
+    LAY_GRALMAK     };  /* Gralmak/Graphite, if you're avantgarder  */
 /*  Define the ACTIVELAYOUT (and CURLMOD) constant(s) to choose the layer0 layout:
  *  0  : QWERTY
  *  1-#: Tarmak1 - transitional Colemak (supports CURLMOD; see below)
@@ -86,6 +87,7 @@ enum mainlayouts    {
  *  6-#: Mirrored Colemak (normally used as second layout with a layer switch)
  *  7  : Dvorak (only recommended if you already use it)
  *  8  : Canary (Colemak-like layout; changes more keys, less implemented)
+ *  9  : Gralmak (A slightly conservative Graphite variant, keeping symbol keys and shift states unchanged)
  */
 #define ACTIVELAYOUT    5                       /* LAY_COLEMAK      */
 
@@ -225,9 +227,9 @@ enum pausbehaviors  {
 //#define MASTERKEY
 #ifdef MASTERKEY
 # define UNIMAPLAYOUT(...)  UNIMAP_ISO_AW( __VA_ARGS__ )    /* AngleWide-ISO keymap */
-//# define ACTIVELAYOUT   5                                   /* LAY_COLEMAK      */
+# define ACTIVELAYOUT   9                                   /* LAY_GRALMAK      */
 //# define SECONDLAYOUT   0                                   /* SEC_VANQWERTY    */
-//# define CURLMOD        1                                   /* CURL_DH(m)       */
+# define CURLMOD        0                                   /* CURL_DH(m): off  */
 # define SYMBOLKEYS     5                                   /* SYM_ISOHACK      */
 //# define CAPSBEHAVIOR   1                                   /* CAPS_EXTEND      */
 //# define STICKYMODS     1                                   /* STICKY_SHFT      */
@@ -637,6 +639,24 @@ enum macro_id {
     TAB   ,  W ,  L ,  Y ,  P ,  K ,  Z ,  X ,  O ,  U ,FScl,FLBr,FRBr,   FBsl,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  C ,  R ,  S ,  T ,  B ,  F ,  N ,  E ,  I ,  A ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Q ,  J ,  V ,  D ,  G ,  M ,  H ,FSls,COMM,DOT , RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+
+#elif   ACTIVELAYOUT == 9
+    /*  Gralmak (newer alt-layout, a variant of the popular Graphite)
+     *  https://github.com/DreymaR/BigBagKbdTrixPKL/tree/master/Layouts/Graphite#gralmak
+     *  NOTE: The Quote key belongs on the upper row. The Sym mod fixes that for me.
+     *  ,-----------------------------------------------------------˛
+     *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
+     *  |-----------------------------------------------------------|
+     *  | Tab |  B|  L|  D|  W|  Z|  J|  F|  O|  U|  ;|  [|  ]|   \ |
+     *  |-----------------------------------------------------------|
+     *  |*Caps*|  N|  R|  T|  S|  G|  Y|  H|  A|  E|  I|  '|  Enter |
+     *  |-----------------------------------------------------------|
+     *  | Shift  |  Q|  X|  M|  C|  V|  K|  P|  ,|  .|  /|    Shift |
+     *  `-----------------------------------------------------------´   */
+    GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+    TAB   ,  B ,  L ,  D ,  W ,  Z ,  J ,  F ,  O ,  U ,FScl,FLBr,FRBr,   FBsl,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    FCap   ,  N ,  R ,  T ,  S ,  G ,  Y ,  H ,  A ,  E ,  I ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
+    FLSh ,FLgt,  Q ,  X ,  M ,  C ,  V ,  K ,  P ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
     /* ******* Extra graphics of some layouts: ************************ */
     /*  Colemak-CurlAngleWide, adapted for Norwegian locale (DreymaR's ISO-Nor hack)
