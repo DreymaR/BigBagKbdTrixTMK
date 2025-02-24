@@ -16,7 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*
- *  2016- Øystein "DreymaR" Gadmar: Colemak, Curl/Angle/Wide and Extend layouts, and more
+ *  2016- "DreymaR" (Øystein Bech Gadmar; 2021- Øystein Bech-Aase)
+ *  Colemak, Curl/Angle/Wide and Extend layouts, and more
  *  See DreymaR's Big Bag of Keyboard Tricks for info
  *  https://dreymar.colemak.org
  *  
@@ -555,7 +556,7 @@ enum macro_id {
     FCap   ,  A ,  R ,  S ,  T ,  G ,  M ,  N ,  E ,  I ,  O ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
     FLSh ,FLgt,  Z ,  X ,  C ,  D ,  V ,  K ,  H ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 # else
-    /*  Standard Colemak
+    /*  Standard Colemak (created by Shai Coleman, 2006)
      *  http://colemak.com
      *  ,-----------------------------------------------------------˛
      *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
@@ -607,7 +608,7 @@ enum macro_id {
     LCTL ,LGUI,FnLA,MHEN,         SPC          ,HENK,KANA,FnRA,RGUI,APP , FRCt,   LEFT,DOWN,RGHT,    P0      ,PDOT,PEQL 
 
 #elif   ACTIVELAYOUT == 7
-    /*  Dvorak (outdated, but still in use)
+    /*  Dvorak (outdated layout from 1936, but still in use)
      *  http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard
      *  ,-----------------------------------------------------------˛
      *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  [|  ]|  BSpc |
@@ -624,7 +625,7 @@ enum macro_id {
     FLSh ,FLgt,FScl,  Q ,  J ,  K ,  X ,  B ,  M ,  W ,  V ,  Z , RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
 #elif   ACTIVELAYOUT == 8
-    /*  Canary (newer Colemak alternative, less implemented)
+    /*  Canary (newer Colemak alternative from 2022; less implemented)
      *  https://github.com/Apsu/Canary
      *  ,-----------------------------------------------------------˛
      *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
@@ -641,22 +642,22 @@ enum macro_id {
     FLSh ,FLgt,  Q ,  J ,  V ,  D ,  G ,  M ,  H ,FSls,COMM,DOT , RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
 #elif   ACTIVELAYOUT == 9
-    /*  Gralmak (newer alt-layout, a variant of the popular Graphite)
+    /*  Gralmak (newer variant of the popular Graphite layout from 2023)
      *  https://github.com/DreymaR/BigBagKbdTrixPKL/tree/master/Layouts/Graphite#gralmak
      *  NOTE: The Quote key belongs on the upper row. The Sym mod fixes that for me.
      *  ,-----------------------------------------------------------˛
      *  |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  BSpc |
      *  |-----------------------------------------------------------|
-     *  | Tab |  B|  L|  D|  W|  Z|  J|  F|  O|  U|  ;|  [|  ]|   \ |
+     *  | Tab |  B|  L|  D|  W|  Q|  J|  F|  O|  U|  ;|  [|  ]|   \ |
      *  |-----------------------------------------------------------|
      *  |*Caps*|  N|  R|  T|  S|  G|  Y|  H|  A|  E|  I|  '|  Enter |
      *  |-----------------------------------------------------------|
-     *  | Shift  |  Q|  X|  M|  C|  V|  K|  P|  ,|  .|  /|    Shift |
+     *  | Shift  |  Z|  X|  M|  C|  V|  K|  P|  ,|  .|  /|    Shift |
      *  `-----------------------------------------------------------´   */
     GRV ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  0 ,FMin,FEql,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
-    TAB   ,  B ,  L ,  D ,  W ,  Z ,  J ,  F ,  O ,  U ,FScl,FLBr,FRBr,   FBsl,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
+    TAB   ,  B ,  L ,  D ,  W ,  Q ,  J ,  F ,  O ,  U ,FScl,FLBr,FRBr,   FBsl,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,  N ,  R ,  T ,  S ,  G ,  Y ,  H ,  A ,  E ,  I ,FQuo,FHsh,  ENT ,                      P4 , P5 , P6 ,PCMM,
-    FLSh ,FLgt,  Q ,  X ,  M ,  C ,  V ,  K ,  P ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
+    FLSh ,FLgt,  Z ,  X ,  M ,  C ,  V ,  K ,  P ,COMM,DOT ,FSls, RO ,    FRSh,         UP ,         P1 , P2 , P3 ,PENT,
 
     /* ******* Extra graphics of some layouts: ************************ */
     /*  Colemak-CurlAngleWide, adapted for Norwegian locale (DreymaR's ISO-Nor hack)
