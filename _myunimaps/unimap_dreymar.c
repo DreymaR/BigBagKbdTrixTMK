@@ -807,7 +807,7 @@ enum macro_id {
  *  |    |    |MPau|MRwd|MFFd|Ejct| |WRef|BriD|BriU|Slep| |www |Mail|App3|App4|
  *  `----´    `-------------------´ `-------------------´ `-------------------´
  *  ,-------------------------------------------------------------------------˛
- *  | ?? | !  | @  | #  | $  | %  | ^  | P7 | P8 | P9 | P* | P- | =  |        |
+ *  | ?? | !  | @  | #  | $  | %  | ^  | P7 | P8 | P9 | P- | P* | =  |        |
  *  |-------------------------------------------------------------------------|
  *  |      |Home| Up |End |Del |Esc |PgUp| P4 | P5 | P6 | P+ | (  | )  |      |
  *  |-------------------------------------------------------------------------|
@@ -819,7 +819,7 @@ enum macro_id {
  *  `-------------------------------------------------------------------------´ */
     [3] = UNIMAPLAYOUT(
     CAPS,    MPLY,MRWD,MFFD,EJCT,   WREF, NO , NO ,SLEP,   WSTP,MAIL,MYCM,CALC,   PSCR,FSLk,FPau,        VOLD,VOLU,MUTE,
-    FnU2,s(1),s(2),s(3),s(4),s(5),s(6), P7 , P8 , P9 ,PAST,PMNS,TRNS,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
+    FnU2,s(1),s(2),s(3),s(4),s(5),s(6), P7 , P8 , P9 ,PMNS,PAST,TRNS,JYEN,BSPC,   INS ,HOME,PGUP,   NLCK,PSLS,PAST,PMNS,
     TAB   ,HOME, UP ,END ,DEL ,ESC ,PGUP, P4 , P5 , P6 ,PPLS,FsLP,FsRP,   FBsl,   DEL ,END ,PGDN,    P7 , P8 , P9 ,PPLS,
     FCap   ,LEFT,DOWN,RGHT,BSPC,NLCK,PGDN, P1 , P2 , P3 ,PENT,FQuo,COMM,  ENT ,                      P4 , P5 , P6 ,PCMM,
 # if   CURLMOD == 1     /* Swap the V and B/D keys for Curl-DH  */
